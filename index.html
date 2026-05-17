@@ -1,0 +1,759 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TEKTON | T-ARCH 빌딩 에너지 포렌식</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700;800;900&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,300&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{--black:#080808;--black2:#111111;--black3:#181818;--gray1:#222222;--gray2:#2e2e2e;--gray3:#bbbbbb;--gray4:#999999;--white:#f5f5f5;--white2:#ffffff;--green:#39FF14;--green2:#2dd10e;--green-dim:rgba(57,255,20,0.12);--green-glow:rgba(57,255,20,0.25);--border:rgba(57,255,20,0.15);--border2:rgba(255,255,255,0.07)}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:'DM Sans',sans-serif;background:var(--black);color:var(--white);overflow-x:hidden;-webkit-font-smoothing:antialiased;font-size:16px;line-height:1.6}
+::-webkit-scrollbar{width:4px}::-webkit-scrollbar-track{background:var(--black)}::-webkit-scrollbar-thumb{background:var(--gray2);border-radius:2px}
+nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:0 64px;height:64px;background:rgba(8,8,8,0.85);backdrop-filter:blur(24px);border-bottom:1px solid var(--border2);transition:border-color .3s}
+nav.scrolled{border-color:var(--border)}
+.nav-logo{display:flex;align-items:center;gap:10px;text-decoration:none}
+.nav-logo-text{font-family:'DM Mono',monospace;font-size:18px;font-weight:500;letter-spacing:3px;color:var(--white2);text-transform:uppercase}
+.nav-logo-mark{width:14px;height:14px;border:2px solid var(--green);position:relative;flex-shrink:0}
+.nav-logo-mark::after{content:'';position:absolute;inset:3px;background:var(--green);animation:mp 3s ease-in-out infinite}
+@keyframes mp{0%,100%{opacity:1}50%{opacity:.3}}
+.nav-menu{display:flex;align-items:center;gap:40px;list-style:none}
+.nav-menu a{font-size:13px;font-weight:500;letter-spacing:.3px;color:var(--gray3);text-decoration:none;transition:color .2s}
+.nav-menu a:hover{color:var(--white)}
+.nav-cta{background:var(--green)!important;color:var(--black)!important;padding:10px 20px;border-radius:6px;font-weight:700!important;box-shadow:0 0 20px var(--green-glow);transition:all .2s!important}
+.nav-cta:hover{background:var(--white2)!important;transform:translateY(-1px)}
+.hero{min-height:100vh;display:grid;grid-template-columns:1fr 1fr;align-items:center;padding:0 64px;padding-top:64px;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.025'/%3E%3C/svg%3E");pointer-events:none;z-index:0}
+.hero::after{content:'';position:absolute;top:-20%;right:-10%;width:600px;height:600px;background:radial-gradient(circle,rgba(57,255,20,.06) 0%,transparent 70%);pointer-events:none;z-index:0}
+.hero-grid{position:absolute;inset:0;z-index:0;pointer-events:none;background-image:linear-gradient(rgba(57,255,20,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(57,255,20,.025) 1px,transparent 1px);background-size:80px 80px;mask-image:radial-gradient(ellipse 80% 80% at 80% 50%,black 20%,transparent 80%)}
+.hero-left{position:relative;z-index:1;padding:80px 0;animation:fadeUp 1s ease both}
+@keyframes fadeUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
+.hero-badge{display:inline-flex;align-items:center;gap:10px;border:1px solid var(--border);background:var(--green-dim);padding:7px 14px;border-radius:4px;margin-bottom:40px}
+.hero-badge-dot{width:6px;height:6px;border-radius:50%;background:var(--green);box-shadow:0 0 8px var(--green);animation:mp 2s infinite}
+.hero-badge span{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:var(--green)}
+.hero-question{font-size:15px;font-weight:400;color:var(--gray3);letter-spacing:.3px;margin-bottom:20px;font-style:italic;line-height:1.5}
+.hero-h1{font-size:clamp(40px,5vw,66px);font-weight:700;line-height:1.08;letter-spacing:-1.5px;margin-bottom:16px}
+.hero-h1 .l1{display:block;color:var(--white2)}
+.hero-h1 .l2{display:block;color:var(--green);text-shadow:0 0 40px rgba(57,255,20,.35)}
+.hero-subtitle{font-size:clamp(20px,2.2vw,26px);font-weight:300;color:var(--gray3);letter-spacing:-.3px;margin-bottom:28px;line-height:1.4}
+.hero-subtitle strong{color:var(--white);font-weight:600}
+.hero-desc{font-size:15px;color:var(--gray4);line-height:1.8;margin-bottom:44px;max-width:480px}
+.hero-desc strong{color:var(--gray3)}
+.hero-btns{display:flex;gap:14px;flex-wrap:wrap}
+.btn-green{display:inline-flex;align-items:center;gap:8px;background:var(--green);color:var(--black);padding:14px 28px;border-radius:6px;font-size:14px;font-weight:700;text-decoration:none;box-shadow:0 0 24px var(--green-glow);transition:all .25s}
+.btn-green:hover{background:var(--white2);box-shadow:0 0 32px rgba(255,255,255,.15);transform:translateY(-2px)}
+.btn-ghost{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--border2);color:var(--gray3);padding:14px 28px;border-radius:6px;font-size:14px;font-weight:500;text-decoration:none;transition:all .25s;background:rgba(255,255,255,.02)}
+.btn-ghost:hover{border-color:var(--border);color:var(--white);background:var(--green-dim)}
+.hero-right{position:relative;z-index:1;display:flex;align-items:center;justify-content:flex-end;padding:80px 0 80px 48px}
+.dashboard{width:100%;max-width:540px;background:var(--black2);border:1px solid var(--border2);border-radius:16px;overflow:hidden;box-shadow:0 40px 80px rgba(0,0,0,.6),0 0 0 1px rgba(57,255,20,.06),inset 0 1px 0 rgba(255,255,255,.04);animation:dashIn 1.2s .3s cubic-bezier(.22,.68,0,1.2) both}
+@keyframes dashIn{from{opacity:0;transform:translateY(28px) scale(.97)}to{opacity:1;transform:translateY(0) scale(1)}}
+.dash-bar{display:flex;align-items:center;justify-content:space-between;padding:14px 20px;background:var(--black3);border-bottom:1px solid var(--border2)}
+.dash-dots{display:flex;gap:6px}
+.dash-dots span{width:10px;height:10px;border-radius:50%}
+.dash-dots span:nth-child(1){background:#FF5F57}
+.dash-dots span:nth-child(2){background:#FFBD2E}
+.dash-dots span:nth-child(3){background:#28CA41}
+.dash-title-bar{font-family:'DM Mono',monospace;font-size:11px;color:var(--gray4);letter-spacing:1px}
+.dash-live{display:flex;align-items:center;gap:6px;font-family:'DM Mono',monospace;font-size:10px;color:var(--green);letter-spacing:1px}
+.dash-live::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--green);box-shadow:0 0 6px var(--green);animation:mp 1.5s infinite}
+.dash-body{padding:20px}
+.dash-hr{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px}
+.dash-site{font-size:13px;font-weight:600;color:var(--white)}
+.dash-site-sub{font-size:11px;color:var(--gray4);margin-top:2px;font-family:'DM Mono',monospace}
+.grade-letter{font-family:'DM Mono',monospace;font-size:44px;font-weight:500;line-height:1;color:var(--green);text-shadow:0 0 20px rgba(57,255,20,.5);text-align:right}
+.grade-sub{font-size:10px;color:var(--gray4);margin-top:2px;letter-spacing:.5px;text-align:right}
+.divider{height:1px;background:var(--border2);margin:16px 0}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:14px}
+.stat{background:var(--black3);border:1px solid var(--border2);border-radius:8px;padding:12px;text-align:center}
+.stat-n{font-family:'DM Mono',monospace;font-size:19px;font-weight:500;color:var(--green);line-height:1;margin-bottom:4px}
+.stat-l{font-size:10px;color:var(--gray4);letter-spacing:.3px}
+.alerts{display:flex;flex-direction:column;gap:8px}
+.alert{display:flex;align-items:flex-start;gap:12px;background:rgba(255,59,59,.06);border:1px solid rgba(255,59,59,.2);border-radius:8px;padding:12px 14px;animation:alertIn .5s ease both}
+.alert:nth-child(2){animation-delay:.2s}
+@keyframes alertIn{from{opacity:0;transform:translateX(8px)}to{opacity:1;transform:translateX(0)}}
+.a-dot{width:6px;height:6px;border-radius:50%;background:#FF3B3B;flex-shrink:0;margin-top:4px;box-shadow:0 0 6px rgba(255,59,59,.6);animation:mp 1.5s infinite}
+.a-body{flex:1}
+.a-title{font-size:12px;font-weight:600;color:var(--white);margin-bottom:2px}
+.a-meta{font-size:11px;color:var(--gray4)}
+.a-val{font-family:'DM Mono',monospace;font-size:12px;font-weight:500;color:#FF5555;flex-shrink:0}
+.waste{margin-top:14px;background:var(--black3);border:1px solid var(--border2);border-radius:8px;padding:14px}
+.waste-lbl{display:flex;justify-content:space-between;font-size:11px;color:var(--gray4);margin-bottom:10px}
+.waste-lbl strong{color:var(--green);font-family:'DM Mono',monospace;font-size:13px}
+.waste-track{height:3px;background:var(--gray2);border-radius:2px;overflow:hidden}
+.waste-fill{height:100%;width:73%;background:linear-gradient(90deg,var(--green2),var(--green));border-radius:2px;box-shadow:0 0 8px var(--green-glow);animation:fb 2s 1s ease both}
+@keyframes fb{from{width:0}to{width:73%}}
+.kpi-strip{border-top:1px solid var(--border2);border-bottom:1px solid var(--border2);background:var(--black2);padding:0 64px}
+.kpi-inner{max-width:1280px;margin:0 auto;display:grid;grid-template-columns:repeat(4,1fr)}
+.kpi-item{padding:40px 0;text-align:center;border-right:1px solid var(--border2)}
+.kpi-item:last-child{border-right:none}
+.kpi-num{font-family:'DM Mono',monospace;font-size:clamp(26px,3.5vw,40px);font-weight:500;color:var(--green);line-height:1;text-shadow:0 0 30px rgba(57,255,20,.3);margin-bottom:8px}
+.kpi-lbl{font-size:13px;color:var(--gray4)}
+.section{padding:120px 64px;max-width:1280px;margin:0 auto}
+.section-full{padding:120px 64px}
+.section-inner{max-width:1280px;margin:0 auto}
+.eyebrow{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:3px;text-transform:uppercase;color:var(--green);margin-bottom:20px;display:flex;align-items:center;gap:12px}
+.eyebrow::before{content:'';width:24px;height:1px;background:var(--green)}
+.sec-title{font-size:clamp(30px,4vw,50px);font-weight:700;line-height:1.1;letter-spacing:-1px;margin-bottom:20px}
+.sec-sub{font-size:16px;color:var(--gray4);line-height:1.7;max-width:540px;margin-bottom:60px}
+.problem-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border2);border:1px solid var(--border2);border-radius:16px;overflow:hidden}
+.problem-card{background:var(--black2);padding:40px 36px;position:relative;overflow:hidden;transition:background .3s}
+.problem-card:hover{background:var(--black3)}
+.problem-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,#FF3B3B,transparent);opacity:.6}
+.problem-num{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:2px;color:var(--gray4);margin-bottom:20px}
+.problem-title{font-size:20px;font-weight:700;margin-bottom:14px;line-height:1.3}
+.problem-body{font-size:15px;color:var(--gray4);line-height:1.7;margin-bottom:24px}
+.problem-cost{display:inline-flex;align-items:center;gap:8px;background:rgba(255,59,59,.08);border:1px solid rgba(255,59,59,.2);border-radius:6px;padding:8px 14px;font-family:'DM Mono',monospace;font-size:12px;color:#FF5555;font-weight:500}
+.compare-wrap{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--border2);border:1px solid var(--border2);border-radius:16px;overflow:hidden;margin-bottom:64px}
+.compare-col{background:var(--black2);padding:40px}
+.compare-col.tekton{background:var(--black3)}
+.compare-header{display:flex;align-items:center;gap:12px;margin-bottom:32px}
+.compare-header h3{font-size:18px;font-weight:700}
+.compare-col.old .compare-header h3{color:var(--gray3)}
+.compare-tag{font-size:11px;padding:4px 10px;border-radius:4px;font-weight:600;letter-spacing:.5px}
+.old-tag{background:rgba(255,255,255,.06);color:var(--gray4)}
+.new-tag{background:var(--green-dim);color:var(--green);border:1px solid var(--border)}
+.ci{display:flex;gap:14px;align-items:flex-start;padding:14px 0;border-bottom:1px solid var(--border2);font-size:15px;color:var(--gray4);line-height:1.5}
+.ci:last-child{border-bottom:none}
+.ci-ico{flex-shrink:0;font-size:13px;margin-top:2px}
+.compare-col.old .ci-ico{color:#FF5555}
+.compare-col.tekton .ci-ico{color:var(--green)}
+.step-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.step-card{background:var(--black2);border:1px solid var(--border2);border-radius:12px;padding:32px 28px;position:relative;overflow:hidden;transition:all .3s;cursor:default}
+.step-card:hover{border-color:var(--border);transform:translateY(-4px);box-shadow:0 20px 40px rgba(0,0,0,.4),0 0 20px var(--green-glow)}
+.step-card::after{content:'';position:absolute;bottom:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--green),transparent);transform:scaleX(0);transition:transform .3s;transform-origin:left}
+.step-card:hover::after{transform:scaleX(1)}
+.step-n{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:2px;color:var(--green);margin-bottom:16px}
+.step-title{font-size:17px;font-weight:700;margin-bottom:10px}
+.step-desc{font-size:14px;color:var(--gray4);line-height:1.6}
+.connect-section{background:var(--black2)}
+.ctabs{display:flex;gap:4px;background:var(--black3);border:1px solid var(--border2);border-radius:10px;padding:4px;margin-bottom:40px;width:fit-content}
+.ctab{padding:10px 22px;border-radius:7px;border:none;background:transparent;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:500;color:var(--gray4);cursor:pointer;transition:all .2s;white-space:nowrap}
+.ctab.active{background:var(--green-dim);color:var(--green);border:1px solid var(--border)}
+.ctab:hover:not(.active){color:var(--white)}
+.cpanel{display:none}
+.cpanel.active{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:start;animation:pan .3s ease}
+@keyframes pan{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.connect-info h3{font-size:26px;font-weight:700;margin-bottom:12px}
+.cbadge{display:inline-flex;align-items:center;gap:8px;background:var(--green-dim);border:1px solid var(--border);border-radius:4px;padding:6px 12px;font-size:11px;font-weight:600;letter-spacing:1px;color:var(--green);text-transform:uppercase;margin-bottom:20px}
+.cdesc{font-size:15px;color:var(--gray4);line-height:1.7;margin-bottom:28px}
+.csteps{list-style:none}
+.csteps li{display:flex;gap:16px;align-items:flex-start;padding:12px 0;border-bottom:1px solid var(--border2);font-size:15px;color:var(--gray4)}
+.csteps li:last-child{border-bottom:none}
+.cs-n{width:24px;height:24px;border-radius:50%;background:var(--gray1);color:var(--green);display:flex;align-items:center;justify-content:center;font-family:'DM Mono',monospace;font-size:11px;flex-shrink:0;margin-top:1px}
+.fdiag{background:var(--black3);border:1px solid var(--border2);border-radius:12px;padding:28px}
+.fn{background:var(--black2);border:1px solid var(--border2);border-radius:8px;padding:14px 18px;margin-bottom:8px;display:flex;align-items:center;gap:12px}
+.fn.hi{border-color:var(--border);background:var(--green-dim)}
+.ftag{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:1px;padding:3px 8px;border-radius:3px;background:var(--gray1);color:var(--gray3);flex-shrink:0}
+.fn.hi .ftag{background:rgba(57,255,20,.15);color:var(--green)}
+.fn-txt{font-size:13px;color:var(--gray3)}
+.farr{text-align:center;color:var(--gray4);font-size:16px;margin:4px 0;opacity:.5}
+.flbl{font-size:10px;color:var(--green);text-align:center;font-family:'DM Mono',monospace;letter-spacing:.5px;margin-bottom:8px;opacity:.7}
+.pricing-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.price-card{background:var(--black2);border:1px solid var(--border2);border-radius:16px;padding:36px 32px;position:relative;transition:all .3s}
+.price-card:hover{transform:translateY(-6px)}
+.price-card.featured{border-color:var(--border);background:linear-gradient(180deg,rgba(57,255,20,.05) 0%,var(--black2) 40%);box-shadow:0 0 40px var(--green-glow)}
+.pfbadge{position:absolute;top:-1px;left:50%;transform:translateX(-50%);background:var(--green);color:var(--black);font-size:11px;font-weight:700;padding:4px 16px;border-radius:0 0 8px 8px;letter-spacing:1px;white-space:nowrap}
+.price-tier{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--gray4);margin-bottom:8px}
+.price-name{font-size:22px;font-weight:700;margin-bottom:4px}
+.price-desc{font-size:13px;color:var(--gray4);margin-bottom:24px}
+.price-amount{font-family:'DM Mono',monospace;font-size:38px;font-weight:500;color:var(--green);line-height:1;margin-bottom:4px}
+.price-amount small{font-size:14px;color:var(--gray4);font-weight:400}
+.price-period{font-size:12px;color:var(--gray4);margin-bottom:28px}
+.pdiv{height:1px;background:var(--border2);margin-bottom:24px}
+.pf-list{list-style:none;margin-bottom:32px}
+.pf-list li{display:flex;gap:10px;align-items:flex-start;font-size:14px;color:var(--gray4);padding:8px 0;border-bottom:1px solid rgba(255,255,255,.03)}
+.pf-list li:last-child{border-bottom:none}
+.pfc{color:var(--green);flex-shrink:0;font-size:12px;margin-top:1px}
+.pbtn-o{display:block;text-align:center;border:1px solid var(--border2);color:var(--white);padding:14px;border-radius:8px;font-size:14px;font-weight:600;text-decoration:none;transition:all .2s}
+.pbtn-o:hover{border-color:var(--border);color:var(--green)}
+.pbtn-g{display:block;text-align:center;background:var(--green);color:var(--black);padding:14px;border-radius:8px;font-size:14px;font-weight:700;text-decoration:none;box-shadow:0 0 20px var(--green-glow);transition:all .2s}
+.pbtn-g:hover{background:var(--white2);transform:translateY(-1px)}
+.cta-section{text-align:center;padding:160px 64px;position:relative;overflow:hidden}
+.cta-section::before{content:'';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:600px;height:600px;background:radial-gradient(circle,rgba(57,255,20,.07) 0%,transparent 65%);pointer-events:none}
+.cta-eyebrow{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:3px;text-transform:uppercase;color:var(--green);margin-bottom:24px}
+.cta-h2{font-size:clamp(36px,5vw,62px);font-weight:700;line-height:1.1;letter-spacing:-1.5px;margin-bottom:20px}
+.cta-sub{font-size:16px;color:var(--gray4);max-width:480px;margin:0 auto 48px;line-height:1.7}
+.cta-btns{display:flex;gap:16px;justify-content:center;flex-wrap:wrap}
+.cta-note{margin-top:24px;font-size:12px;color:var(--gray4);letter-spacing:.3px}
+footer{background:var(--black2);border-top:1px solid var(--border2);padding:64px}
+.footer-inner{max-width:1280px;margin:0 auto;display:grid;grid-template-columns:1.5fr 1fr 1fr;gap:80px;padding-bottom:48px;border-bottom:1px solid var(--border2)}
+.flogo-txt{font-family:'DM Mono',monospace;font-size:20px;font-weight:500;letter-spacing:3px;color:var(--white2)}
+.flogo-mark{display:inline-block;width:12px;height:12px;border:2px solid var(--green);position:relative;margin-left:6px;vertical-align:middle;top:-2px}
+.flogo-mark::after{content:'';position:absolute;inset:2px;background:var(--green)}
+.fdesc{font-size:13px;color:var(--gray4);line-height:1.7;margin:16px 0 20px}
+.feco{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--border);background:var(--green-dim);padding:8px 14px;border-radius:6px;font-size:11px;font-weight:600;color:var(--green);letter-spacing:.5px}
+.footer-col h4{font-size:11px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--gray4);margin-bottom:20px}
+.footer-col ul{list-style:none}
+.footer-col li{margin-bottom:12px}
+.footer-col a{font-size:14px;color:var(--gray4);text-decoration:none;transition:color .2s}
+.footer-col a:hover{color:var(--green)}
+.footer-bottom{max-width:1280px;margin:0 auto;padding-top:32px;display:flex;justify-content:space-between;font-size:12px;color:var(--gray4)}
+.reveal{opacity:0;transform:translateY(20px);transition:opacity .7s cubic-bezier(.22,.68,0,1),transform .7s cubic-bezier(.22,.68,0,1)}
+.reveal.on{opacity:1;transform:translateY(0)}
+.d1{transition-delay:.1s}.d2{transition-delay:.2s}.d3{transition-delay:.3s}.d4{transition-delay:.4s}
+@media(max-width:960px){
+  nav{padding:0 24px}
+  .nav-menu{display:none}
+  .hero{grid-template-columns:1fr;padding:80px 24px 60px}
+  .hero-right{display:none}
+  .section,.section-full{padding:80px 24px}
+  .kpi-strip,.kpi-inner{padding:0 24px}
+  .kpi-inner{grid-template-columns:repeat(2,1fr)}
+  .kpi-item{border-right:none;border-bottom:1px solid var(--border2)}
+  .problem-grid,.step-grid,.pricing-grid{grid-template-columns:1fr}
+  .compare-wrap,.cpanel.active{grid-template-columns:1fr}
+  .footer-inner{grid-template-columns:1fr;gap:40px}
+  .footer-bottom{flex-direction:column;gap:8px}
+  .cta-section{padding:100px 24px}
+  footer{padding:48px 24px}
+}
+
+.tekton-logo-wrap { display:flex; align-items:center; gap:0; text-decoration:none; }
+.tekton-logo-text {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 900;
+  font-size: 26px;
+  letter-spacing: -0.5px;
+  color: #ffffff;
+  text-transform: uppercase;
+  line-height: 1;
+}
+.tekton-logo-symbol {
+  display: inline-flex;
+  align-items: flex-start;
+  margin-left: 3px;
+  margin-top: -12px;
+}
+.tekton-logo-symbol .outer-sq {
+  width: 13px; height: 13px;
+  border: 2.5px solid #39FF14;
+  position: relative;
+  display: flex; align-items: center; justify-content: center;
+}
+.tekton-logo-symbol .inner-sq {
+  width: 5px; height: 5px;
+  background: #39FF14;
+}
+</style>
+</head>
+<body>
+<nav id="nav">
+  <a href="#" class="tekton-logo-wrap">
+    <span class="tekton-logo-text">TEKTON</span>
+    <span class="tekton-logo-symbol">
+      <span class="outer-sq"><span class="inner-sq"></span></span>
+    </span>
+  </a>
+  <ul class="nav-menu">
+    <li><a href="#problem">문제</a></li>
+    <li><a href="#solution">T-ARCH</a></li>
+    <li><a href="#connect">연동</a></li>
+    <li><a href="#pricing">요금제</a></li>
+    <li><a href="https://docs.google.com/forms/d/e/1FAIpQLSdAIdRmF_CYJji3j7ohxqaTlYH-WB45FWRzHghe-UF_JeSGGg/viewform" target="_blank" class="nav-cta">무료 진단 신청 →</a></li>
+  </ul>
+</nav>
+
+<div class="hero">
+  <div class="hero-grid"></div>
+  <div class="hero-left">
+    <div class="hero-badge">
+      <span class="hero-badge-dot"></span>
+      <span>기후테크 · 2026 에코스타트업 선정</span>
+    </div>
+    <p class="hero-question">모니터에 떠있는 '정상'이라는 글자, 100% 믿습니까?</p>
+    <h1 class="hero-h1">
+      <span class="l1">정상인지 아닌지</span>
+      <span class="l2">판별하는 기술.</span>
+    </h1>
+    <p class="hero-subtitle"><strong>T-ARCH</strong> — 빌딩 에너지 포렌식</p>
+    <p class="hero-desc">기존 <strong>BACnet / Niagara SCADA 위에서</strong> Read-Only로 동작합니다.<br>배선 없음. 설비 교체 없음. 기존 시스템 무중단.<br>4단계 AI 포렌식이 데이터의 진실을 꺼냅니다.</p>
+    <div class="hero-btns">
+      <a href="https://docs.google.com/forms/d/e/1FAIpQLSdAIdRmF_CYJji3j7ohxqaTlYH-WB45FWRzHghe-UF_JeSGGg/viewform" target="_blank" class="btn-green">무료 진단 신청하기 →</a>
+      <a href="#connect" class="btn-ghost">연동 방식 보기</a>
+    </div>
+  </div>
+  <div class="hero-right">
+  <style>
+  .slider-wrap{width:100%;max-width:540px;position:relative;}
+  .dash-slide{display:none;background:var(--black2);border:1px solid var(--border2);border-radius:16px;overflow:hidden;box-shadow:0 40px 80px rgba(0,0,0,.6),0 0 0 1px rgba(57,255,20,.06),inset 0 1px 0 rgba(255,255,255,.04);animation:dashIn 1.2s .3s cubic-bezier(.22,.68,0,1.2) both;}
+  .dash-slide.on{display:block;animation:slideIn .5s ease;}
+  @keyframes slideIn{from{opacity:0;transform:translateX(10px)}to{opacity:1;transform:translateX(0)}}
+  .sdots{display:flex;justify-content:center;gap:8px;margin-top:14px;}
+  .sdot{width:6px;height:6px;border-radius:50%;background:var(--gray2);cursor:pointer;border:none;padding:0;transition:all .3s;}
+  .sdot.on{background:var(--green);box-shadow:0 0 8px var(--green);width:20px;border-radius:3px;}
+  </style>
+  <div class="slider-wrap">
+
+    <!-- 슬라이드 1: A 물류센터 -->
+    <div class="dash-slide on" id="ds0">
+      <div class="dash-bar">
+        <div class="dash-dots"><span></span><span></span><span></span></div>
+        <div class="dash-title-bar">T-ARCH FORENSIC · v2.1</div>
+        <div class="dash-live">LIVE</div>
+      </div>
+      <div class="dash-body">
+        <div class="dash-hr">
+          <div><div class="dash-site">A 물류센터</div><div class="dash-site-sub">BACnet · DDC 33대 · 518 POINTS</div></div>
+          <div><div class="grade-letter">B</div><div class="grade-sub">FORENSIC GRADE</div></div>
+        </div>
+        <div class="divider"></div>
+        <div class="stats">
+          <div class="stat"><div class="stat-n">518</div><div class="stat-l">모니터링 포인트</div></div>
+          <div class="stat"><div class="stat-n">97.2%</div><div class="stat-l">센서 정상률</div></div>
+          <div class="stat"><div class="stat-n">14</div><div class="stat-l">이상 탐지</div></div>
+        </div>
+        <div class="alerts">
+          <div class="alert"><div class="a-dot"></div><div class="a-body"><div class="a-title">AHU-2 급기 온도센서 드리프트</div><div class="a-meta">1단계 · 센서 무결성 위반</div></div><div class="a-val">+5.2°C</div></div>
+          <div class="alert"><div class="a-dot"></div><div class="a-body"><div class="a-title">FCU-14 밸브 명령-응답 불일치</div><div class="a-meta">4단계 · 제어 명령 검증 실패</div></div><div class="a-val">30%↑</div></div>
+        </div>
+        <div class="waste">
+          <div class="waste-lbl"><span>이번달 에너지 낭비 탐지</span><strong>₩ 870,000</strong></div>
+          <div class="waste-track"><div class="waste-fill"></div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 슬라이드 2: B 특용작물지원센터 -->
+    <div class="dash-slide" id="ds1">
+      <div class="dash-bar">
+        <div class="dash-dots"><span></span><span></span><span></span></div>
+        <div class="dash-title-bar">T-ARCH FORENSIC · v2.1</div>
+        <div class="dash-live" style="color:var(--gray3)">준비중</div>
+      </div>
+      <div class="dash-body">
+        <div class="dash-hr">
+          <div><div class="dash-site">B 특용작물지원센터</div><div class="dash-site-sub">BACnet · AHU 3대 · 보일러 · 칠러</div></div>
+          <div><div class="grade-letter" style="color:var(--gray3);">-</div><div class="grade-sub">연동 준비 중</div></div>
+        </div>
+        <div class="divider"></div>
+        <div class="stats">
+          <div class="stat"><div class="stat-n">130</div><div class="stat-l">포인트 (예정)</div></div>
+          <div class="stat"><div class="stat-n">6</div><div class="stat-l">장비 그룹</div></div>
+          <div class="stat"><div class="stat-n">2026.06</div><div class="stat-l">연동 예정</div></div>
+        </div>
+        <div style="background:var(--black3);border:1px solid var(--border);border-radius:10px;padding:20px;margin-top:4px;">
+          <div style="font-family:'DM Mono',monospace;font-size:10px;color:var(--green);letter-spacing:1px;margin-bottom:12px;">연동 준비 현장</div>
+          <div style="font-size:14px;color:var(--gray3);line-height:1.8;">
+            DDC 설치 예정 (2026년 6월)<br>
+            AHU-1 / AHU-2 / AHU-3<br>
+            보일러 · 칠러 · 저수조<br>
+            <span style="color:var(--green);margin-top:8px;display:block;">✓ 연동 협의 완료</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 슬라이드 3: C 역세권 청년주택 -->
+    <div class="dash-slide" id="ds2">
+      <div class="dash-bar">
+        <div class="dash-dots"><span></span><span></span><span></span></div>
+        <div class="dash-title-bar">T-ARCH FORENSIC · v2.1</div>
+        <div class="dash-live" style="color:#aaa;">SIM</div>
+      </div>
+      <div class="dash-body">
+        <div class="dash-hr">
+          <div><div class="dash-site">C 역세권 청년주택</div><div class="dash-site-sub">시뮬레이션 · 137센서 · 10개 장비그룹</div></div>
+          <div><div class="grade-letter" style="color:#2dd10e;">A</div><div class="grade-sub">FORENSIC GRADE</div></div>
+        </div>
+        <div class="divider"></div>
+        <div class="stats">
+          <div class="stat"><div class="stat-n">137</div><div class="stat-l">모니터링 포인트</div></div>
+          <div class="stat"><div class="stat-n">94.8%</div><div class="stat-l">센서 정상률</div></div>
+          <div class="stat"><div class="stat-n">7</div><div class="stat-l">이상 탐지</div></div>
+        </div>
+        <div class="alerts">
+          <div class="alert"><div class="a-dot"></div><div class="a-body"><div class="a-title">냉동기-1 압축기 온도 급변</div><div class="a-meta">1단계 · 급변(Spike) 탐지</div></div><div class="a-val">+12°C</div></div>
+          <div class="alert"><div class="a-dot"></div><div class="a-body"><div class="a-title">동시 냉난방 이상패턴 감지</div><div class="a-meta">3단계 · 에너지 낭비 패턴</div></div><div class="a-val">↑낭비</div></div>
+        </div>
+        <div class="waste">
+          <div class="waste-lbl"><span>이번달 에너지 낭비 탐지</span><strong>₩ 432,000</strong></div>
+          <div class="waste-track"><div style="height:100%;width:45%;background:linear-gradient(90deg,var(--green2),var(--green));border-radius:2px;box-shadow:0 0 8px var(--green-glow);"></div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 점 네비게이션 -->
+    <div class="sdots">
+      <button class="sdot on" onclick="gSlide(0)"></button>
+      <button class="sdot" onclick="gSlide(1)"></button>
+      <button class="sdot" onclick="gSlide(2)"></button>
+    </div>
+  </div>
+</div>
+</div>
+
+<div class="kpi-strip">
+  <div class="kpi-inner">
+    <div class="kpi-item reveal"><div class="kpi-num">15~25%</div><div class="kpi-lbl">에너지 비용 절감</div></div>
+    <div class="kpi-item reveal d1"><div class="kpi-num">50~120t</div><div class="kpi-lbl">연간 CO₂ 감축 (건물당)</div></div>
+    <div class="kpi-item reveal d2"><div class="kpi-num">0원</div><div class="kpi-lbl">설비 교체 비용</div></div>
+    <div class="kpi-item reveal d3"><div class="kpi-num">Read-Only</div><div class="kpi-lbl">기존 제어 개입 없음</div></div>
+  </div>
+</div>
+
+<section class="section" id="problem">
+  <div class="eyebrow reveal">The Problem</div>
+  <h2 class="sec-title reveal">BAS는 제어합니다.<br>하지만 <span style="color:var(--green)">데이터를 검증하지 않습니다.</span></h2>
+  <p class="sec-sub reveal">센서가 고장나도 SCADA 화면엔 '정상'이 뜹니다.<br>그 사이 에너지는 매달, 조용히 새어나갑니다.</p>
+  <div class="problem-grid reveal">
+    <div class="problem-card">
+      <div class="problem-num">01 / 센서 드리프트</div>
+      <h3 class="problem-title">온도센서가<br>5°C 높게 표시됩니다.</h3>
+      <p class="problem-body">AHU 급기 덕트 온도센서 경년열화. 실제 22°C → 센서 27°C 표시. 냉방 밸브 과다 개방. BAS 화면엔 "정상".</p>
+      <div class="problem-cost">↑ 월 40~60만원 초과 냉방비</div>
+    </div>
+    <div class="problem-card">
+      <div class="problem-num">02 / 통신 두절</div>
+      <h3 class="problem-title">60개 포인트가<br>수개월째 고착입니다.</h3>
+      <p class="problem-body">RS-485 배선 노후, 접촉 불량. 센서 60개 데이터 고착. 서버엔 마지막 정상값 표시. 평균 2~6개월 후 발견.</p>
+      <div class="problem-cost">↑ 수동 운전, 관리 공백 지속</div>
+    </div>
+    <div class="problem-card">
+      <div class="problem-num">03 / 밸브 고착</div>
+      <h3 class="problem-title">DDC는 닫혔다 하지만<br>실제론 열려 있습니다.</h3>
+      <p class="problem-body">FCU 냉온수 밸브 액추에이터 고착. DDC 닫힘(0%) 명령 → 실제 30% 열림. 겨울철 냉수 지속 유입.</p>
+      <div class="problem-cost">↑ 월 80~120만원 에너지 낭비</div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="solution" style="padding-top:0">
+  <div class="eyebrow reveal">T-ARCH Solution</div>
+  <h2 class="sec-title reveal">FDD가 아닙니다.<br><span style="color:var(--green)">포렌식입니다.</span></h2>
+  <p class="sec-sub reveal" style="white-space:nowrap;">FDD는 센서를 신뢰하고 룰을 적용합니다. T-ARCH는 센서 값이 맞는지 먼저 검증합니다.</p>
+  <div class="compare-wrap reveal">
+    <div class="compare-col old">
+      <div class="compare-header"><h3>기존 FDD / BAS</h3><span class="compare-tag old-tag">기존 방식</span></div>
+      <div class="ci"><span class="ci-ico">✕</span><span>센서 값을 정확하다고 전제하고 룰 적용</span></div>
+      <div class="ci"><span class="ci-ico">✕</span><span>임계값 초과 시 알람 — 이미 낭비 발생 후</span></div>
+      <div class="ci"><span class="ci-ico">✕</span><span>드리프트된 센서로 제어 → 오제어 지속</span></div>
+      <div class="ci"><span class="ci-ico">✕</span><span>에너지 낭비 "추정" 리포트</span></div>
+      <div class="ci"><span class="ci-ico">✕</span><span>제조사 종속, 교체 비용 수천만~수억 원</span></div>
+    </div>
+    <div class="compare-col tekton">
+      <div class="compare-header"><h3>T-ARCH 포렌식</h3><span class="compare-tag new-tag">TEKTON</span></div>
+      <div class="ci"><span class="ci-ico">✓</span><span>센서 무결성 먼저 검증 후 분석 시작</span></div>
+      <div class="ci"><span class="ci-ico">✓</span><span>4단계 포렌식으로 근본 원인 자동 추적</span></div>
+      <div class="ci"><span class="ci-ico">✓</span><span>검증된 데이터 위에서 에너지 패턴 분석</span></div>
+      <div class="ci"><span class="ci-ico">✓</span><span>낭비 금액 원(₩) 단위 정량화 리포트</span></div>
+      <div class="ci"><span class="ci-ico">✓</span><span>BACnet/Modbus 전 DDC 호환, 설비 교체 0원</span></div>
+    </div>
+  </div>
+  <div class="step-grid">
+    <div class="step-card reveal"><div class="step-n">STEP 01</div><h3 class="step-title">센서 무결성 검증</h3><p class="step-desc">고착(Stuck), 급변(Spike), 드리프트, 범위 이탈을 실시간 탐지합니다.</p></div>
+    <div class="step-card reveal d1"><div class="step-n">STEP 02</div><h3 class="step-title">통신 건전성 분석</h3><p class="step-desc">RS-485 패킷 손실, 타임스탬프 불일치, 데이터 고착을 자동 감지합니다.</p></div>
+    <div class="step-card reveal d2"><div class="step-n">STEP 03</div><h3 class="step-title">에너지 이상패턴</h3><p class="step-desc">동시냉난방, 비가동 시간 운전, 낭비 금액을 원 단위로 정량화합니다.</p></div>
+    <div class="step-card reveal d3"><div class="step-n">STEP 04</div><h3 class="step-title">제어 명령 검증</h3><p class="step-desc">DDC 명령값 vs 실측값 불일치, 인터록 위반을 자동 탐지합니다.</p></div>
+  </div>
+</section>
+
+
+<!-- ── 특허 + 현장 섹션 ── -->
+<section class="section" style="padding-top:0; max-width:1280px; margin:0 auto;">
+  <div style="display:grid; grid-template-columns:1fr 1fr; gap:40px;">
+
+    <!-- 특허 -->
+    <div style="background:var(--black2); border:1px solid var(--border); border-radius:16px; padding:40px;">
+      <div class="eyebrow" style="margin-bottom:16px;">Patent</div>
+      <h3 style="font-size:22px; font-weight:700; margin-bottom:8px;">핵심 기술 특허 출원 중</h3>
+      <p style="font-size:14px; color:var(--gray4); line-height:1.7; margin-bottom:24px;">
+        T-ARCH의 핵심 알고리즘은 국내외 특허 DB 조사 결과 선행기술이 확인되지 않은 독자 기술입니다.
+      </p>
+      <div style="display:flex; flex-direction:column; gap:12px;">
+        <div style="background:var(--black3); border:1px solid var(--border2); border-radius:10px; padding:16px 20px;">
+          <div style="font-family:'DM Mono',monospace; font-size:10px; color:var(--green); letter-spacing:1px; margin-bottom:6px;">출원 #1 · 2026.01</div>
+          <div style="font-size:14px; font-weight:600; margin-bottom:4px;">4단계 센서 무결성 검증 알고리즘</div>
+          <div style="font-size:13px; color:var(--gray4);">DDC 센서 데이터의 고착·드리프트·통신 두절·제어 불일치를 다단계로 자동 검증하는 방법 및 시스템</div>
+        </div>
+        <div style="background:var(--black3); border:1px solid var(--border2); border-radius:10px; padding:16px 20px;">
+          <div style="font-family:'DM Mono',monospace; font-size:10px; color:var(--green); letter-spacing:1px; margin-bottom:6px;">출원 #2 · 2026.02</div>
+          <div style="font-size:14px; font-weight:600; margin-bottom:4px;">다계층 포렌식 진단 시스템</div>
+          <div style="font-size:13px; color:var(--gray4);">빌딩 자동제어 시스템의 에너지 이상패턴을 계층적으로 분석하고 낭비 금액을 정량화하는 시스템</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 현장 -->
+    <div style="background:var(--black2); border:1px solid var(--border2); border-radius:16px; padding:40px;">
+      <div class="eyebrow" style="margin-bottom:16px;">Field Sites</div>
+      <h3 style="font-size:22px; font-weight:700; margin-bottom:8px;">현장 적용 현황</h3>
+      <p style="font-size:14px; color:var(--gray4); line-height:1.7; margin-bottom:24px;">
+        실제 현장과의 연동 협의 및 시뮬레이션 검증을 진행 중입니다.
+      </p>
+      <div style="display:flex; flex-direction:column; gap:10px;">
+        <div style="background:var(--black3); border:1px solid var(--border2); border-radius:10px; padding:14px 18px; display:flex; align-items:center; justify-content:space-between;">
+          <div>
+            <div style="font-size:14px; font-weight:600; margin-bottom:3px;">A 물류센터</div>
+            <div style="font-size:12px; color:var(--gray4);">BACnet / Niagara · DDC 33대 · 518 포인트</div>
+          </div>
+          <div style="font-family:'DM Mono',monospace; font-size:10px; color:var(--green); background:var(--green-dim); border:1px solid var(--border); padding:4px 10px; border-radius:4px; white-space:nowrap;">연동 준비 중</div>
+        </div>
+        <div style="background:var(--black3); border:1px solid var(--border2); border-radius:10px; padding:14px 18px; display:flex; align-items:center; justify-content:space-between;">
+          <div>
+            <div style="font-size:14px; font-weight:600; margin-bottom:3px;">B 특용작물지원센터</div>
+            <div style="font-size:12px; color:var(--gray4);">BACnet · DDC 설치 예정 (2026.06)</div>
+          </div>
+          <div style="font-family:'DM Mono',monospace; font-size:10px; color:var(--green); background:var(--green-dim); border:1px solid var(--border); padding:4px 10px; border-radius:4px; white-space:nowrap;">연동 협의 완료</div>
+        </div>
+        <div style="background:var(--black3); border:1px solid rgba(57,255,20,0.3); border-radius:10px; padding:14px 18px; display:flex; align-items:center; justify-content:space-between;">
+          <div>
+            <div style="font-size:14px; font-weight:600; margin-bottom:3px;">C 역세권 청년주택</div>
+            <div style="font-size:12px; color:var(--gray4);">137 센서 · 10개 장비그룹</div>
+          </div>
+          <div style="font-family:'DM Mono',monospace; font-size:10px; color:var(--green); background:var(--green-dim); border:1px solid var(--border); padding:4px 10px; border-radius:4px; white-space:nowrap;">시뮬레이션 완료 ✓</div>
+        </div>
+      </div>
+      <p style="font-size:11px; color:var(--gray4); margin-top:16px; line-height:1.6;">
+        * 현장명은 협의에 따라 익명 표기합니다. 연동 현황은 계약 전 준비 단계입니다.
+      </p>
+    </div>
+
+  </div>
+</section>
+
+<div class="section-full connect-section" id="connect">
+  <div class="section-inner">
+    <div class="eyebrow reveal">Integration</div>
+    <h2 class="sec-title reveal">기존 시스템 위에서,<br><span style="color:var(--green)">선 하나 없이.</span></h2>
+    <p class="sec-sub reveal">현장 구성에 따라 3가지 방식을 지원합니다. 모든 방식에서 기존 제어 네트워크에 쓰기(Write) 권한 없이 동작합니다.</p>
+    <div class="ctabs reveal">
+      <button class="ctab active" onclick="sw('bacnet_rest',this)">BACnet / REST API</button>
+      <button class="ctab" onclick="sw('bacnet',this)">BACnet / IP</button>
+      <button class="ctab" onclick="sw('rs485',this)">RS-485 탭</button>
+    </div>
+    <div id="p-bacnet_rest" class="cpanel active reveal">
+      <div class="connect-info">
+        <div class="cbadge">⚡ 30분 이내 연동 완료</div>
+        <h3>BACnet / IP<br>REST API 연동</h3>
+        <p class="cdesc">BACnet/IP 네트워크가 구성된 현장에서 가장 빠른 방식입니다. 물리 배선 없이 아래 세 가지 중 하나만 제공하시면 됩니다.</p>
+        <ul class="csteps">
+          <li><span class="cs-n">A</span>Read-Only 계정 생성 후 IP/포트 전달</li>
+          <li><span class="cs-n">B</span>DDC 포인트 맵(Object List) 파일 제공</li>
+          <li><span class="cs-n">C</span>REST API 엔드포인트 오픈 (IP + 포트 허용)</li>
+          <li><span class="cs-n">4</span>T-ARCH 자동 탐지 → 포렌식 시작</li>
+        </ul>
+      </div>
+      <div class="fdiag">
+        <div class="fn"><span class="ftag">DDC</span><span class="fn-txt">국산·외산 모든 제조사 · BACnet/IP 지원</span></div>
+        <div class="farr">↕</div>
+        <div class="fn"><span class="ftag">BAS 서버</span><span class="fn-txt">기존 빌딩자동제어 서버 — 무중단 유지</span></div>
+        <div class="flbl">Read-Only · REST API / 포인트 맵 제공</div>
+        <div class="fn hi"><span class="ftag">T-ARCH</span><span class="fn-txt">클라우드 포렌식 엔진 + 대시보드</span></div>
+      </div>
+    </div>
+    <div id="p-bacnet" class="cpanel reveal">
+      <div class="connect-info">
+        <div class="cbadge">⏱ 1시간 이내</div>
+        <h3>BACnet MS/TP<br>멀티드롭 버스 연동</h3>
+        <p class="cdesc">BACnet MS/TP 기반 현장에서 기존 버스에 직접 연결합니다. 네트워크 설정만으로 완료됩니다.</p>
+        <ul class="csteps">
+          <li><span class="cs-n">1</span>BACnet 네트워크 구성 정보 확인 (Device ID 등)</li>
+          <li><span class="cs-n">2</span>T-ARCH 서버 IP를 네트워크에 등록</li>
+          <li><span class="cs-n">3</span>Who-Is / I-Am으로 Device 자동 탐지</li>
+          <li><span class="cs-n">4</span>Object List 읽기 → 포렌식 시작</li>
+        </ul>
+      </div>
+      <div class="fdiag">
+        <div class="fn"><span class="ftag">DDC</span><span class="fn-txt">BACnet MS/TP 지원 컨트롤러 · 국산·외산 전체</span></div>
+        <div class="farr">↕</div>
+        <div class="fn"><span class="ftag">네트워크</span><span class="fn-txt">기존 BACnet 네트워크 — 무중단 유지</span></div>
+        <div class="flbl">Read-Only · BACnet MS/TP</div>
+        <div class="fn hi"><span class="ftag">T-ARCH</span><span class="fn-txt">클라우드 포렌식 엔진 + 대시보드</span></div>
+      </div>
+    </div>
+    <div id="p-rs485" class="cpanel reveal">
+      <div class="connect-info">
+        <div class="cbadge">🔧 2~4시간 (버스 중단 없음)</div>
+        <h3>RS-485<br>패시브 버스 탭</h3>
+        <p class="cdesc">구형 현장 또는 Niagara 미설치 현장에서 RS-485 멀티드롭 버스에 패시브 탭(T분기)으로 연결합니다.</p>
+        <ul class="csteps">
+          <li><span class="cs-n">1</span>RS-485 버스 A/B 단자에 패시브 탭 연결</li>
+          <li><span class="cs-n">2</span>엣지 게이트웨이(DIN-rail) 설치 + 전원</li>
+          <li><span class="cs-n">3</span>Baud rate, Slave 주소 설정</li>
+          <li><span class="cs-n">4</span>클라우드 연결 → 포렌식 시작</li>
+        </ul>
+      </div>
+      <div class="fdiag">
+        <div class="fn"><span class="ftag">DDC</span><span class="fn-txt">BACnet MS/TP · Modbus RTU</span></div>
+        <div class="farr">↕</div>
+        <div class="fn"><span class="ftag">EDGE</span><span class="fn-txt">패시브 탭 → 엣지 게이트웨이 (DIN-rail)</span></div>
+        <div class="flbl">LTE / LAN → 클라우드</div>
+        <div class="fn hi"><span class="ftag">T-ARCH</span><span class="fn-txt">클라우드 포렌식 엔진 + 대시보드</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<section class="section" id="pricing">
+  <div class="eyebrow reveal">Pricing</div>
+  <h2 class="sec-title reveal">투명한 구독 요금제</h2>
+  <p class="sec-sub reveal">초기 계약 후 실데이터와 효과를 직접 확인하고 연장을 결정하세요.</p>
+  <div style="display:grid; grid-template-columns:repeat(4,1fr); gap:14px;">
+
+    <!-- Basic -->
+    <div class="price-card reveal">
+      <div class="price-tier">Basic</div>
+      <div class="price-name">T-ARCH Basic</div>
+      <div class="price-desc">소형 빌딩 · 단일 현장</div>
+      <div class="price-amount">59만<small>원/월</small></div>
+      <div class="price-period">연간 계약 기준 · VAT 별도</div>
+      <div class="pdiv"></div>
+      <ul class="pf-list">
+        <li><span class="pfc">✓</span>300포인트 이하</li>
+        <li><span class="pfc">✓</span>4단계 포렌식 진단</li>
+        <li><span class="pfc">✓</span>실시간 대시보드</li>
+        <li><span class="pfc">✓</span>월간 자동 리포트</li>
+        <li><span class="pfc">✓</span>이메일 알림</li>
+      </ul>
+      <a href="https://docs.google.com/forms/d/e/1FAIpQLSdAIdRmF_CYJji3j7ohxqaTlYH-WB45FWRzHghe-UF_JeSGGg/viewform" target="_blank" class="pbtn-o">문의하기</a>
+    </div>
+
+    <!-- Standard -->
+    <div class="price-card featured reveal d1">
+      <div class="pfbadge">주력</div>
+      <div class="price-tier">Standard</div>
+      <div class="price-name">T-ARCH Standard</div>
+      <div class="price-desc">중대형 빌딩 · 전력 교차검증</div>
+      <div class="price-amount">89만<small>원/월</small></div>
+      <div class="price-period">연간 계약 기준 · VAT 별도</div>
+      <div class="pdiv"></div>
+      <ul class="pf-list">
+        <li><span class="pfc">✓</span>포인트 무제한</li>
+        <li><span class="pfc">✓</span>4단계 포렌식 진단</li>
+        <li><span class="pfc">✓</span>기설치 전력미터 교차검증<br><span style="font-size:11px;color:var(--gray4);padding-left:18px;">(신규 설치 없음)</span></li>
+        <li><span class="pfc">✓</span>카카오톡 실시간 알림</li>
+        <li><span class="pfc">✓</span>분기 1회 방문점검</li>
+      </ul>
+      <a href="https://docs.google.com/forms/d/e/1FAIpQLSdAIdRmF_CYJji3j7ohxqaTlYH-WB45FWRzHghe-UF_JeSGGg/viewform" target="_blank" class="pbtn-g">무료 진단 신청하기</a>
+    </div>
+
+    <!-- Premium -->
+    <div class="price-card reveal d2">
+      <div class="price-tier">Premium</div>
+      <div class="price-name">T-ARCH Premium</div>
+      <div class="price-desc">ZEB · 공공건물 · ESG 의무 대응</div>
+      <div class="price-amount">149만<small>원/월</small></div>
+      <div class="price-period">연간 계약 기준 · VAT 별도</div>
+      <div class="pdiv"></div>
+      <ul class="pf-list">
+        <li><span class="pfc">✓</span>Standard 전체 포함</li>
+        <li><span class="pfc">✓</span>ZEB 성능검증 리포트</li>
+        <li><span class="pfc">✓</span>탄소배출 정량화</li>
+        <li><span class="pfc">✓</span>ESG 공시 대응 리포트</li>
+        <li><span class="pfc">✓</span>월 1회 방문점검</li>
+      </ul>
+      <a href="https://docs.google.com/forms/d/e/1FAIpQLSdAIdRmF_CYJji3j7ohxqaTlYH-WB45FWRzHghe-UF_JeSGGg/viewform" target="_blank" class="pbtn-o">문의하기</a>
+    </div>
+
+    <!-- Enterprise -->
+    <div class="price-card reveal d3">
+      <div class="price-tier">Enterprise</div>
+      <div class="price-name">T-ARCH Enterprise</div>
+      <div class="price-desc">다현장 · 시공사 · 건설사</div>
+      <div class="price-amount">별도<small> 협의</small></div>
+      <div class="price-period">현장 수·규모에 따라 산정</div>
+      <div class="pdiv"></div>
+      <ul class="pf-list">
+        <li><span class="pfc">✓</span>다현장 통합 관제</li>
+        <li><span class="pfc">✓</span>BEMS 연동 API 제공</li>
+        <li><span class="pfc">✓</span>커스텀 포렌식 룰셋</li>
+        <li><span class="pfc">✓</span>현장별 전담 지원</li>
+        <li><span class="pfc">✓</span>ESG 공시 리포트</li>
+      </ul>
+      <a href="https://docs.google.com/forms/d/e/1FAIpQLSdAIdRmF_CYJji3j7ohxqaTlYH-WB45FWRzHghe-UF_JeSGGg/viewform" target="_blank" class="pbtn-o">견적 문의</a>
+    </div>
+
+  </div>
+
+  <!-- 요금제 안내 -->
+  <div style="margin-top:24px; padding:16px 24px; background:var(--black2); border:1px solid var(--border2); border-radius:10px; display:flex; align-items:center; gap:12px;">
+    <span style="color:var(--green); font-size:16px; flex-shrink:0;">💡</span>
+    <p style="font-size:13px; color:var(--gray4); line-height:1.6;">
+      모든 플랜은 <strong style="color:var(--white);">1개월 무료 진단</strong>으로 시작합니다.
+      계약 전 실데이터 기반 포렌식 결과를 먼저 확인하고 결정하세요.
+      전력미터 교차검증은 현장에 기설치된 장비 기준이며 신규 설치는 포함되지 않습니다.
+    </p>
+  </div>
+</section>
+
+<div class="cta-section" id="contact">
+  <div class="cta-eyebrow">1개월 무료 진단</div>
+  <h2 class="cta-h2">1개월 무료 진단,<br>지금 신청하세요.</h2>
+  <p class="cta-sub">DDC 포인트 맵 또는 BACnet 접근 정보만 있으면 됩니다.<br>배선 없음. 기존 시스템 무중단. 비용 없음.</p>
+  <div class="cta-btns">
+    <a href="https://docs.google.com/forms/d/e/1FAIpQLSdAIdRmF_CYJji3j7ohxqaTlYH-WB45FWRzHghe-UF_JeSGGg/viewform" target="_blank" class="btn-green">무료 진단 신청하기 →</a>
+    <a href="mailto:rok@tekton.co.kr" class="btn-ghost">rok@tekton.co.kr</a>
+  </div>
+  <p class="cta-note">기후테크 · 2026 에코스타트업 선정 | 환경부 산하 KEITI</p>
+</div>
+
+<footer>
+  <div class="footer-inner">
+    <div>
+      <div class="tekton-logo-wrap" style="margin-bottom:4px;">
+        <span class="tekton-logo-text">TEKTON</span>
+        <span class="tekton-logo-symbol">
+          <span class="outer-sq"><span class="inner-sq"></span></span>
+        </span>
+      </div>
+      <p class="fdesc">빌딩 에너지 포렌식 플랫폼 T-ARCH를 개발하는 기후테크 스타트업.<br>경기도 하남시 감일백제로 97, 2층 204호<br>사업자번호 720-03-03738 · 대표 최경록</p>
+      <div class="feco">🌱 기후테크 · 2026 에코스타트업 선정</div>
+    </div>
+    <div class="footer-col">
+      <h4>제품</h4>
+      <ul>
+        <li><a href="#solution">T-ARCH 소개</a></li>
+        <li><a href="#connect">연동 방식</a></li>
+        <li><a href="#pricing">요금제</a></li>
+        <li><a href="#contact">무료 PoC</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>연락처</h4>
+      <ul>
+        <li><a href="mailto:rok@tekton.co.kr">rok@tekton.co.kr</a></li>
+        <li><a href="tel:0236629430">02-3662-9430</a></li>
+        <li><a href="#">팩스 02-3662-9431</a></li>
+        <li><a href="#">tekton.co.kr</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2026 TEKTON. All rights reserved.</span>
+    <span>T-ARCH는 TEKTON의 등록 서비스입니다.</span>
+  </div>
+</footer>
+
+<script>
+
+// ── 대시보드 슬라이더 ──
+var sIdx = 0;
+var sTotal = 3;
+var sTmr;
+
+function gSlide(n) {
+  var slides = document.querySelectorAll('.dash-slide');
+  var dots = document.querySelectorAll('.sdot');
+  slides.forEach(function(s,i){ s.className = i===n ? 'dash-slide on' : 'dash-slide'; });
+  dots.forEach(function(d,i){ d.className = i===n ? 'sdot on' : 'sdot'; });
+  sIdx = n;
+  clearInterval(sTmr);
+  sTmr = setInterval(function(){ gSlide((sIdx+1)%sTotal); }, 5000);
+}
+
+sTmr = setInterval(function(){ gSlide((sIdx+1)%sTotal); }, 5000);
+
+function sw(id,btn){
+  document.querySelectorAll('.cpanel').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.ctab').forEach(b=>b.classList.remove('active'));
+  document.getElementById('p-'+id).classList.add('active');
+  btn.classList.add('active');
+}
+const ro=new IntersectionObserver(e=>{e.forEach(x=>{if(x.isIntersecting)x.target.classList.add('on')})},{threshold:0.08});
+document.querySelectorAll('.reveal').forEach(el=>ro.observe(el));
+window.addEventListener('scroll',()=>{document.getElementById('nav').classList.toggle('scrolled',scrollY>40)});
+</script>
+</body>
+</html>
