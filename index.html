@@ -243,15 +243,17 @@ footer{background:var(--black2);border-top:1px solid var(--border2);padding:64px
   <a href="#" class="tekton-logo-wrap">
     <span class="tekton-logo-text">TEKTON</span>
     <span class="tekton-logo-symbol">
-      <span class="outer-sq"><span class="inner-sq"></span></span>
+      <span class="outer-sq"></span>
     </span>
   </a>
   <ul class="nav-menu">
     <li><a href="#problem">문제</a></li>
-    <li><a href="#solution">T-ARCH</a></li>
-    <li><a href="#connect">연동</a></li>
-    <li><a href="#pricing">요금제</a></li>
-    <li><a href="https://docs.google.com/forms/d/e/1FAIpQLSdAIdRmF_CYJji3j7ohxqaTlYH-WB45FWRzHghe-UF_JeSGGg/viewform" target="_blank" class="nav-cta">무료 진단 신청 →</a></li>
+    <li><a href="#about">T-ARCH</a></li>
+    <li><a href="#you">누가 쓰나</a></li>
+    <li><a href="#how">작동</a></li>
+    <li><a href="#partners">파트너</a></li>
+    <li><a href="#pricing">요금</a></li>
+    <li><a href="https://docs.google.com/forms/d/e/1FAIpQLSdAIdRmF_CYJji3j7ohxqaTlYH-WB45FWRzHghe-UF_JeSGGg/viewform" target="_blank" class="nav-cta">무료 진단 →</a></li>
   </ul>
 </nav>
 
@@ -260,128 +262,79 @@ footer{background:var(--black2);border-top:1px solid var(--border2);padding:64px
   <div class="hero-left">
     <div class="hero-badge">
       <span class="hero-badge-dot"></span>
-      <span>기후테크 · 2026 에코스타트업 선정</span>
+      <span>AI 시설관리 시스템 · 2026 에코스타트업 선정</span>
     </div>
-    <p class="hero-question">모니터에 떠있는 '정상'이라는 글자, 100% 믿습니까?</p>
     <h1 class="hero-h1">
-      <span class="l1">정상인지 아닌지</span>
-      <span class="l2">판별하는 기술.</span>
+      <span class="l1">건물은 아플 때도</span>
+      <span class="l1">괜찮다고 말합니다.</span>
+      <span class="l2">T-ARCH는 그 말을<br>믿지 않습니다.</span>
     </h1>
-    <p class="hero-subtitle"><strong>T-ARCH</strong> — 빌딩 에너지 포렌식</p>
-    <p class="hero-desc">기존 <strong>BACnet / Niagara SCADA 위에서</strong> Read-Only로 동작합니다.<br>배선 없음. 설비 교체 없음. 기존 시스템 무중단.<br>4단계 AI 포렌식이 데이터의 진실을 꺼냅니다.</p>
+    <p class="hero-subtitle">센서가 멈췄는데 화면은 '정상'.<br><strong>다른 시스템은 믿고, T-ARCH는 의심합니다.</strong></p>
     <div class="hero-btns">
       <a href="https://docs.google.com/forms/d/e/1FAIpQLSdAIdRmF_CYJji3j7ohxqaTlYH-WB45FWRzHghe-UF_JeSGGg/viewform" target="_blank" class="btn-green">무료 진단 신청하기 →</a>
-      <a href="#connect" class="btn-ghost">연동 방식 보기</a>
+      <a href="#you" class="btn-ghost">누가 쓰나요?</a>
     </div>
   </div>
   <div class="hero-right">
-  <style>
-  .slider-wrap{width:100%;max-width:540px;position:relative;}
-  .dash-slide{display:none;background:var(--black2);border:1px solid var(--border2);border-radius:16px;overflow:hidden;box-shadow:0 40px 80px rgba(0,0,0,.6),0 0 0 1px rgba(57,255,20,.06),inset 0 1px 0 rgba(255,255,255,.04);animation:dashIn 1.2s .3s cubic-bezier(.22,.68,0,1.2) both;}
-  .dash-slide.on{display:block;animation:slideIn .5s ease;}
-  @keyframes slideIn{from{opacity:0;transform:translateX(10px)}to{opacity:1;transform:translateX(0)}}
-  .sdots{display:flex;justify-content:center;gap:8px;margin-top:14px;}
-  .sdot{width:6px;height:6px;border-radius:50%;background:var(--gray2);cursor:pointer;border:none;padding:0;transition:all .3s;}
-  .sdot.on{background:var(--green);box-shadow:0 0 8px var(--green);width:20px;border-radius:3px;}
-  </style>
-  <div class="slider-wrap">
-
-    <!-- 슬라이드 1: A 물류센터 -->
-    <div class="dash-slide on" id="ds0">
-      <div class="dash-bar">
-        <div class="dash-dots"><span></span><span></span><span></span></div>
-        <div class="dash-title-bar">T-ARCH FORENSIC · v2.1</div>
-        <div class="dash-live">LIVE</div>
+    <style>
+      .hero-viz{position:relative;width:100%;max-width:560px;background:var(--black2);border:1px solid var(--border2);border-radius:16px;padding:24px;box-shadow:0 40px 80px rgba(0,0,0,.6),0 0 0 1px rgba(57,255,20,.06),inset 0 1px 0 rgba(255,255,255,.04);animation:dashIn 1.2s .3s cubic-bezier(.22,.68,0,1.2) both}
+      .hero-viz svg{width:100%;height:auto;display:block}
+      .viz-cap{display:flex;justify-content:space-between;margin-top:14px;font-family:'DM Mono',monospace;font-size:10px;letter-spacing:2px;color:var(--gray4);text-transform:uppercase}
+      .viz-cap-r{display:inline-flex;align-items:center;gap:6px;color:var(--green)}
+      .viz-cap-dot{width:6px;height:6px;border-radius:50%;background:var(--green);box-shadow:0 0 6px var(--green);animation:mp 1.5s infinite}
+      .viz-line{fill:none;stroke-width:1.6;stroke-linecap:round;stroke-dasharray:1600;stroke-dashoffset:1600;animation:drawL 3.4s ease forwards}
+      .viz-line-2{animation-delay:.5s;animation-duration:3.8s}
+      @keyframes drawL{to{stroke-dashoffset:0}}
+      .viz-pin{opacity:0;transform-origin:360px 80px;animation:pinIn .6s 3.6s ease forwards}
+      .viz-pin-dot{opacity:0;animation:pinIn .6s 3.6s ease forwards}
+      .viz-pin-ring{opacity:0;animation:pinIn .6s 3.6s ease forwards, pinPulse 2.6s 4.2s ease-in-out infinite}
+      @keyframes pinIn{from{opacity:0;transform:scale(.4)}to{opacity:1;transform:scale(1)}}
+      @keyframes pinPulse{0%,100%{opacity:.55;r:8}50%{opacity:0;r:14}}
+      .viz-tag{opacity:0;animation:tagIn .5s 4s ease forwards}
+      @keyframes tagIn{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:translateY(0)}}
+      .viz-meta{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:14px}
+      .viz-mc{background:var(--black3);border:1px solid var(--border2);border-radius:8px;padding:10px 12px}
+      .viz-mc-n{font-family:'DM Mono',monospace;font-size:15px;color:var(--green);line-height:1}
+      .viz-mc-l{font-size:10px;color:var(--gray4);margin-top:4px;letter-spacing:.3px}
+    </style>
+    <div class="hero-viz">
+      <svg viewBox="0 0 540 280" preserveAspectRatio="xMidYMid meet">
+        <!-- 가로 그리드 -->
+        <g stroke="rgba(57,255,20,0.05)" stroke-width="1">
+          <line x1="0" y1="70" x2="540" y2="70"/>
+          <line x1="0" y1="140" x2="540" y2="140"/>
+          <line x1="0" y1="210" x2="540" y2="210"/>
+        </g>
+        <!-- 정상 흐름 라인 -->
+        <path class="viz-line viz-line-1" stroke="rgba(57,255,20,0.5)"
+              d="M0 170 Q60 165 120 168 T240 158 T340 156 L355 156 L365 152 L375 156 Q420 158 480 152 T540 148"/>
+        <!-- 의심 라인 (이상 지점에서 점프) -->
+        <path class="viz-line viz-line-2" stroke="rgba(255,59,59,0.55)"
+              d="M0 200 Q80 196 160 192 T280 188 L320 188 L335 186 L345 188 L360 70 L375 188 L395 188 Q450 184 540 178"/>
+        <!-- 이상 지점 핀 -->
+        <circle class="viz-pin-ring" cx="360" cy="70" r="8" fill="none" stroke="#FF3B3B" stroke-width="1.5"/>
+        <circle class="viz-pin" cx="360" cy="70" r="5" fill="none" stroke="#FF5555" stroke-width="2"/>
+        <circle class="viz-pin-dot" cx="360" cy="70" r="2" fill="#FF5555"/>
+        <g class="viz-tag">
+          <text x="372" y="66" fill="#FF5555" font-family="DM Mono, monospace" font-size="10" letter-spacing="1">ANOMALY</text>
+          <text x="372" y="80" fill="rgba(255,255,255,0.5)" font-family="DM Mono, monospace" font-size="9">DDC '정상' 보고 중</text>
+        </g>
+        <!-- 축 라벨 -->
+        <text x="6" y="76"  fill="rgba(255,255,255,0.3)" font-family="DM Mono, monospace" font-size="9">100</text>
+        <text x="6" y="146" fill="rgba(255,255,255,0.3)" font-family="DM Mono, monospace" font-size="9">050</text>
+        <text x="6" y="216" fill="rgba(255,255,255,0.3)" font-family="DM Mono, monospace" font-size="9">000</text>
+      </svg>
+      <div class="viz-cap">
+        <span>SENSOR FEED · BACnet</span>
+        <span class="viz-cap-r"><span class="viz-cap-dot"></span>LIVE</span>
       </div>
-      <div class="dash-body">
-        <div class="dash-hr">
-          <div><div class="dash-site">A 물류센터</div><div class="dash-site-sub">BACnet · DDC 33대 · 518 POINTS</div></div>
-          <div><div class="grade-letter">B</div><div class="grade-sub">FORENSIC GRADE</div></div>
-        </div>
-        <div class="divider"></div>
-        <div class="stats">
-          <div class="stat"><div class="stat-n">518</div><div class="stat-l">모니터링 포인트</div></div>
-          <div class="stat"><div class="stat-n">97.2%</div><div class="stat-l">센서 정상률</div></div>
-          <div class="stat"><div class="stat-n">14</div><div class="stat-l">이상 탐지</div></div>
-        </div>
-        <div class="alerts">
-          <div class="alert"><div class="a-dot"></div><div class="a-body"><div class="a-title">AHU-2 급기 온도센서 드리프트</div><div class="a-meta">1단계 · 센서 무결성 위반</div></div><div class="a-val">+5.2°C</div></div>
-          <div class="alert"><div class="a-dot"></div><div class="a-body"><div class="a-title">FCU-14 밸브 명령-응답 불일치</div><div class="a-meta">4단계 · 제어 명령 검증 실패</div></div><div class="a-val">30%↑</div></div>
-        </div>
-        <div class="waste">
-          <div class="waste-lbl"><span>이번달 에너지 낭비 탐지</span><strong>₩ 870,000</strong></div>
-          <div class="waste-track"><div class="waste-fill"></div></div>
-        </div>
+      <div class="viz-meta">
+        <div class="viz-mc"><div class="viz-mc-n">검증 1초</div><div class="viz-mc-l">실시간 무결성</div></div>
+        <div class="viz-mc"><div class="viz-mc-n">Read-Only</div><div class="viz-mc-l">기존 제어 무중단</div></div>
+        <div class="viz-mc"><div class="viz-mc-n">0원</div><div class="viz-mc-l">설비 교체 비용</div></div>
       </div>
-    </div>
-
-    <!-- 슬라이드 2: B 특용작물지원센터 -->
-    <div class="dash-slide" id="ds1">
-      <div class="dash-bar">
-        <div class="dash-dots"><span></span><span></span><span></span></div>
-        <div class="dash-title-bar">T-ARCH FORENSIC · v2.1</div>
-        <div class="dash-live" style="color:var(--gray3)">준비중</div>
-      </div>
-      <div class="dash-body">
-        <div class="dash-hr">
-          <div><div class="dash-site">B 특용작물지원센터</div><div class="dash-site-sub">BACnet · AHU 3대 · 보일러 · 칠러</div></div>
-          <div><div class="grade-letter" style="color:var(--gray3);">-</div><div class="grade-sub">연동 준비 중</div></div>
-        </div>
-        <div class="divider"></div>
-        <div class="stats">
-          <div class="stat"><div class="stat-n">130</div><div class="stat-l">포인트 (예정)</div></div>
-          <div class="stat"><div class="stat-n">6</div><div class="stat-l">장비 그룹</div></div>
-          <div class="stat"><div class="stat-n">2026.06</div><div class="stat-l">연동 예정</div></div>
-        </div>
-        <div style="background:var(--black3);border:1px solid var(--border);border-radius:10px;padding:20px;margin-top:4px;">
-          <div style="font-family:'DM Mono',monospace;font-size:10px;color:var(--green);letter-spacing:1px;margin-bottom:12px;">연동 준비 현장</div>
-          <div style="font-size:14px;color:var(--gray3);line-height:1.8;">
-            DDC 설치 예정 (2026년 6월)<br>
-            AHU-1 / AHU-2 / AHU-3<br>
-            보일러 · 칠러 · 저수조<br>
-            <span style="color:var(--green);margin-top:8px;display:block;">✓ 연동 협의 완료</span>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- 슬라이드 3: C 역세권 청년주택 -->
-    <div class="dash-slide" id="ds2">
-      <div class="dash-bar">
-        <div class="dash-dots"><span></span><span></span><span></span></div>
-        <div class="dash-title-bar">T-ARCH FORENSIC · v2.1</div>
-        <div class="dash-live" style="color:#aaa;">SIM</div>
-      </div>
-      <div class="dash-body">
-        <div class="dash-hr">
-          <div><div class="dash-site">C 역세권 청년주택</div><div class="dash-site-sub">시뮬레이션 · 137센서 · 10개 장비그룹</div></div>
-          <div><div class="grade-letter" style="color:#2dd10e;">A</div><div class="grade-sub">FORENSIC GRADE</div></div>
-        </div>
-        <div class="divider"></div>
-        <div class="stats">
-          <div class="stat"><div class="stat-n">137</div><div class="stat-l">모니터링 포인트</div></div>
-          <div class="stat"><div class="stat-n">94.8%</div><div class="stat-l">센서 정상률</div></div>
-          <div class="stat"><div class="stat-n">7</div><div class="stat-l">이상 탐지</div></div>
-        </div>
-        <div class="alerts">
-          <div class="alert"><div class="a-dot"></div><div class="a-body"><div class="a-title">냉동기-1 압축기 온도 급변</div><div class="a-meta">1단계 · 급변(Spike) 탐지</div></div><div class="a-val">+12°C</div></div>
-          <div class="alert"><div class="a-dot"></div><div class="a-body"><div class="a-title">동시 냉난방 이상패턴 감지</div><div class="a-meta">3단계 · 에너지 낭비 패턴</div></div><div class="a-val">↑낭비</div></div>
-        </div>
-        <div class="waste">
-          <div class="waste-lbl"><span>이번달 에너지 낭비 탐지</span><strong>₩ 432,000</strong></div>
-          <div class="waste-track"><div style="height:100%;width:45%;background:linear-gradient(90deg,var(--green2),var(--green));border-radius:2px;box-shadow:0 0 8px var(--green-glow);"></div></div>
-        </div>
-      </div>
-    </div>
-
-    <!-- 점 네비게이션 -->
-    <div class="sdots">
-      <button class="sdot on" onclick="gSlide(0)"></button>
-      <button class="sdot" onclick="gSlide(1)"></button>
-      <button class="sdot" onclick="gSlide(2)"></button>
     </div>
   </div>
-</div>
 </div>
 
 <div class="kpi-strip">
@@ -695,7 +648,7 @@ footer{background:var(--black2);border-top:1px solid var(--border2);padding:64px
       <div class="tekton-logo-wrap" style="margin-bottom:4px;">
         <span class="tekton-logo-text">TEKTON</span>
         <span class="tekton-logo-symbol">
-          <span class="outer-sq"><span class="inner-sq"></span></span>
+          <span class="outer-sq"></span>
         </span>
       </div>
       <p class="fdesc">빌딩 에너지 포렌식 플랫폼 T-ARCH를 개발하는 기후테크 스타트업.<br>경기도 하남시 감일백제로 97, 2층 204호<br>사업자번호 720-03-03738 · 대표 최경록</p>
@@ -728,23 +681,7 @@ footer{background:var(--black2);border-top:1px solid var(--border2);padding:64px
 
 <script>
 
-// ── 대시보드 슬라이더 ──
-var sIdx = 0;
-var sTotal = 3;
-var sTmr;
-
-function gSlide(n) {
-  var slides = document.querySelectorAll('.dash-slide');
-  var dots = document.querySelectorAll('.sdot');
-  slides.forEach(function(s,i){ s.className = i===n ? 'dash-slide on' : 'dash-slide'; });
-  dots.forEach(function(d,i){ d.className = i===n ? 'sdot on' : 'sdot'; });
-  sIdx = n;
-  clearInterval(sTmr);
-  sTmr = setInterval(function(){ gSlide((sIdx+1)%sTotal); }, 5000);
-}
-
-sTmr = setInterval(function(){ gSlide((sIdx+1)%sTotal); }, 5000);
-
+// ── 연동 탭 스위처 (자동 회전 슬라이더 제거됨 — 사용자 명세: 캐러셀 금지) ──
 function sw(id,btn){
   document.querySelectorAll('.cpanel').forEach(p=>p.classList.remove('active'));
   document.querySelectorAll('.ctab').forEach(b=>b.classList.remove('active'));
