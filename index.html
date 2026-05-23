@@ -210,6 +210,93 @@ footer{background:var(--black2);border-top:1px solid var(--border2);padding:64px
   footer{padding:48px 24px}
 }
 
+/* ─── 라이브 현장 카드 ─── */
+.live-sites{padding:100px 64px 80px;max-width:1280px;margin:0 auto}
+.live-sites-head{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:40px;flex-wrap:wrap;gap:24px}
+.live-sites-head .sec-title{margin-bottom:0}
+.live-sites-cap{font-size:14px;color:var(--gray4);max-width:380px;line-height:1.7}
+.sites-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+.site-card{background:var(--black2);border:1px solid var(--border2);border-radius:14px;padding:24px;transition:all .3s;display:flex;flex-direction:column}
+.site-card:hover{border-color:var(--border);transform:translateY(-3px);box-shadow:0 18px 36px rgba(0,0,0,.4),0 0 16px var(--green-glow)}
+.sc-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;gap:8px}
+.sc-tag{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:1px;color:var(--gray4);padding:3px 8px;border:1px solid var(--border2);border-radius:3px;text-transform:uppercase;white-space:nowrap}
+.sc-tag.live{color:var(--green);border-color:var(--border);background:var(--green-dim);display:inline-flex;align-items:center;gap:5px}
+.sc-live-dot{width:6px;height:6px;border-radius:50%;background:var(--green);box-shadow:0 0 6px var(--green);animation:mp 1.5s infinite;flex-shrink:0}
+.sc-title{font-size:15px;font-weight:700;line-height:1.3;margin-bottom:4px}
+.sc-sub{font-size:11px;color:var(--gray4);line-height:1.55;margin-bottom:18px;min-height:34px}
+.sc-grade{display:flex;align-items:baseline;gap:8px;margin-bottom:14px}
+.sc-grade-l{font-family:'DM Mono',monospace;font-size:32px;font-weight:500;color:var(--green);line-height:1;text-shadow:0 0 16px rgba(57,255,20,.3)}
+.sc-grade-l.dim{color:var(--gray3);text-shadow:none}
+.sc-grade-sub{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:1px;color:var(--gray4)}
+.sc-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;padding-top:14px;border-top:1px solid var(--border2)}
+.sc-stat{text-align:center}
+.sc-stat-n{font-family:'DM Mono',monospace;font-size:14px;color:var(--white);font-weight:500;line-height:1}
+.sc-stat-n.dim{color:var(--gray3)}
+.sc-stat-l{font-size:9px;color:var(--gray4);letter-spacing:.3px;margin-top:4px}
+.sc-foot{margin-top:14px;font-size:11px;color:var(--gray4);line-height:1.5;border-top:1px solid var(--border2);padding-top:12px;flex:1}
+
+/* ─── ★당신은? 직군 3블록 ─── */
+.you-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.you-card{background:var(--black2);border:1px solid var(--border2);border-radius:16px;padding:40px 32px;transition:all .3s;display:flex;flex-direction:column;position:relative;overflow:hidden}
+.you-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--green),transparent);opacity:.5;transform:scaleX(0);transform-origin:left;transition:transform .4s}
+.you-card:hover::before{transform:scaleX(1)}
+.you-card:hover{border-color:var(--border);background:var(--black3);transform:translateY(-4px);box-shadow:0 24px 48px rgba(0,0,0,.45),0 0 24px var(--green-glow)}
+.you-icon{font-size:32px;margin-bottom:18px;line-height:1}
+.you-cat{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:2px;color:var(--green);text-transform:uppercase;margin-bottom:18px}
+.you-hook{font-size:22px;font-weight:700;line-height:1.3;letter-spacing:-.4px;margin-bottom:24px;color:var(--white2)}
+.you-list{list-style:none;margin-bottom:28px;flex:1}
+.you-list li{font-size:14px;color:var(--gray3);line-height:1.65;padding:12px 0 12px 18px;border-bottom:1px solid rgba(255,255,255,.04);position:relative}
+.you-list li::before{content:'';position:absolute;left:0;top:21px;width:8px;height:1px;background:var(--green)}
+.you-list li:last-child{border-bottom:none}
+.you-btn{display:inline-flex;align-items:center;justify-content:center;background:transparent;color:var(--green);border:1px solid var(--border);padding:12px 18px;border-radius:8px;font-size:13px;font-weight:600;text-decoration:none;transition:all .2s;margin-top:auto}
+.you-btn:hover{background:var(--green);color:var(--black);box-shadow:0 0 20px var(--green-glow)}
+
+/* ─── 락인 3종 ─── */
+.lockin-band{margin-top:48px;padding:36px 40px;background:linear-gradient(180deg,var(--black2) 0%,var(--black3) 100%);border:1px solid var(--border2);border-radius:16px}
+.lockin-head{margin-bottom:28px}
+.lockin-head h3{font-size:22px;font-weight:700;letter-spacing:-.3px;margin-top:8px}
+.lockin-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.lockin-item{padding:20px 22px;background:rgba(8,8,8,.5);border:1px solid var(--border2);border-radius:10px;transition:border-color .2s}
+.lockin-item:hover{border-color:var(--border)}
+.lockin-icon{font-size:22px;margin-bottom:12px;line-height:1}
+.lockin-title{font-size:15px;font-weight:700;margin-bottom:6px}
+.lockin-desc{font-size:13px;color:var(--gray4);line-height:1.6}
+
+/* ─── 파트너십 ─── */
+.partner-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+.partner-card{background:var(--black2);border:1px solid var(--border2);border-radius:14px;padding:28px 24px;transition:all .3s;text-align:center}
+.partner-card:hover{border-color:var(--border);transform:translateY(-3px);box-shadow:0 16px 32px rgba(0,0,0,.4)}
+.partner-icon{font-size:30px;margin-bottom:14px;line-height:1}
+.partner-title{font-size:15px;font-weight:700;margin-bottom:8px}
+.partner-desc{font-size:12px;color:var(--gray4);line-height:1.6}
+
+/* ─── 가격 (숫자 제거 버전) ─── */
+.plan-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.plan-card{background:var(--black2);border:1px solid var(--border2);border-radius:16px;padding:36px 32px;transition:all .3s;display:flex;flex-direction:column}
+.plan-card:hover{transform:translateY(-4px)}
+.plan-card.featured{border-color:var(--border);background:linear-gradient(180deg,rgba(57,255,20,.05) 0%,var(--black2) 50%);box-shadow:0 0 32px var(--green-glow)}
+.plan-tier{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--gray4);margin-bottom:10px}
+.plan-card.featured .plan-tier{color:var(--green)}
+.plan-name{font-size:22px;font-weight:700;margin-bottom:24px;letter-spacing:-.3px}
+.plan-list{list-style:none;margin-bottom:28px;flex:1}
+.plan-list li{display:flex;gap:10px;align-items:flex-start;font-size:14px;color:var(--gray3);padding:10px 0;border-bottom:1px solid rgba(255,255,255,.04)}
+.plan-list li:last-child{border-bottom:none}
+.plan-list li::before{content:'✓';color:var(--green);flex-shrink:0;font-size:12px;font-weight:700}
+.plan-btn{display:inline-flex;align-items:center;justify-content:center;background:transparent;color:var(--white);border:1px solid var(--border2);padding:13px 18px;border-radius:8px;font-size:13px;font-weight:600;text-decoration:none;transition:all .2s;margin-top:auto}
+.plan-card.featured .plan-btn{background:var(--green);color:var(--black);border-color:var(--green);box-shadow:0 0 20px var(--green-glow)}
+.plan-btn:hover{border-color:var(--border);color:var(--green)}
+.plan-card.featured .plan-btn:hover{background:var(--white2);color:var(--black)}
+.plan-foot{margin-top:32px;padding:16px 24px;background:var(--black2);border:1px solid var(--border2);border-radius:10px;font-size:13px;color:var(--gray3);line-height:1.7;display:flex;align-items:center;gap:12px}
+
+@media(max-width:960px){
+  .live-sites{padding:60px 24px 40px}
+  .sites-grid,.you-grid,.lockin-grid,.partner-grid,.plan-grid{grid-template-columns:1fr}
+  .live-sites-head{flex-direction:column;align-items:flex-start}
+}
+@media(min-width:961px) and (max-width:1100px){
+  .sites-grid,.partner-grid{grid-template-columns:repeat(2,1fr)}
+}
+
 .tekton-logo-wrap { display:flex; align-items:center; gap:0; text-decoration:none; }
 .tekton-logo-text {
   font-family: 'Barlow Condensed', sans-serif;
@@ -249,7 +336,7 @@ footer{background:var(--black2);border-top:1px solid var(--border2);padding:64px
   <ul class="nav-menu">
     <li><a href="#problem">문제</a></li>
     <li><a href="#about">T-ARCH</a></li>
-    <li><a href="#you">누가 쓰나</a></li>
+    <li><a href="#you">누구에게</a></li>
     <li><a href="#how">작동</a></li>
     <li><a href="#partners">파트너</a></li>
     <li><a href="#pricing">요금</a></li>
@@ -272,7 +359,7 @@ footer{background:var(--black2);border-top:1px solid var(--border2);padding:64px
     <p class="hero-subtitle">센서가 멈췄는데 화면은 '정상'.<br><strong>다른 시스템은 믿고, T-ARCH는 의심합니다.</strong></p>
     <div class="hero-btns">
       <a href="https://docs.google.com/forms/d/e/1FAIpQLSdAIdRmF_CYJji3j7ohxqaTlYH-WB45FWRzHghe-UF_JeSGGg/viewform" target="_blank" class="btn-green">무료 진단 신청하기 →</a>
-      <a href="#you" class="btn-ghost">누가 쓰나요?</a>
+      <a href="#you" class="btn-ghost">누구에게 필요한가요?</a>
     </div>
   </div>
   <div class="hero-right">
@@ -337,68 +424,255 @@ footer{background:var(--black2);border-top:1px solid var(--border2);padding:64px
   </div>
 </div>
 
-<div class="kpi-strip">
-  <div class="kpi-inner">
-    <div class="kpi-item reveal"><div class="kpi-num">15~25%</div><div class="kpi-lbl">에너지 비용 절감</div></div>
-    <div class="kpi-item reveal d1"><div class="kpi-num">50~120t</div><div class="kpi-lbl">연간 CO₂ 감축 (건물당)</div></div>
-    <div class="kpi-item reveal d2"><div class="kpi-num">0원</div><div class="kpi-lbl">설비 교체 비용</div></div>
-    <div class="kpi-item reveal d3"><div class="kpi-num">Read-Only</div><div class="kpi-lbl">기존 제어 개입 없음</div></div>
+<!-- ─── 라이브 현장 카드 4개 (강조점: 에너지 절감액 → 이상 탐지) ─── -->
+<section class="live-sites" id="sites">
+  <div class="live-sites-head">
+    <div>
+      <div class="eyebrow reveal">Field Sites</div>
+      <h2 class="sec-title reveal">지금 현장에서<br>잡아내고 있는 것들.</h2>
+    </div>
+    <p class="live-sites-cap reveal">에너지 절감액보다, 데이터를 어떻게 의심하고 있는지가 먼저입니다.</p>
   </div>
-</div>
+  <div class="sites-grid">
+    <!-- A 물류센터 -->
+    <div class="site-card reveal">
+      <div class="sc-head">
+        <span class="sc-tag live"><span class="sc-live-dot"></span>LIVE</span>
+        <span class="sc-tag">BACnet/Niagara</span>
+      </div>
+      <div class="sc-title">A 물류센터</div>
+      <div class="sc-sub">DDC 33대 · BACnet/IP · 518 포인트</div>
+      <div class="sc-grade">
+        <span class="sc-grade-l">B</span>
+        <span class="sc-grade-sub">FORENSIC GRADE</span>
+      </div>
+      <div class="sc-stats">
+        <div class="sc-stat"><div class="sc-stat-n">518</div><div class="sc-stat-l">포인트</div></div>
+        <div class="sc-stat"><div class="sc-stat-n" data-live="health" data-base="97.2">97.2%</div><div class="sc-stat-l">정상률</div></div>
+        <div class="sc-stat"><div class="sc-stat-n">14</div><div class="sc-stat-l">이상 탐지</div></div>
+      </div>
+      <div class="sc-foot">최근 탐지: AHU-2 온도센서 드리프트 +5.2°C</div>
+    </div>
+    <!-- B 특용작물 -->
+    <div class="site-card reveal d1">
+      <div class="sc-head">
+        <span class="sc-tag">PRE-LIVE</span>
+        <span class="sc-tag">BACnet</span>
+      </div>
+      <div class="sc-title">B 특용작물지원센터</div>
+      <div class="sc-sub">AHU 3대 · 보일러 · 칠러 · 저수조</div>
+      <div class="sc-grade">
+        <span class="sc-grade-l dim">—</span>
+        <span class="sc-grade-sub">연동 협의 완료</span>
+      </div>
+      <div class="sc-stats">
+        <div class="sc-stat"><div class="sc-stat-n">130</div><div class="sc-stat-l">포인트(예정)</div></div>
+        <div class="sc-stat"><div class="sc-stat-n">6</div><div class="sc-stat-l">장비 그룹</div></div>
+        <div class="sc-stat"><div class="sc-stat-n">2026.06</div><div class="sc-stat-l">연동 예정</div></div>
+      </div>
+      <div class="sc-foot">DDC 설치 후 즉시 4단계 진단 시작 예정</div>
+    </div>
+    <!-- C 청년주택 -->
+    <div class="site-card reveal d2">
+      <div class="sc-head">
+        <span class="sc-tag live"><span class="sc-live-dot"></span>SIM</span>
+        <span class="sc-tag">시뮬레이션</span>
+      </div>
+      <div class="sc-title">C 역세권 청년주택</div>
+      <div class="sc-sub">137 센서 · 10개 장비그룹</div>
+      <div class="sc-grade">
+        <span class="sc-grade-l">A</span>
+        <span class="sc-grade-sub">FORENSIC GRADE</span>
+      </div>
+      <div class="sc-stats">
+        <div class="sc-stat"><div class="sc-stat-n">137</div><div class="sc-stat-l">포인트</div></div>
+        <div class="sc-stat"><div class="sc-stat-n" data-live="health" data-base="94.8">94.8%</div><div class="sc-stat-l">정상률</div></div>
+        <div class="sc-stat"><div class="sc-stat-n">7</div><div class="sc-stat-l">이상 탐지</div></div>
+      </div>
+      <div class="sc-foot">동시 냉난방 이상패턴 감지 케이스 확보</div>
+    </div>
+    <!-- D 지식산업센터 (신규 파일럿) -->
+    <div class="site-card reveal d3">
+      <div class="sc-head">
+        <span class="sc-tag live"><span class="sc-live-dot"></span>PILOT</span>
+        <span class="sc-tag">신규</span>
+      </div>
+      <div class="sc-title">D 지식산업센터 오피스텔</div>
+      <div class="sc-sub">흡수식냉동기 4대 · 냉각탑 · 열교환기 · 지열 · 저수조 · FCU</div>
+      <div class="sc-grade">
+        <span class="sc-grade-l">B</span>
+        <span class="sc-grade-sub">FORENSIC GRADE</span>
+      </div>
+      <div class="sc-stats">
+        <div class="sc-stat"><div class="sc-stat-n">~250</div><div class="sc-stat-l">포인트</div></div>
+        <div class="sc-stat"><div class="sc-stat-n" data-live="health" data-base="88.0">88.0%</div><div class="sc-stat-l">정상률</div></div>
+        <div class="sc-stat"><div class="sc-stat-n">6</div><div class="sc-stat-l">이상 탐지</div></div>
+      </div>
+      <div class="sc-foot">파일럿 진행 중 · 흡수식 효율 + 지열 검증 케이스</div>
+    </div>
+  </div>
+</section>
 
 <section class="section" id="problem">
   <div class="eyebrow reveal">The Problem</div>
-  <h2 class="sec-title reveal">BAS는 제어합니다.<br>하지만 <span style="color:var(--green)">데이터를 검증하지 않습니다.</span></h2>
-  <p class="sec-sub reveal">센서가 고장나도 SCADA 화면엔 '정상'이 뜹니다.<br>그 사이 에너지는 매달, 조용히 새어나갑니다.</p>
+  <h2 class="sec-title reveal">센서가 거짓말을 합니다.<br>그래도 화면은 <span style="color:var(--green)">'정상'이라 적힙니다.</span></h2>
+  <p class="sec-sub reveal">고장은 매달 일어나지만, 모르면 그대로 방치됩니다.<br>금액보다 무서운 건 '몰랐다'는 사실입니다.</p>
   <div class="problem-grid reveal">
     <div class="problem-card">
       <div class="problem-num">01 / 센서 드리프트</div>
       <h3 class="problem-title">온도센서가<br>5°C 높게 표시됩니다.</h3>
-      <p class="problem-body">AHU 급기 덕트 온도센서 경년열화. 실제 22°C → 센서 27°C 표시. 냉방 밸브 과다 개방. BAS 화면엔 "정상".</p>
-      <div class="problem-cost">↑ 월 40~60만원 초과 냉방비</div>
+      <p class="problem-body">AHU 급기 덕트 온도센서 경년열화. 실제 22°C → 센서 27°C 표시. 냉방 밸브 과다 개방 중. BAS 화면엔 "정상".</p>
+      <div class="problem-cost">↑ 고장을 모른 채 방치</div>
     </div>
     <div class="problem-card">
       <div class="problem-num">02 / 통신 두절</div>
       <h3 class="problem-title">60개 포인트가<br>수개월째 고착입니다.</h3>
-      <p class="problem-body">RS-485 배선 노후, 접촉 불량. 센서 60개 데이터 고착. 서버엔 마지막 정상값 표시. 평균 2~6개월 후 발견.</p>
-      <div class="problem-cost">↑ 수동 운전, 관리 공백 지속</div>
+      <p class="problem-body">RS-485 배선 노후, 접촉 불량. 센서 60개 데이터 고착. 서버엔 마지막 정상값만 표시. 평균 2~6개월 뒤 우연히 발견.</p>
+      <div class="problem-cost">↑ 수개월간 발견되지 않음</div>
     </div>
     <div class="problem-card">
       <div class="problem-num">03 / 밸브 고착</div>
       <h3 class="problem-title">DDC는 닫혔다 하지만<br>실제론 열려 있습니다.</h3>
       <p class="problem-body">FCU 냉온수 밸브 액추에이터 고착. DDC 닫힘(0%) 명령 → 실제 30% 열림. 겨울철 냉수 지속 유입.</p>
-      <div class="problem-cost">↑ 월 80~120만원 에너지 낭비</div>
+      <div class="problem-cost">↑ 모르고 계속 운전</div>
     </div>
   </div>
 </section>
 
-<section class="section" id="solution" style="padding-top:0">
-  <div class="eyebrow reveal">T-ARCH Solution</div>
-  <h2 class="sec-title reveal">FDD가 아닙니다.<br><span style="color:var(--green)">포렌식입니다.</span></h2>
-  <p class="sec-sub reveal" style="white-space:nowrap;">FDD는 센서를 신뢰하고 룰을 적용합니다. T-ARCH는 센서 값이 맞는지 먼저 검증합니다.</p>
+<!-- ─── T-ARCH란? (카테고리 + 차별점) ─── -->
+<section class="section" id="about" style="padding-top:0">
+  <div class="eyebrow reveal">What is T-ARCH</div>
+  <h2 class="sec-title reveal">T-ARCH는<br><span style="color:var(--green)">AI 시설관리 시스템</span>입니다.</h2>
+  <p class="sec-sub reveal" style="max-width:720px;">
+    직접 고치지 않습니다. 무엇을·언제·왜 봐야 하는지 짚어드립니다.<br>
+    <strong style="color:var(--white)">다른 시스템은 데이터를 믿고 분석합니다. T-ARCH는 데이터부터 의심합니다.</strong>
+  </p>
   <div class="compare-wrap reveal">
     <div class="compare-col old">
-      <div class="compare-header"><h3>기존 FDD / BAS</h3><span class="compare-tag old-tag">기존 방식</span></div>
+      <div class="compare-header"><h3>다른 시스템</h3><span class="compare-tag old-tag">기존 방식</span></div>
       <div class="ci"><span class="ci-ico">✕</span><span>센서 값을 정확하다고 전제하고 룰 적용</span></div>
-      <div class="ci"><span class="ci-ico">✕</span><span>임계값 초과 시 알람 — 이미 낭비 발생 후</span></div>
-      <div class="ci"><span class="ci-ico">✕</span><span>드리프트된 센서로 제어 → 오제어 지속</span></div>
-      <div class="ci"><span class="ci-ico">✕</span><span>에너지 낭비 "추정" 리포트</span></div>
-      <div class="ci"><span class="ci-ico">✕</span><span>제조사 종속, 교체 비용 수천만~수억 원</span></div>
+      <div class="ci"><span class="ci-ico">✕</span><span>임계값을 넘어야 알람 — 이미 발생한 뒤</span></div>
+      <div class="ci"><span class="ci-ico">✕</span><span>드리프트된 센서로 그대로 제어</span></div>
+      <div class="ci"><span class="ci-ico">✕</span><span>고장은 사람이 발로 뛰며 찾아냄</span></div>
     </div>
     <div class="compare-col tekton">
-      <div class="compare-header"><h3>T-ARCH 포렌식</h3><span class="compare-tag new-tag">TEKTON</span></div>
-      <div class="ci"><span class="ci-ico">✓</span><span>센서 무결성 먼저 검증 후 분석 시작</span></div>
-      <div class="ci"><span class="ci-ico">✓</span><span>4단계 포렌식으로 근본 원인 자동 추적</span></div>
-      <div class="ci"><span class="ci-ico">✓</span><span>검증된 데이터 위에서 에너지 패턴 분석</span></div>
-      <div class="ci"><span class="ci-ico">✓</span><span>낭비 금액 원(₩) 단위 정량화 리포트</span></div>
-      <div class="ci"><span class="ci-ico">✓</span><span>BACnet/Modbus 전 DDC 호환, 설비 교체 0원</span></div>
+      <div class="compare-header"><h3>T-ARCH</h3><span class="compare-tag new-tag">TEKTON</span></div>
+      <div class="ci"><span class="ci-ico">✓</span><span>센서 무결성부터 먼저 검증</span></div>
+      <div class="ci"><span class="ci-ico">✓</span><span>이상이 굳기 전에 짚어드림</span></div>
+      <div class="ci"><span class="ci-ico">✓</span><span>검증된 데이터 위에서만 분석</span></div>
+      <div class="ci"><span class="ci-ico">✓</span><span>매일 자동으로 점검 일지가 쌓임</span></div>
     </div>
   </div>
+</section>
+
+<!-- ─── ★당신은? 직군 3블록 ─── -->
+<section class="section" id="you" style="padding-top:0">
+  <div class="eyebrow reveal">For Who</div>
+  <h2 class="sec-title reveal">누구에게 필요한가요?</h2>
+  <p class="sec-sub reveal" style="max-width:640px;">시설관리 담당자에서 ESG 담당까지 — 같은 데이터를 각자의 시선으로 봅니다.</p>
+  <div class="you-grid">
+    <div class="you-card reveal">
+      <div class="you-icon">🔧</div>
+      <div class="you-cat">시설관리 담당자</div>
+      <div class="you-hook">발로 뛰지 않아도,<br>건물이 먼저 말합니다.</div>
+      <ul class="you-list">
+        <li>현장을 일일이 돌지 않아도 이상이 생기면 바로 통지</li>
+        <li>매일 쓰던 점검 일지가 자동으로 쌓입니다</li>
+        <li>교대 인수인계가 한 장으로 정리됩니다</li>
+      </ul>
+      <a href="https://docs.google.com/forms/d/e/1FAIpQLSdAIdRmF_CYJji3j7ohxqaTlYH-WB45FWRzHghe-UF_JeSGGg/viewform" target="_blank" class="you-btn">무료 진단 신청 →</a>
+    </div>
+    <div class="you-card reveal d1">
+      <div class="you-icon">🏢</div>
+      <div class="you-cat">건물주 / 관리단</div>
+      <div class="you-hook">관리비가 어디서 새는지,<br>숫자로 보입니다.</div>
+      <ul class="you-list">
+        <li>고장으로 새는 비용을 원 단위로 잡아냅니다</li>
+        <li>설비를 오래 쓰게 해 교체 비용을 늦춥니다</li>
+        <li>위탁 관리가 잘 되고 있는지 데이터로 확인합니다</li>
+      </ul>
+      <a href="https://docs.google.com/forms/d/e/1FAIpQLSdAIdRmF_CYJji3j7ohxqaTlYH-WB45FWRzHghe-UF_JeSGGg/viewform" target="_blank" class="you-btn">무료 진단 신청 →</a>
+    </div>
+    <div class="you-card reveal d2">
+      <div class="you-icon">🌱</div>
+      <div class="you-cat">공공기관 / ESG 담당</div>
+      <div class="you-hook">탄소중립,<br>보고할 데이터가 필요하신가요?</div>
+      <ul class="you-list">
+        <li>건물 에너지 손실을 실시간 진단</li>
+        <li>온실가스 감축량을 측정·검증(MRV)</li>
+        <li>ESG·공공 의무 대응 리포트 자동 생성</li>
+      </ul>
+      <a href="https://docs.google.com/forms/d/e/1FAIpQLSdAIdRmF_CYJji3j7ohxqaTlYH-WB45FWRzHghe-UF_JeSGGg/viewform" target="_blank" class="you-btn">무료 진단 신청 →</a>
+    </div>
+  </div>
+</section>
+
+<!-- ─── 어떻게 작동 (4단계 + 락인 3종) ─── -->
+<section class="section" id="how" style="padding-top:0">
+  <div class="eyebrow reveal">How it works</div>
+  <h2 class="sec-title reveal">4단계 포렌식이<br><span style="color:var(--green)">매 초 데이터를 의심합니다.</span></h2>
+  <p class="sec-sub reveal">센서가 정상이라 말해도 다시 확인합니다. 사람의 발 대신 데이터를 검증합니다.</p>
   <div class="step-grid">
-    <div class="step-card reveal"><div class="step-n">STEP 01</div><h3 class="step-title">센서 무결성 검증</h3><p class="step-desc">고착(Stuck), 급변(Spike), 드리프트, 범위 이탈을 실시간 탐지합니다.</p></div>
+    <div class="step-card reveal"><div class="step-n">STEP 01</div><h3 class="step-title">센서 무결성 검증</h3><p class="step-desc">고착·급변·드리프트·범위 이탈을 실시간 탐지합니다.</p></div>
     <div class="step-card reveal d1"><div class="step-n">STEP 02</div><h3 class="step-title">통신 건전성 분석</h3><p class="step-desc">RS-485 패킷 손실, 타임스탬프 불일치, 데이터 고착을 자동 감지합니다.</p></div>
-    <div class="step-card reveal d2"><div class="step-n">STEP 03</div><h3 class="step-title">에너지 이상패턴</h3><p class="step-desc">동시냉난방, 비가동 시간 운전, 낭비 금액을 원 단위로 정량화합니다.</p></div>
+    <div class="step-card reveal d2"><div class="step-n">STEP 03</div><h3 class="step-title">에너지 이상패턴</h3><p class="step-desc">동시 냉난방, 비가동 시간 운전, 낭비 금액을 원 단위로 정량화합니다.</p></div>
     <div class="step-card reveal d3"><div class="step-n">STEP 04</div><h3 class="step-title">제어 명령 검증</h3><p class="step-desc">DDC 명령값 vs 실측값 불일치, 인터록 위반을 자동 탐지합니다.</p></div>
+  </div>
+
+  <div class="lockin-band reveal">
+    <div class="lockin-head">
+      <div class="eyebrow" style="margin-bottom:0">Daily Value</div>
+      <h3>매일의 손과 발이 되어드립니다.</h3>
+    </div>
+    <div class="lockin-grid">
+      <div class="lockin-item">
+        <div class="lockin-icon">📋</div>
+        <div class="lockin-title">자동 점검 일지</div>
+        <div class="lockin-desc">매일 종합 등급과 점검 항목이 한 장에 자동으로 쌓입니다. PDF로 즉시 출력.</div>
+      </div>
+      <div class="lockin-item">
+        <div class="lockin-icon">🔄</div>
+        <div class="lockin-title">교대 인수인계</div>
+        <div class="lockin-desc">최근 12시간 — 새로 발생 / 지속 중 / 해소됨 3분류로 한눈에.</div>
+      </div>
+      <div class="lockin-item">
+        <div class="lockin-icon">🔔</div>
+        <div class="lockin-title">이메일 알림</div>
+        <div class="lockin-desc">긴급은 즉시, 주의는 하루 1회 묶음. 알림 폭탄 없습니다.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── 파트너십 ─── -->
+<section class="section" id="partners" style="padding-top:0">
+  <div class="eyebrow reveal">Partnership</div>
+  <h2 class="sec-title reveal">이런 분들과 함께합니다.</h2>
+  <p class="sec-sub reveal" style="max-width:640px">T-ARCH는 직접 시공하지 않습니다. 빌딩 운영 생태계의 파트너와 연결합니다.</p>
+  <div class="partner-grid">
+    <div class="partner-card reveal">
+      <div class="partner-icon">🔧</div>
+      <div class="partner-title">자동제어 시공사</div>
+      <div class="partner-desc">기존 DDC/BAS 시공 자산 위에 진단 레이어를 얹어 드립니다.</div>
+    </div>
+    <div class="partner-card reveal d1">
+      <div class="partner-icon">🛡️</div>
+      <div class="partner-title">보험사</div>
+      <div class="partner-desc">설비 손상 위험을 사전에 탐지해 손해율 관리에 기여합니다.</div>
+    </div>
+    <div class="partner-card reveal d2">
+      <div class="partner-icon">🏗️</div>
+      <div class="partner-title">건설사</div>
+      <div class="partner-desc">준공 시 BMS 검수 + 운영사 소개로 사후 품질을 확보합니다.</div>
+    </div>
+    <div class="partner-card reveal d3">
+      <div class="partner-icon">📡</div>
+      <div class="partner-title">BMS / BEMS 제조사</div>
+      <div class="partner-desc">제조사 데이터 위에 4단계 진단 레이어를 통합합니다.</div>
+    </div>
+  </div>
+  <div style="text-align:center;margin-top:36px">
+    <a href="mailto:rok@tekton.co.kr" class="btn-ghost">파트너 문의하기 →</a>
   </div>
 </section>
 
@@ -465,6 +739,11 @@ footer{background:var(--black2);border-top:1px solid var(--border2);padding:64px
 
   </div>
 </section>
+
+<!--
+  ─── 연동 방식 섹션 (보존, 미노출) ───
+  사용자 명세 2026-05-23 개편에서 페이지 흐름에서 빠짐.
+  코드는 보존 — 필요 시 이 HTML 주석(<!--, -->) 두 줄 제거하면 즉시 복원됩니다.
 
 <div class="section-full connect-section" id="connect">
   <div class="section-inner">
@@ -538,96 +817,57 @@ footer{background:var(--black2);border-top:1px solid var(--border2);padding:64px
     </div>
   </div>
 </div>
+-->
 
+<!-- ─── 요금 (가격 숫자 제거 — 효과 보신 다음 정합니다) ─── -->
 <section class="section" id="pricing">
   <div class="eyebrow reveal">Pricing</div>
-  <h2 class="sec-title reveal">투명한 구독 요금제</h2>
-  <p class="sec-sub reveal">초기 계약 후 실데이터와 효과를 직접 확인하고 연장을 결정하세요.</p>
-  <div style="display:grid; grid-template-columns:repeat(4,1fr); gap:14px;">
-
-    <!-- Basic -->
-    <div class="price-card reveal">
-      <div class="price-tier">Basic</div>
-      <div class="price-name">T-ARCH Basic</div>
-      <div class="price-desc">소형 빌딩 · 단일 현장</div>
-      <div class="price-amount">59만<small>원/월</small></div>
-      <div class="price-period">연간 계약 기준 · VAT 별도</div>
-      <div class="pdiv"></div>
-      <ul class="pf-list">
-        <li><span class="pfc">✓</span>300포인트 이하</li>
-        <li><span class="pfc">✓</span>4단계 포렌식 진단</li>
-        <li><span class="pfc">✓</span>실시간 대시보드</li>
-        <li><span class="pfc">✓</span>월간 자동 리포트</li>
-        <li><span class="pfc">✓</span>이메일 알림</li>
+  <h2 class="sec-title reveal">고장 하나만 잡아도,<br><span style="color:var(--green)">구독료 이상을 아낍니다.</span></h2>
+  <p class="sec-sub reveal" style="max-width:680px">
+    1개월 무료 진단으로 어떤 문제가 있는지, 얼마를 아낄 수 있는지 먼저 확인하세요.
+    <strong style="color:var(--white);">비용은 효과를 보신 다음 정합니다.</strong>
+  </p>
+  <div class="plan-grid">
+    <div class="plan-card featured reveal">
+      <div class="plan-tier">단일 구독</div>
+      <div class="plan-name">건물 1동</div>
+      <ul class="plan-list">
+        <li>4단계 포렌식 진단</li>
+        <li>자동 점검 일지</li>
+        <li>교대 인수인계</li>
+        <li>이메일 알림</li>
+        <li>월간 리포트</li>
       </ul>
-      <a href="https://docs.google.com/forms/d/e/1FAIpQLSdAIdRmF_CYJji3j7ohxqaTlYH-WB45FWRzHghe-UF_JeSGGg/viewform" target="_blank" class="pbtn-o">문의하기</a>
+      <a href="https://docs.google.com/forms/d/e/1FAIpQLSdAIdRmF_CYJji3j7ohxqaTlYH-WB45FWRzHghe-UF_JeSGGg/viewform" target="_blank" class="plan-btn">무료 진단으로 시작 →</a>
     </div>
-
-    <!-- Standard -->
-    <div class="price-card featured reveal d1">
-      <div class="pfbadge">주력</div>
-      <div class="price-tier">Standard</div>
-      <div class="price-name">T-ARCH Standard</div>
-      <div class="price-desc">중대형 빌딩 · 전력 교차검증</div>
-      <div class="price-amount">89만<small>원/월</small></div>
-      <div class="price-period">연간 계약 기준 · VAT 별도</div>
-      <div class="pdiv"></div>
-      <ul class="pf-list">
-        <li><span class="pfc">✓</span>포인트 무제한</li>
-        <li><span class="pfc">✓</span>4단계 포렌식 진단</li>
-        <li><span class="pfc">✓</span>기설치 전력미터 교차검증<br><span style="font-size:11px;color:var(--gray4);padding-left:18px;">(신규 설치 없음)</span></li>
-        <li><span class="pfc">✓</span>카카오톡 실시간 알림</li>
-        <li><span class="pfc">✓</span>분기 1회 방문점검</li>
+    <div class="plan-card reveal d1">
+      <div class="plan-tier">Enterprise</div>
+      <div class="plan-name">다현장 · 별도 협의</div>
+      <ul class="plan-list">
+        <li>다현장 통합 관제</li>
+        <li>BEMS / BMS 연동 API</li>
+        <li>커스텀 진단 룰셋</li>
+        <li>현장별 전담 지원</li>
+        <li>ESG 공시 리포트</li>
       </ul>
-      <a href="https://docs.google.com/forms/d/e/1FAIpQLSdAIdRmF_CYJji3j7ohxqaTlYH-WB45FWRzHghe-UF_JeSGGg/viewform" target="_blank" class="pbtn-g">무료 진단 신청하기</a>
+      <a href="mailto:rok@tekton.co.kr" class="plan-btn">견적 문의 →</a>
     </div>
-
-    <!-- Premium -->
-    <div class="price-card reveal d2">
-      <div class="price-tier">Premium</div>
-      <div class="price-name">T-ARCH Premium</div>
-      <div class="price-desc">ZEB · 공공건물 · ESG 의무 대응</div>
-      <div class="price-amount">149만<small>원/월</small></div>
-      <div class="price-period">연간 계약 기준 · VAT 별도</div>
-      <div class="pdiv"></div>
-      <ul class="pf-list">
-        <li><span class="pfc">✓</span>Standard 전체 포함</li>
-        <li><span class="pfc">✓</span>ZEB 성능검증 리포트</li>
-        <li><span class="pfc">✓</span>탄소배출 정량화</li>
-        <li><span class="pfc">✓</span>ESG 공시 대응 리포트</li>
-        <li><span class="pfc">✓</span>월 1회 방문점검</li>
+    <div class="plan-card reveal d2">
+      <div class="plan-tier">옵션</div>
+      <div class="plan-name">필요한 만큼</div>
+      <ul class="plan-list">
+        <li>방문 점검 (분기/월)</li>
+        <li>기설치 전력미터 교차검증</li>
+        <li>ESG·MRV 리포트</li>
+        <li>커스텀 알림 채널</li>
+        <li>온사이트 교육</li>
       </ul>
-      <a href="https://docs.google.com/forms/d/e/1FAIpQLSdAIdRmF_CYJji3j7ohxqaTlYH-WB45FWRzHghe-UF_JeSGGg/viewform" target="_blank" class="pbtn-o">문의하기</a>
+      <a href="https://docs.google.com/forms/d/e/1FAIpQLSdAIdRmF_CYJji3j7ohxqaTlYH-WB45FWRzHghe-UF_JeSGGg/viewform" target="_blank" class="plan-btn">문의하기 →</a>
     </div>
-
-    <!-- Enterprise -->
-    <div class="price-card reveal d3">
-      <div class="price-tier">Enterprise</div>
-      <div class="price-name">T-ARCH Enterprise</div>
-      <div class="price-desc">다현장 · 시공사 · 건설사</div>
-      <div class="price-amount">별도<small> 협의</small></div>
-      <div class="price-period">현장 수·규모에 따라 산정</div>
-      <div class="pdiv"></div>
-      <ul class="pf-list">
-        <li><span class="pfc">✓</span>다현장 통합 관제</li>
-        <li><span class="pfc">✓</span>BEMS 연동 API 제공</li>
-        <li><span class="pfc">✓</span>커스텀 포렌식 룰셋</li>
-        <li><span class="pfc">✓</span>현장별 전담 지원</li>
-        <li><span class="pfc">✓</span>ESG 공시 리포트</li>
-      </ul>
-      <a href="https://docs.google.com/forms/d/e/1FAIpQLSdAIdRmF_CYJji3j7ohxqaTlYH-WB45FWRzHghe-UF_JeSGGg/viewform" target="_blank" class="pbtn-o">견적 문의</a>
-    </div>
-
   </div>
-
-  <!-- 요금제 안내 -->
-  <div style="margin-top:24px; padding:16px 24px; background:var(--black2); border:1px solid var(--border2); border-radius:10px; display:flex; align-items:center; gap:12px;">
-    <span style="color:var(--green); font-size:16px; flex-shrink:0;">💡</span>
-    <p style="font-size:13px; color:var(--gray4); line-height:1.6;">
-      모든 플랜은 <strong style="color:var(--white);">1개월 무료 진단</strong>으로 시작합니다.
-      계약 전 실데이터 기반 포렌식 결과를 먼저 확인하고 결정하세요.
-      전력미터 교차검증은 현장에 기설치된 장비 기준이며 신규 설치는 포함되지 않습니다.
-    </p>
+  <div class="plan-foot reveal">
+    <span style="color:var(--green);font-size:16px;flex-shrink:0">💡</span>
+    <span>1개월 무료 진단으로 시작합니다. 효과를 확인한 다음 계약을 정합니다. 전력미터 교차검증은 기설치 장비 기준 — 신규 설치는 포함되지 않습니다.</span>
   </div>
 </section>
 
@@ -691,6 +931,17 @@ function sw(id,btn){
 const ro=new IntersectionObserver(e=>{e.forEach(x=>{if(x.isIntersecting)x.target.classList.add('on')})},{threshold:0.08});
 document.querySelectorAll('.reveal').forEach(el=>ro.observe(el));
 window.addEventListener('scroll',()=>{document.getElementById('nav').classList.toggle('scrolled',scrollY>40)});
+
+// ── 라이브 카드 정상률 미세 변동(시연용) — 베이스 ±0.4 ──
+function liveJitter(){
+  document.querySelectorAll('[data-live="health"]').forEach(function(el){
+    var base = parseFloat(el.getAttribute('data-base'));
+    if (isNaN(base)) return;
+    var v = (base + (Math.random()-0.5)*0.4).toFixed(1);
+    el.textContent = v + '%';
+  });
+}
+setInterval(liveJitter, 3000);
 </script>
 </body>
 </html>
