@@ -1191,16 +1191,16 @@ setInterval(liveJitter, 3000);
 
   const W = () => cv.width;
   const H = () => cv.height;
-  const HX = () => W() * 0.5;
+  const HX = () => W() * 0.76;
   const HY = () => H() * 0.5;
 
   const BLDGS = [
-    { id:0, rx:0.12, ry:0.28, type:'tower',      w:48,  h:128, floors:8,  label:'지식산업센터', alertChance:0.10, scanOff:0   },
-    { id:1, rx:0.13, ry:0.73, type:'warehouse',  w:108, h:64,  floors:3,  label:'물류센터',     alertChance:0.20, scanOff:50  },
-    { id:2, rx:0.88, ry:0.26, type:'slim',       w:36,  h:110, floors:10, label:'오피스텔',     alertChance:0.05, scanOff:90  },
-    { id:3, rx:0.87, ry:0.74, type:'complex',    w:96,  h:76,  floors:4,  label:'AIT 센터',     alertChance:0.15, scanOff:30  },
-    { id:4, rx:0.50, ry:0.11, type:'midrise',    w:84,  h:58,  floors:4,  label:'오피스 빌딩',  alertChance:0.08, scanOff:70  },
-    { id:5, rx:0.50, ry:0.90, type:'datacenter', w:88,  h:52,  floors:2,  label:'데이터센터',   alertChance:0.12, scanOff:110 },
+    { id:0, rx:0.58, ry:0.18, type:'tower',      w:44,  h:120, floors:8,  label:'지식산업센터', alertChance:0.10, scanOff:0   },
+    { id:1, rx:0.62, ry:0.82, type:'warehouse',  w:100, h:60,  floors:3,  label:'물류센터',     alertChance:0.20, scanOff:50  },
+    { id:2, rx:0.92, ry:0.22, type:'slim',       w:34,  h:105, floors:10, label:'오피스텔',     alertChance:0.05, scanOff:90  },
+    { id:3, rx:0.90, ry:0.78, type:'complex',    w:90,  h:72,  floors:4,  label:'AIT 센터',     alertChance:0.15, scanOff:30  },
+    { id:4, rx:0.75, ry:0.10, type:'midrise',    w:80,  h:55,  floors:4,  label:'오피스 빌딩',  alertChance:0.08, scanOff:70  },
+    { id:5, rx:0.75, ry:0.92, type:'datacenter', w:84,  h:50,  floors:2,  label:'데이터센터',   alertChance:0.12, scanOff:110 },
   ];
 
   const particles = [];
