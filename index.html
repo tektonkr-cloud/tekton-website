@@ -315,6 +315,18 @@ footer{background:var(--black2);border-top:1px solid var(--border2);padding:64px
   position: relative;
   display: flex; align-items: center; justify-content: center;
 }
+/* 헤더(#nav) 로고 전용 — PNG 워드마크 우상단의 초록 네모(CSS border + 발광).
+   footer는 기존 .tekton-logo-symbol > .outer-sq 구조를 그대로 사용하므로 #nav로 스코프. */
+#nav .tekton-logo-symbol {
+  width: 13px;
+  height: 13px;
+  border: 2px solid #16c784;
+  border-radius: 1px;
+  display: inline-block;
+  align-self: flex-start;
+  margin: 2px 0 0 0;
+  box-shadow: 0 0 6px rgba(22, 199, 132, 0.5);
+}
 
 /* ─── 데모 표기 ─── */
 .demo-note{
@@ -496,11 +508,10 @@ footer{background:var(--black2);border-top:1px solid var(--border2);padding:64px
 </head>
 <body>
 <nav id="nav">
-  <a href="#" class="tekton-logo-wrap">
-    <span class="tekton-logo-text">TEKTON</span>
-    <span class="tekton-logo-symbol">
-      <span class="outer-sq"></span>
-    </span>
+  <a href="#" class="tekton-logo-wrap" style="display: inline-flex; align-items: center; gap: 7px; text-decoration: none;">
+    <img src="static/img/tekton_logo_white.png" alt="TEKTON"
+         style="height: 22px; width: auto; display: block;" />
+    <span class="tekton-logo-symbol" aria-hidden="true"></span>
   </a>
   <ul class="nav-menu">
     <li><a href="#problem">문제</a></li>
