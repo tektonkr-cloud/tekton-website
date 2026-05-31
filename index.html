@@ -22,7 +22,7 @@ nav.scrolled{border-color:var(--border)}
 .nav-menu a:hover{color:var(--white)}
 .nav-cta{background:var(--green)!important;color:var(--black)!important;padding:10px 20px;border-radius:6px;font-weight:700!important;box-shadow:0 0 20px var(--green-glow);transition:all .2s!important}
 .nav-cta:hover{background:var(--white2)!important;transform:translateY(-1px)}
-.hero{min-height:100vh;display:grid;grid-template-columns:1fr 1fr;align-items:center;padding:0 64px;padding-top:64px;position:relative;overflow:hidden}
+.hero{min-height:100vh;display:grid;grid-template-columns:1fr;align-items:center;padding:0 64px;padding-top:64px;position:relative;overflow:hidden}
 .hero::before{content:'';position:absolute;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.025'/%3E%3C/svg%3E");pointer-events:none;z-index:0}
 .hero::after{content:'';position:absolute;top:-20%;right:-10%;width:600px;height:600px;background:radial-gradient(circle,rgba(57,255,20,.06) 0%,transparent 70%);pointer-events:none;z-index:0}
 .hero-grid{position:absolute;inset:0;z-index:0;pointer-events:none;background-image:linear-gradient(rgba(57,255,20,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(57,255,20,.025) 1px,transparent 1px);background-size:80px 80px;mask-image:radial-gradient(ellipse 80% 80% at 80% 50%,black 20%,transparent 80%)}
@@ -512,6 +512,7 @@ footer{background:var(--black2);border-top:1px solid var(--border2);padding:64px
 
 <div class="hero">
   <div class="hero-grid"></div>
+  <canvas id="tarch-hero-canvas" style="position:absolute;top:0;left:0;width:100%;height:100%;z-index:0;pointer-events:none"></canvas>
   <div class="hero-left">
     <div class="hero-badge">
       <span class="hero-badge-dot"></span>
@@ -546,67 +547,6 @@ footer{background:var(--black2);border-top:1px solid var(--border2);padding:64px
     <div class="brand-compat">
       <p class="brand-compat__brands">지멘스 · 하니웰 · 존슨컨트롤즈 · LG · 삼성 · 국내 DDC</p>
       <p class="brand-compat__desc">어떤 브랜드가 설치되어 있든, T-ARCH는 연결됩니다. 교체 없이, 추가 공사 없이.</p>
-    </div>
-  </div>
-  <div class="hero-right">
-    <style>
-      .hero-viz{position:relative;width:100%;max-width:560px;background:var(--black2);border:1px solid var(--border2);border-radius:16px;padding:24px;box-shadow:0 40px 80px rgba(0,0,0,.6),0 0 0 1px rgba(57,255,20,.06),inset 0 1px 0 rgba(255,255,255,.04);animation:dashIn 1.2s .3s cubic-bezier(.22,.68,0,1.2) both}
-      .hero-viz svg{width:100%;height:auto;display:block}
-      .viz-cap{display:flex;justify-content:space-between;margin-top:14px;font-family:'DM Mono',monospace;font-size:10px;letter-spacing:2px;color:var(--gray4);text-transform:uppercase}
-      .viz-cap-r{display:inline-flex;align-items:center;gap:6px;color:var(--green)}
-      .viz-cap-dot{width:6px;height:6px;border-radius:50%;background:var(--green);box-shadow:0 0 6px var(--green);animation:mp 1.5s infinite}
-      .viz-line{fill:none;stroke-width:1.6;stroke-linecap:round;stroke-dasharray:1600;stroke-dashoffset:1600;animation:drawL 3.4s ease forwards}
-      .viz-line-2{animation-delay:.5s;animation-duration:3.8s}
-      @keyframes drawL{to{stroke-dashoffset:0}}
-      .viz-pin{opacity:0;transform-origin:360px 80px;animation:pinIn .6s 3.6s ease forwards}
-      .viz-pin-dot{opacity:0;animation:pinIn .6s 3.6s ease forwards}
-      .viz-pin-ring{opacity:0;animation:pinIn .6s 3.6s ease forwards, pinPulse 2.6s 4.2s ease-in-out infinite}
-      @keyframes pinIn{from{opacity:0;transform:scale(.4)}to{opacity:1;transform:scale(1)}}
-      @keyframes pinPulse{0%,100%{opacity:.55;r:8}50%{opacity:0;r:14}}
-      .viz-tag{opacity:0;animation:tagIn .5s 4s ease forwards}
-      @keyframes tagIn{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:translateY(0)}}
-      .viz-meta{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:14px}
-      .viz-mc{background:var(--black3);border:1px solid var(--border2);border-radius:8px;padding:10px 12px}
-      .viz-mc-n{font-family:'DM Mono',monospace;font-size:15px;color:var(--green);line-height:1}
-      .viz-mc-l{font-size:10px;color:var(--gray4);margin-top:4px;letter-spacing:.3px}
-    </style>
-    <div class="hero-viz">
-      <span class="viz-demo-badge" aria-label="데모 예시">DEMO</span>
-      <svg viewBox="0 0 540 280" preserveAspectRatio="xMidYMid meet">
-        <!-- 가로 그리드 -->
-        <g stroke="rgba(57,255,20,0.05)" stroke-width="1">
-          <line x1="0" y1="70" x2="540" y2="70"/>
-          <line x1="0" y1="140" x2="540" y2="140"/>
-          <line x1="0" y1="210" x2="540" y2="210"/>
-        </g>
-        <!-- 정상 흐름 라인 -->
-        <path class="viz-line viz-line-1" stroke="rgba(57,255,20,0.5)"
-              d="M0 170 Q60 165 120 168 T240 158 T340 156 L355 156 L365 152 L375 156 Q420 158 480 152 T540 148"/>
-        <!-- 의심 라인 (이상 지점에서 점프) -->
-        <path class="viz-line viz-line-2" stroke="rgba(255,59,59,0.55)"
-              d="M0 200 Q80 196 160 192 T280 188 L320 188 L335 186 L345 188 L360 70 L375 188 L395 188 Q450 184 540 178"/>
-        <!-- 이상 지점 핀 -->
-        <circle class="viz-pin-ring" cx="360" cy="70" r="8" fill="none" stroke="#FF3B3B" stroke-width="1.5"/>
-        <circle class="viz-pin" cx="360" cy="70" r="5" fill="none" stroke="#FF5555" stroke-width="2"/>
-        <circle class="viz-pin-dot" cx="360" cy="70" r="2" fill="#FF5555"/>
-        <g class="viz-tag">
-          <text x="372" y="66" fill="#FF5555" font-family="DM Mono, monospace" font-size="10" letter-spacing="1">ANOMALY</text>
-          <text x="372" y="80" fill="rgba(255,255,255,0.5)" font-family="DM Mono, monospace" font-size="9">DDC '정상' 보고 중</text>
-        </g>
-        <!-- 축 라벨 -->
-        <text x="6" y="76"  fill="rgba(255,255,255,0.3)" font-family="DM Mono, monospace" font-size="9">100</text>
-        <text x="6" y="146" fill="rgba(255,255,255,0.3)" font-family="DM Mono, monospace" font-size="9">050</text>
-        <text x="6" y="216" fill="rgba(255,255,255,0.3)" font-family="DM Mono, monospace" font-size="9">000</text>
-      </svg>
-      <div class="viz-cap">
-        <span>SENSOR FEED · BACnet</span>
-        <span class="viz-cap-r"><span class="viz-cap-dot"></span>LIVE</span>
-      </div>
-      <div class="viz-meta">
-        <div class="viz-mc"><div class="viz-mc-n">검증 1초</div><div class="viz-mc-l">실시간 무결성</div></div>
-        <div class="viz-mc"><div class="viz-mc-n">Read-Only</div><div class="viz-mc-l">기존 제어 무중단</div></div>
-        <div class="viz-mc"><div class="viz-mc-n">0원</div><div class="viz-mc-l">설비 교체 비용</div></div>
-      </div>
     </div>
   </div>
 </div>
@@ -1224,6 +1164,350 @@ setInterval(liveJitter, 3000);
   document.addEventListener('keydown', function(e){
     if (e.key === 'Escape' && overlay.classList.contains('show')) dismiss();
   });
+})();
+</script>
+
+<script>
+// ── 히어로 캔버스 — 건물 X레이 포렌식 애니메이션 ──
+(function() {
+  const cv = document.getElementById('tarch-hero-canvas');
+  if (!cv) return;
+  const ctx = cv.getContext('2d');
+
+  function resize() {
+    const parent = cv.parentElement;
+    cv.width = parent.offsetWidth;
+    cv.height = parent.offsetHeight;
+  }
+  resize();
+  window.addEventListener('resize', resize);
+
+  const G = '#16c784';
+  const O = '#f6643c';
+  const B = '#1a91ff';
+
+  let F = 0;
+  let animId = null;
+
+  const W = () => cv.width;
+  const H = () => cv.height;
+  const HX = () => W() * 0.5;
+  const HY = () => H() * 0.5;
+
+  const BLDGS = [
+    { id:0, rx:0.12, ry:0.28, type:'tower',      w:48,  h:128, floors:8,  label:'지식산업센터', alertChance:0.10, scanOff:0   },
+    { id:1, rx:0.13, ry:0.73, type:'warehouse',  w:108, h:64,  floors:3,  label:'물류센터',     alertChance:0.20, scanOff:50  },
+    { id:2, rx:0.88, ry:0.26, type:'slim',       w:36,  h:110, floors:10, label:'오피스텔',     alertChance:0.05, scanOff:90  },
+    { id:3, rx:0.87, ry:0.74, type:'complex',    w:96,  h:76,  floors:4,  label:'AIT 센터',     alertChance:0.15, scanOff:30  },
+    { id:4, rx:0.50, ry:0.11, type:'midrise',    w:84,  h:58,  floors:4,  label:'오피스 빌딩',  alertChance:0.08, scanOff:70  },
+    { id:5, rx:0.50, ry:0.90, type:'datacenter', w:88,  h:52,  floors:2,  label:'데이터센터',   alertChance:0.12, scanOff:110 },
+  ];
+
+  const particles = [];
+  const spawnTimers = BLDGS.map(() => Math.random() * 80);
+
+  const bx = b => W() * b.rx;
+  const by = b => H() * b.ry;
+
+  function drawBuildingShape(b, frame) {
+    const cx = bx(b), cy = by(b);
+    const x = cx - b.w / 2, y = cy - b.h / 2;
+    const fh = b.h / b.floors;
+
+    ctx.save();
+
+    if (b.type === 'tower' || b.type === 'slim') {
+      const cols = b.type === 'slim' ? 2 : 3;
+      ctx.fillStyle = '#05101a';
+      ctx.strokeStyle = 'rgba(22,199,132,0.35)';
+      ctx.lineWidth = 0.8;
+      ctx.beginPath(); ctx.roundRect(x, y, b.w, b.h, 2); ctx.fill(); ctx.stroke();
+      for (let f = 1; f < b.floors; f++) {
+        ctx.strokeStyle = '#0a1825'; ctx.lineWidth = 0.4;
+        ctx.beginPath(); ctx.moveTo(x+3, y+fh*f); ctx.lineTo(x+b.w-3, y+fh*f); ctx.stroke();
+      }
+      const ww = (b.w - 12) / cols;
+      for (let f = 0; f < b.floors; f++) {
+        for (let c = 0; c < cols; c++) {
+          const lit = Math.sin(frame*0.022 + f*0.9 + c*1.4 + b.id) > 0.05;
+          ctx.fillStyle = lit ? '#0e2a18' : '#071018';
+          ctx.fillRect(x+6+c*(ww+2), y+f*fh+fh*0.18, ww, fh*0.58);
+        }
+      }
+      if (b.type === 'tower') {
+        ctx.fillStyle = '#05101a'; ctx.fillRect(cx-8, y-10, 16, 10);
+        ctx.strokeStyle = 'rgba(22,199,132,0.5)'; ctx.lineWidth = 0.8;
+        ctx.beginPath(); ctx.moveTo(cx, y-10); ctx.lineTo(cx, y-18); ctx.stroke();
+      }
+      if (b.type === 'slim') {
+        ctx.strokeStyle = 'rgba(26,145,255,0.6)'; ctx.lineWidth = 0.8;
+        ctx.beginPath(); ctx.moveTo(cx, y); ctx.lineTo(cx, y-14); ctx.stroke();
+        ctx.beginPath(); ctx.arc(cx, y-16, 2, 0, Math.PI*2);
+        ctx.fillStyle = B; ctx.fill();
+      }
+    }
+
+    if (b.type === 'warehouse') {
+      ctx.fillStyle = '#05101a';
+      ctx.strokeStyle = 'rgba(22,199,132,0.25)'; ctx.lineWidth = 0.8;
+      ctx.beginPath(); ctx.roundRect(x, y, b.w, b.h, 2); ctx.fill(); ctx.stroke();
+      ctx.strokeStyle = 'rgba(22,199,132,0.4)'; ctx.lineWidth = 0.8;
+      ctx.beginPath(); ctx.moveTo(x, y); ctx.quadraticCurveTo(cx, y-18, x+b.w, y); ctx.stroke();
+      const bw2 = (b.w - 24) / 4;
+      for (let i = 0; i < 4; i++) {
+        ctx.fillStyle = '#071018';
+        ctx.fillRect(x+8+i*(bw2+4), y+b.h*0.5, bw2, b.h*0.5-4);
+        ctx.strokeStyle = 'rgba(22,199,132,0.15)'; ctx.lineWidth = 0.4;
+        ctx.strokeRect(x+8+i*(bw2+4), y+b.h*0.5, bw2, b.h*0.5-4);
+      }
+    }
+
+    if (b.type === 'complex') {
+      ctx.fillStyle = '#05101a';
+      ctx.strokeStyle = 'rgba(22,199,132,0.3)'; ctx.lineWidth = 0.8;
+      ctx.beginPath(); ctx.roundRect(x, y, 66, b.h, 2); ctx.fill(); ctx.stroke();
+      ctx.beginPath(); ctx.roundRect(x+66, y+b.h*0.35, 30, b.h*0.65, 2); ctx.fill(); ctx.stroke();
+      for (let f = 0; f < b.floors; f++) {
+        for (let c = 0; c < 4; c++) {
+          const lit = Math.sin(frame*0.02 + f*0.7 + c*1.1 + b.id) > 0;
+          ctx.fillStyle = lit ? '#0e2a18' : '#071018';
+          ctx.fillRect(x+5+c*15, y+f*fh+4, 11, fh-6);
+        }
+      }
+    }
+
+    if (b.type === 'midrise') {
+      ctx.fillStyle = '#05101a';
+      ctx.strokeStyle = 'rgba(22,199,132,0.3)'; ctx.lineWidth = 0.8;
+      ctx.beginPath(); ctx.roundRect(x, y, b.w, b.h, 2); ctx.fill(); ctx.stroke();
+      const cols = 5, ww2 = (b.w - 20) / cols;
+      for (let f = 0; f < b.floors; f++) {
+        for (let c = 0; c < cols; c++) {
+          const lit = Math.sin(frame*0.025 + f*0.8 + c*0.9 + b.id) > 0;
+          ctx.fillStyle = lit ? '#0e2a18' : '#071018';
+          ctx.fillRect(x+10+c*(ww2+1), y+f*fh+4, ww2, fh-7);
+        }
+      }
+    }
+
+    if (b.type === 'datacenter') {
+      ctx.fillStyle = '#040d17';
+      ctx.strokeStyle = 'rgba(26,145,255,0.4)'; ctx.lineWidth = 0.8;
+      ctx.beginPath(); ctx.roundRect(x, y, b.w, b.h, 2); ctx.fill(); ctx.stroke();
+      for (let i = 0; i < 5; i++) {
+        const rx2 = x + 8 + i * 16;
+        ctx.fillStyle = '#071020';
+        ctx.fillRect(rx2, y+5, 12, b.h-10);
+        ctx.strokeStyle = 'rgba(26,145,255,0.2)'; ctx.lineWidth = 0.4;
+        ctx.strokeRect(rx2, y+5, 12, b.h-10);
+        for (let j = 0; j < 4; j++) {
+          const on = Math.sin(frame*0.18 + i*1.9 + j*2.5) > 0.4;
+          ctx.beginPath(); ctx.arc(rx2+4, y+12+j*9, 1.5, 0, Math.PI*2);
+          ctx.fillStyle = on ? B : '#071020'; ctx.fill();
+        }
+      }
+    }
+
+    ctx.restore();
+  }
+
+  function drawXray(b, frame) {
+    const cx = bx(b), cy = by(b);
+    const x = cx - b.w/2, y = cy - b.h/2;
+    const prog = ((frame * 0.55 + b.scanOff) % (b.h + 30)) - 15;
+    const sy = y + prog;
+    if (sy < y - 12 || sy > y + b.h + 6) return;
+
+    ctx.save();
+    ctx.beginPath(); ctx.rect(x, y, b.w, b.h); ctx.clip();
+
+    const g = ctx.createLinearGradient(x, sy-22, x, sy+8);
+    g.addColorStop(0, 'rgba(22,199,132,0)');
+    g.addColorStop(0.5, 'rgba(22,199,132,0.07)');
+    g.addColorStop(1, 'rgba(22,199,132,0.18)');
+    ctx.fillStyle = g;
+    ctx.fillRect(x, sy-22, b.w, 30);
+
+    ctx.strokeStyle = `rgba(22,199,132,${0.55 + 0.25*Math.sin(frame*0.12)})`;
+    ctx.lineWidth = 0.7;
+    ctx.setLineDash([3, 4]);
+    ctx.beginPath(); ctx.moveTo(x, sy); ctx.lineTo(x+b.w, sy); ctx.stroke();
+    ctx.setLineDash([]);
+    ctx.restore();
+  }
+
+  function drawAlertZone(b, frame) {
+    const cx = bx(b), cy = by(b);
+    const x = cx - b.w/2, y = cy - b.h/2;
+    const fh = b.h / b.floors;
+    const af = Math.floor(b.floors * 0.45);
+    const ay = y + af * fh;
+    const pulse = Math.sin(frame * 0.09 + b.id);
+
+    ctx.save();
+    ctx.beginPath(); ctx.rect(x+1, ay+1, b.w-2, fh-2); ctx.clip();
+    ctx.fillStyle = `rgba(246,100,60,${0.15 + 0.12*pulse})`;
+    ctx.fillRect(x+1, ay+1, b.w-2, fh-2);
+    ctx.restore();
+
+    const dotX = cx + b.w*0.3, dotY = ay + fh*0.5;
+    for (let r = 0; r < 3; r++) {
+      const rr = 4 + r*8 + pulse*3;
+      ctx.beginPath(); ctx.arc(dotX, dotY, rr, 0, Math.PI*2);
+      ctx.strokeStyle = `rgba(246,100,60,${0.25 - r*0.07})`;
+      ctx.lineWidth = 0.7; ctx.stroke();
+    }
+    ctx.beginPath(); ctx.arc(dotX, dotY, 3.5, 0, Math.PI*2);
+    ctx.fillStyle = O; ctx.fill();
+  }
+
+  function drawConnLine(b, frame) {
+    const sx = bx(b), sy = by(b);
+    const tx = HX(), ty = HY();
+    const mx = (sx+tx)/2, my = (sy+ty)/2 - (Math.abs(sx-tx)*0.18);
+
+    ctx.beginPath(); ctx.moveTo(sx, sy); ctx.quadraticCurveTo(mx, my, tx, ty);
+    ctx.strokeStyle = 'rgba(22,199,132,0.08)'; ctx.lineWidth = 1; ctx.stroke();
+
+    const off = -(frame * 1.4 + b.id * 28) % 32;
+    ctx.beginPath(); ctx.moveTo(sx, sy); ctx.quadraticCurveTo(mx, my, tx, ty);
+    ctx.strokeStyle = 'rgba(22,199,132,0.3)'; ctx.lineWidth = 1;
+    ctx.setLineDash([5, 27]); ctx.lineDashOffset = off;
+    ctx.stroke(); ctx.setLineDash([]);
+  }
+
+  function spawnParticle(b) {
+    const isAlert = Math.random() < b.alertChance;
+    const sx = bx(b), sy = by(b);
+    const tx = HX(), ty = HY();
+    const mx = (sx+tx)/2, my = (sy+ty)/2 - (Math.abs(sx-tx)*0.18);
+    particles.push({
+      sx, sy, tx, ty, mx, my,
+      t: 0,
+      speed: 0.0045 + Math.random() * 0.004,
+      alert: isAlert,
+      size: isAlert ? 3.5 : 2.2,
+      color: isAlert ? O : G,
+    });
+  }
+
+  function updateParticles() {
+    for (let i = particles.length - 1; i >= 0; i--) {
+      const p = particles[i];
+      p.t += p.speed;
+      if (p.t >= 1) { particles.splice(i, 1); continue; }
+      const mt = 1 - p.t, t = p.t;
+      const x = mt*mt*p.sx + 2*mt*t*p.mx + t*t*p.tx;
+      const y = mt*mt*p.sy + 2*mt*t*p.my + t*t*p.ty;
+      const a = Math.sin(t * Math.PI);
+
+      ctx.save();
+      ctx.globalAlpha = a * 0.92;
+      if (p.alert) {
+        ctx.beginPath(); ctx.arc(x, y, p.size*1.8, 0, Math.PI*2);
+        ctx.fillStyle = 'rgba(246,100,60,0.15)'; ctx.fill();
+      }
+      ctx.beginPath(); ctx.arc(x, y, p.size, 0, Math.PI*2);
+      ctx.fillStyle = p.color; ctx.fill();
+
+      if (p.t > 0.03) {
+        const pt = p.t - 0.022;
+        const pmt = 1 - pt;
+        const px2 = pmt*pmt*p.sx + 2*pmt*pt*p.mx + pt*pt*p.tx;
+        const py2 = pmt*pmt*p.sy + 2*pmt*pt*p.my + pt*pt*p.ty;
+        ctx.beginPath(); ctx.moveTo(x, y); ctx.lineTo(px2, py2);
+        ctx.strokeStyle = p.color; ctx.lineWidth = p.size * 0.7;
+        ctx.globalAlpha = a * 0.35; ctx.stroke();
+      }
+      ctx.restore();
+    }
+  }
+
+  function drawHub(frame) {
+    const cx = HX(), cy = HY();
+    const pulse = Math.sin(frame * 0.05) * 0.5 + 0.5;
+
+    for (let r = 0; r < 4; r++) {
+      const rr = 32 + r*16 + pulse*5;
+      ctx.beginPath(); ctx.arc(cx, cy, rr, 0, Math.PI*2);
+      ctx.strokeStyle = `rgba(22,199,132,${0.07 - r*0.014})`;
+      ctx.lineWidth = 1; ctx.stroke();
+    }
+
+    ctx.save();
+    ctx.translate(cx, cy); ctx.rotate(frame * 0.008);
+    ctx.beginPath(); ctx.arc(0, 0, 44, 0, Math.PI*2);
+    ctx.strokeStyle = 'rgba(22,199,132,0.18)'; ctx.lineWidth = 1;
+    ctx.setLineDash([5, 14]); ctx.stroke(); ctx.setLineDash([]);
+    ctx.restore();
+
+    ctx.beginPath(); ctx.arc(cx, cy, 24, 0, Math.PI*2);
+    ctx.fillStyle = '#030810'; ctx.fill();
+    ctx.strokeStyle = G; ctx.lineWidth = 1.5; ctx.stroke();
+
+    ctx.fillStyle = G;
+    ctx.font = '700 10px monospace';
+    ctx.textAlign = 'center';
+    ctx.fillText('T-ARCH', cx, cy+2);
+    ctx.fillStyle = 'rgba(22,199,132,0.55)';
+    ctx.font = '400 8px monospace';
+    ctx.fillText('FORENSIC HUB', cx, cy+13);
+  }
+
+  function drawGrid() {
+    const step = 52;
+    ctx.strokeStyle = 'rgba(22,199,132,0.04)';
+    ctx.lineWidth = 0.5;
+    for (let x = 0; x < W(); x += step) {
+      ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, H()); ctx.stroke();
+    }
+    for (let y = 0; y < H(); y += step) {
+      ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(W(), y); ctx.stroke();
+    }
+  }
+
+  function drawBuildingLabel(b) {
+    ctx.fillStyle = 'rgba(22,199,132,0.65)';
+    ctx.font = '500 10px sans-serif';
+    ctx.textAlign = 'center';
+    ctx.fillText(b.label, bx(b), by(b) + b.h/2 + 16);
+  }
+
+  function animate() {
+    ctx.clearRect(0, 0, W(), H());
+    ctx.fillStyle = '#04080d';
+    ctx.fillRect(0, 0, W(), H());
+
+    drawGrid();
+    BLDGS.forEach(b => drawConnLine(b, F));
+    BLDGS.forEach(b => {
+      drawBuildingShape(b, F);
+      drawXray(b, F);
+      if (b.alertChance > 0.08) drawAlertZone(b, F);
+      drawBuildingLabel(b);
+
+      spawnTimers[b.id] -= 1;
+      if (spawnTimers[b.id] <= 0 && particles.length < 90) {
+        spawnParticle(b);
+        spawnTimers[b.id] = 30 + Math.random() * 60;
+      }
+    });
+
+    updateParticles();
+    drawHub(F);
+    F++;
+    animId = requestAnimationFrame(animate);
+  }
+
+  document.addEventListener('visibilitychange', () => {
+    if (document.hidden) {
+      if (animId) { cancelAnimationFrame(animId); animId = null; }
+    } else if (animId === null) {
+      animate();
+    }
+  });
+
+  animate();
 })();
 </script>
 </body>
