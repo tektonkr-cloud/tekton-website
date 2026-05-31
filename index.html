@@ -183,6 +183,26 @@ footer{background:var(--black2);border-top:1px solid var(--border2);padding:64px
   .hero-stats{grid-template-columns:1fr;max-width:none;margin-top:24px}
 }
 
+/* ─── 브랜드 무관 callout (히어로) ─── */
+.brand-compat{
+  margin-top:32px;
+  max-width:560px;
+  text-align:center;
+}
+.brand-compat__brands{
+  font-family:'DM Mono',monospace;
+  font-size:0.8rem;
+  letter-spacing:0.08em;
+  color:var(--gray4);
+  line-height:1.6;
+}
+.brand-compat__desc{
+  font-size:0.9rem;
+  color:var(--gray3);
+  margin-top:0.5rem;
+  line-height:1.6;
+}
+
 /* ─── 라이브 현장 카드 ─── */
 .live-sites{padding:100px 64px 80px;max-width:1280px;margin:0 auto}
 .live-sites-head{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:40px;flex-wrap:wrap;gap:24px}
@@ -208,8 +228,8 @@ footer{background:var(--black2);border-top:1px solid var(--border2);padding:64px
 .sc-stat-l{font-size:9px;color:var(--gray4);letter-spacing:.3px;margin-top:4px}
 .sc-foot{margin-top:14px;font-size:11px;color:var(--gray4);line-height:1.5;border-top:1px solid var(--border2);padding-top:12px;flex:1}
 
-/* ─── ★당신은? 직군 3블록 ─── */
-.you-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+/* ─── ★당신은? 직군 블록 (2×2) ─── */
+.you-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:18px}
 .you-card{background:var(--black2);border:1px solid var(--border2);border-radius:16px;padding:40px 32px;transition:all .3s;display:flex;flex-direction:column;position:relative;overflow:hidden}
 .you-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--green),transparent);opacity:.5;transform:scaleX(0);transform-origin:left;transition:transform .4s}
 .you-card:hover::before{transform:scaleX(1)}
@@ -522,6 +542,11 @@ footer{background:var(--black2);border-top:1px solid var(--border2);padding:64px
         <div class="hs-cap">DDC 자동 수집</div>
       </div>
     </div>
+    <!-- 브랜드 무관 callout -->
+    <div class="brand-compat">
+      <p class="brand-compat__brands">지멘스 · 하니웰 · 존슨컨트롤즈 · LG · 삼성 · 국내 DDC</p>
+      <p class="brand-compat__desc">어떤 브랜드가 설치되어 있든, T-ARCH는 연결됩니다. 교체 없이, 추가 공사 없이.</p>
+    </div>
   </div>
   <div class="hero-right">
     <style>
@@ -764,6 +789,17 @@ footer{background:var(--black2);border-top:1px solid var(--border2);padding:64px
         <li>건물 에너지 손실을 실시간 진단</li>
         <li>온실가스 감축량을 측정·검증(MRV)</li>
         <li>ESG·공공 의무 대응 리포트 자동 생성</li>
+      </ul>
+      <a href="https://docs.google.com/forms/d/e/1FAIpQLSdAIdRmF_CYJji3j7ohxqaTlYH-WB45FWRzHghe-UF_JeSGGg/viewform" target="_blank" class="you-btn">무료 진단 신청 →</a>
+    </div>
+    <div class="you-card reveal d3">
+      <div class="you-icon">🛠️</div>
+      <div class="you-cat">유지보수 업체 · FM 운영사</div>
+      <div class="you-hook">출동 전에 어디가<br>문제인지 이미 압니다.</div>
+      <ul class="you-list">
+        <li>담당 건물들의 이상을 실시간으로 파악합니다</li>
+        <li>불필요한 출동이 줄고, 한 번 가면 정확히 고칩니다</li>
+        <li>어느 브랜드 BMS든 한 화면에서 관리합니다</li>
       </ul>
       <a href="https://docs.google.com/forms/d/e/1FAIpQLSdAIdRmF_CYJji3j7ohxqaTlYH-WB45FWRzHghe-UF_JeSGGg/viewform" target="_blank" class="you-btn">무료 진단 신청 →</a>
     </div>
