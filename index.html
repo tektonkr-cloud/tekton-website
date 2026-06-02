@@ -22,11 +22,11 @@ nav.scrolled{border-color:var(--border)}
 .nav-menu a:hover{color:var(--white)}
 .nav-cta{background:var(--green)!important;color:var(--black)!important;padding:10px 20px;border-radius:6px;font-weight:700!important;box-shadow:0 0 20px var(--green-glow);transition:all .2s!important}
 .nav-cta:hover{background:var(--white2)!important;transform:translateY(-1px)}
-.hero{min-height:100vh;display:grid;grid-template-columns:1fr;align-items:center;padding:0 64px;padding-top:64px;position:relative;overflow:hidden}
+.hero{height:100vh;display:grid;grid-template-columns:1fr;align-items:center;padding:0 64px;padding-top:64px;position:relative;overflow:hidden}
 .hero::before{content:'';position:absolute;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.025'/%3E%3C/svg%3E");pointer-events:none;z-index:0}
 .hero::after{content:'';position:absolute;top:-20%;right:-10%;width:600px;height:600px;background:radial-gradient(circle,rgba(57,255,20,.06) 0%,transparent 70%);pointer-events:none;z-index:0}
 .hero-grid{position:absolute;inset:0;z-index:0;pointer-events:none;background-image:linear-gradient(rgba(57,255,20,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(57,255,20,.025) 1px,transparent 1px);background-size:80px 80px;mask-image:radial-gradient(ellipse 80% 80% at 80% 50%,black 20%,transparent 80%)}
-.hero-left{position:relative;z-index:1;padding:80px 0;animation:fadeUp 1s ease both}
+.hero-left{position:relative;z-index:1;padding:32px 0;animation:fadeUp 1s ease both}
 @keyframes fadeUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
 .hero-badge{display:inline-flex;align-items:center;gap:10px;border:1px solid var(--border);background:var(--green-dim);padding:7px 14px;border-radius:4px;margin-bottom:40px}
 .hero-badge-dot{width:6px;height:6px;border-radius:50%;background:var(--green);box-shadow:0 0 8px var(--green);animation:mp 2s infinite}
@@ -509,9 +509,8 @@ footer{background:var(--black2);border-top:1px solid var(--border2);padding:64px
 <body>
 <nav id="nav">
   <a href="#" class="tekton-logo-wrap" style="display: inline-flex; align-items: center; gap: 7px; text-decoration: none;">
-    <img src="static/img/tekton_logo_white.png" alt="TEKTON"
+    <img src="static/img/tekton_logo_white.svg" alt="TEKTON"
          style="height: 40px; width: auto; display: block;" />
-    <span class="tekton-logo-symbol" aria-hidden="true"></span>
   </a>
   <ul class="nav-menu">
     <li><a href="#problem">문제</a></li>
@@ -1039,12 +1038,10 @@ footer{background:var(--black2);border-top:1px solid var(--border2);padding:64px
   <div class="footer-inner">
     <div>
       <div class="tekton-logo-wrap" style="margin-bottom:4px;">
-        <span class="tekton-logo-text">TEKTON</span>
-        <span class="tekton-logo-symbol">
-          <span class="outer-sq"></span>
-        </span>
+        <img src="static/img/tekton_logo_white.svg" alt="TEKTON"
+             style="height: 32px; width: auto; display: block;" />
       </div>
-      <p class="fdesc">빌딩 에너지 포렌식 플랫폼 T-ARCH를 개발하는 기후테크 스타트업.<br>경기도 하남시 감일백제로 97, 2층 204호<br>사업자번호 720-03-03738 · 대표 최경록</p>
+      <p class="fdesc">빌딩 에너지 포렌식 플랫폼 T-ARCH를 개발하는 기후테크 스타트업.<br>경기 하남시 신우실로 100 현대테라타워감일 224호<br>사업자번호 720-03-03738 · 대표 최경록</p>
       <div class="feco">🌱 기후테크 · 2026 에코스타트업 선정</div>
     </div>
     <div class="footer-col">
@@ -1182,399 +1179,447 @@ setInterval(liveJitter, 3000);
 </script>
 
 <script>
-// ── 히어로 캔버스 — 건물 X레이 포렌식 애니메이션 ──
-(function() {
+// ── 히어로 캔버스 — T-ARCH 제어 타워 / 도시 포렌식 스캔 ──
+// 구도: 허브(상단 중앙) ↑ 데이터 상승 / 도시 스카이라인(하단) / 레이더가 도시를 훑음
+(function () {
   const cv = document.getElementById('tarch-hero-canvas');
   if (!cv) return;
   const ctx = cv.getContext('2d');
 
+  // 컬러 팔레트
+  const GREEN = '#4DF000';
+  const RED = '#FF3333';
+  const WHITE = '#FFFFFF';
+  const BG = '#060807';
+  const BODY = ['#0f1a0f', '#142214', '#1a2a1a']; // 건물 본체 (어두운 초록)
+
+  const DPR = Math.min(window.devicePixelRatio || 1, 2);
+  const isMobile = () => window.innerWidth <= 768;
+
+  let W = 0, H = 0;
+  let panelLeft = 0, panelW = 0, hubX = 0, hubY = 0, groundY = 0, hScale = 1;
+  let F = 0, animId = null, rt = null, hubScale = 2;
+
+  // 오프스크린 캔버스 — 정적 스카이라인 캐시(매 프레임 다시 안 그림 → 성능)
+  const off = document.createElement('canvas');
+  const offc = off.getContext('2d');
+
+  const rnd = (a, b) => a + Math.random() * (b - a);
+  const ri = (a, b) => Math.floor(rnd(a, b + 1));
+
+  // 둥근 사각형 (폴리필 포함)
+  function rr(g, x, y, w, h, r) {
+    if (g.roundRect) { g.beginPath(); g.roundRect(x, y, w, h, r); return; }
+    g.beginPath();
+    g.moveTo(x + r, y);
+    g.arcTo(x + w, y, x + w, y + h, r);
+    g.arcTo(x + w, y + h, x, y + h, r);
+    g.arcTo(x, y + h, x, y, r);
+    g.arcTo(x, y, x + w, y, r);
+    g.closePath();
+  }
+
+  // ── 건물 생성 (1회) : 5가지 타입을 불규칙하게 배치 ──
+  // A 초고층 슬림 / B 중층 오피스 / C 저층 넓은형 / D 특수형 / E 초저층
+  const SCATTER = ['B','C','A','E','B','D','C','B','A','C','B','E','D','B','C','A','B','D','C','B','E','C','B','D','B'];
+  const ALERT_IDX = [2, 7, 13, 18, 23]; // 이상 상태에 진입할 수 있는 건물(주인공)
+
+  let buildings = [];
+  let dVariant = 0;
+
+  function makeBuilding(type, idx) {
+    const b = {
+      type, idx, canAlert: ALERT_IDX.includes(idx),
+      state: 'normal', stateEnd: 0, cooldown: 0, flash: 0, aspawn: 0,
+      spawn: rnd(0, 140), tone: BODY[idx % BODY.length], gap: rnd(0.5, 0.85),
+    };
+    if (type === 'A') {                       // 초고층 슬림
+      b.w = rnd(20, 28); b.h = rnd(180, 220);
+      b.stripes = ri(2, 3); b.antenna = rnd(16, 28);
+    } else if (type === 'B') {                // 중층 오피스
+      b.w = rnd(30, 48); b.h = rnd(90, 140);
+      b.cols = ri(3, 5); b.rows = ri(5, 8);
+      b.lit = []; for (let i = 0; i < b.cols * b.rows; i++) b.lit.push(Math.random() > 0.28);
+    } else if (type === 'C') {                // 저층 넓은형(물류/공장)
+      b.w = rnd(55, 90); b.h = rnd(50, 80);
+      b.vents = ri(2, 4); b.cols = ri(4, 6); b.rows = ri(2, 3);
+      b.lit = []; for (let i = 0; i < b.cols * b.rows; i++) b.lit.push(Math.random() > 0.35);
+    } else if (type === 'D') {                // 특수형
+      b.variant = dVariant++ % 4;
+      if (b.variant === 0)      { b.w = rnd(52, 64); b.h = rnd(120, 150); } // 계단식 피라미드
+      else if (b.variant === 1) { b.w = rnd(46, 58); b.h = rnd(95, 120); }  // 돔 지붕
+      else if (b.variant === 2) { b.w = rnd(50, 62); b.h = rnd(115, 145); } // 쌍둥이 타워
+      else                      { b.w = rnd(40, 52); b.h = rnd(130, 160); } // 세트백 타워
+      b.dw = []; for (let i = 0; i < 7; i++) b.dw.push({ fx: rnd(0, 1), fy: rnd(0, 1) });
+    } else {                                  // E 초저층
+      b.w = rnd(35, 55); b.h = rnd(30, 45);
+      b.lit = [Math.random() > 0.4, Math.random() > 0.4, Math.random() > 0.4];
+    }
+    return b;
+  }
+
+  function genBuildings() {
+    buildings = []; dVariant = 0;
+    SCATTER.forEach((t, i) => buildings.push(makeBuilding(t, i)));
+  }
+
+  // 모바일은 12개로 축소
+  const activeList = () => (isMobile() ? buildings.slice(0, 12) : buildings);
+
+  // ── 레이아웃 (리사이즈마다 픽셀 좌표 재계산) ──
+  function layout() {
+    if (isMobile()) { panelLeft = W * 0.04; panelW = W * 0.92; }
+    else            { panelLeft = W * 0.45; panelW = W * 0.54; }
+    hubScale = isMobile() ? 1.3 : 2;            // 허브 2배 확대
+    hubX = panelLeft + panelW * 0.5;
+    hubY = H * (isMobile() ? 0.40 : 0.42);      // 허브: 패널 세로 중앙(40~42%)
+    groundY = H * 0.96;
+
+    const list = activeList();
+    let maxH = 1; list.forEach(b => { if (b.h > maxH) maxH = b.h; });
+    // 도시는 패널 하단부터 허브 바로 아래까지 채움 (틱마크 링 R4=66*배율 기준)
+    const hubBottom = hubY + 66 * hubScale + 14;
+    const avail = groundY - hubBottom;
+    hScale = Math.max(0.55, Math.min(1.6, avail / maxH));
+    if (isMobile()) hScale = Math.min(hScale, 1.0);
+
+    // 누적 x → 패널 폭에 맞춰 정규화(겹치며 실제 스카이라인처럼)
+    const pos = []; let cursor = 0;
+    for (let i = 0; i < list.length; i++) {
+      if (i > 0) cursor += (list[i - 1].w + list[i].w) * 0.5 * list[i].gap;
+      pos.push(cursor);
+    }
+    const first = list[0], last = list[list.length - 1];
+    const virtual = (pos[pos.length - 1]) || 1;
+    const usable = panelW - first.w * 0.5 - last.w * 0.5;
+    list.forEach((b, i) => {
+      const cx = panelLeft + first.w * 0.5 + (pos[i] / virtual) * usable;
+      const w = b.w, h = b.h * hScale;
+      b.px = { cx, w, h, x: cx - w / 2, y: groundY - h, top: groundY - h };
+    });
+
+    renderSkyline();
+  }
+
   function resize() {
     const parent = cv.parentElement;
-    cv.width = parent.offsetWidth;
-    cv.height = parent.offsetHeight;
-  }
-  resize();
-  window.addEventListener('resize', resize);
-
-  const G = '#16c784';
-  const O = '#f6643c';
-  const B = '#1a91ff';
-
-  let F = 0;
-  let animId = null;
-
-  const W = () => cv.width;
-  const H = () => cv.height;
-  const HX = () => W() * 0.78;
-  const HY = () => H() * 0.52;
-
-  const BLDGS = [
-    { id:0, rx:0.66, ry:0.30, type:'tower',      w:38,  h:96,  floors:9,  label:'지식산업센터', alertChance:0.10, scanOff:0   },
-    { id:1, rx:0.70, ry:0.78, type:'warehouse',  w:78,  h:46,  floors:3,  label:'물류센터',     alertChance:0.20, scanOff:50  },
-    { id:2, rx:0.92, ry:0.32, type:'slim',       w:28,  h:84,  floors:11, label:'오피스텔',     alertChance:0.05, scanOff:90  },
-    { id:3, rx:0.90, ry:0.76, type:'complex',    w:70,  h:56,  floors:4,  label:'AIT 센터',     alertChance:0.15, scanOff:30  },
-    { id:4, rx:0.80, ry:0.16, type:'midrise',    w:62,  h:42,  floors:4,  label:'오피스 빌딩',  alertChance:0.08, scanOff:70  },
-    { id:5, rx:0.78, ry:0.90, type:'datacenter', w:66,  h:38,  floors:2,  label:'데이터센터',   alertChance:0.12, scanOff:110 },
-  ];
-
-  const particles = [];
-  const spawnTimers = BLDGS.map(() => Math.random() * 80);
-
-  const bx = b => W() * b.rx;
-  const by = b => H() * b.ry;
-
-  function drawBuildingShape(b, frame) {
-    const cx = bx(b), cy = by(b);
-    const x = cx - b.w / 2, y = cy - b.h / 2;
-    const fh = b.h / b.floors;
-
-    ctx.save();
-
-    // 바닥 반사 그림자 (서있는 느낌)
-    const grd = ctx.createLinearGradient(x, y + b.h, x, y + b.h + 14);
-    grd.addColorStop(0, 'rgba(22,199,132,0.10)');
-    grd.addColorStop(1, 'rgba(22,199,132,0)');
-    ctx.fillStyle = grd;
-    ctx.fillRect(x - 2, y + b.h, b.w + 4, 14);
-
-    if (b.type === 'tower' || b.type === 'slim') {
-      const cols = b.type === 'slim' ? 2 : 3;
-      ctx.fillStyle = '#06121e';
-      ctx.strokeStyle = 'rgba(22,199,132,0.5)';
-      ctx.lineWidth = 1;
-      ctx.beginPath(); ctx.roundRect(x, y, b.w, b.h, 2); ctx.fill(); ctx.stroke();
-      for (let f = 1; f < b.floors; f++) {
-        ctx.strokeStyle = 'rgba(22,199,132,0.12)'; ctx.lineWidth = 0.5;
-        ctx.beginPath(); ctx.moveTo(x+2, y+fh*f); ctx.lineTo(x+b.w-2, y+fh*f); ctx.stroke();
-      }
-      const ww = (b.w - 8) / cols;
-      for (let f = 0; f < b.floors; f++) {
-        for (let c = 0; c < cols; c++) {
-          const lit = Math.sin(frame*0.025 + f*0.9 + c*1.4 + b.id) > 0.1;
-          ctx.fillStyle = lit ? 'rgba(22,199,132,0.55)' : 'rgba(22,199,132,0.10)';
-          ctx.fillRect(x+4+c*ww+1, y+f*fh+fh*0.22, ww-2, fh*0.5);
-        }
-      }
-      if (b.type === 'tower') {
-        ctx.fillStyle = '#06121e';
-        ctx.strokeStyle = 'rgba(22,199,132,0.4)'; ctx.lineWidth = 0.6;
-        ctx.fillRect(cx-7, y-7, 14, 7); ctx.strokeRect(cx-7, y-7, 14, 7);
-        ctx.beginPath(); ctx.moveTo(cx, y-7); ctx.lineTo(cx, y-15);
-        ctx.strokeStyle = 'rgba(22,199,132,0.5)'; ctx.stroke();
-        ctx.beginPath(); ctx.arc(cx, y-16, 1.5, 0, Math.PI*2);
-        ctx.fillStyle = G; ctx.fill();
-      }
-      if (b.type === 'slim') {
-        ctx.strokeStyle = 'rgba(26,145,255,0.6)'; ctx.lineWidth = 0.8;
-        ctx.beginPath(); ctx.moveTo(cx, y); ctx.lineTo(cx, y-12); ctx.stroke();
-        ctx.beginPath(); ctx.arc(cx, y-14, 2, 0, Math.PI*2);
-        ctx.fillStyle = B; ctx.fill();
-      }
-    }
-
-    if (b.type === 'warehouse') {
-      ctx.fillStyle = '#06121e';
-      ctx.strokeStyle = 'rgba(22,199,132,0.4)'; ctx.lineWidth = 1;
-      ctx.beginPath(); ctx.roundRect(x, y, b.w, b.h, 2); ctx.fill(); ctx.stroke();
-      ctx.strokeStyle = 'rgba(22,199,132,0.5)'; ctx.lineWidth = 1;
-      ctx.beginPath(); ctx.moveTo(x, y); ctx.quadraticCurveTo(cx, y-14, x+b.w, y); ctx.stroke();
-      const bw2 = (b.w - 16) / 4;
-      for (let i = 0; i < 4; i++) {
-        ctx.fillStyle = 'rgba(22,199,132,0.10)';
-        ctx.fillRect(x+6+i*(bw2+2), y+b.h*0.45, bw2, b.h*0.5);
-        ctx.strokeStyle = 'rgba(22,199,132,0.25)'; ctx.lineWidth = 0.5;
-        ctx.strokeRect(x+6+i*(bw2+2), y+b.h*0.45, bw2, b.h*0.5);
-      }
-    }
-
-    if (b.type === 'complex') {
-      ctx.fillStyle = '#06121e';
-      ctx.strokeStyle = 'rgba(22,199,132,0.45)'; ctx.lineWidth = 1;
-      ctx.beginPath(); ctx.roundRect(x, y, b.w*0.65, b.h, 2); ctx.fill(); ctx.stroke();
-      ctx.beginPath(); ctx.roundRect(x+b.w*0.65, y+b.h*0.3, b.w*0.35, b.h*0.7, 2); ctx.fill(); ctx.stroke();
-      const mc = 4;
-      const ww = (b.w*0.65 - 8) / mc;
-      for (let f = 0; f < b.floors; f++) {
-        for (let c = 0; c < mc; c++) {
-          const lit = Math.sin(frame*0.02 + f*0.7 + c*1.1 + b.id) > 0;
-          ctx.fillStyle = lit ? 'rgba(22,199,132,0.5)' : 'rgba(22,199,132,0.10)';
-          ctx.fillRect(x+4+c*ww+0.5, y+f*fh+fh*0.2, ww-1, fh*0.5);
-        }
-      }
-    }
-
-    if (b.type === 'midrise') {
-      ctx.fillStyle = '#06121e';
-      ctx.strokeStyle = 'rgba(22,199,132,0.45)'; ctx.lineWidth = 1;
-      ctx.beginPath(); ctx.roundRect(x, y, b.w, b.h, 2); ctx.fill(); ctx.stroke();
-      const cols = 5, ww = (b.w - 12) / cols;
-      for (let f = 0; f < b.floors; f++) {
-        for (let c = 0; c < cols; c++) {
-          const lit = Math.sin(frame*0.025 + f*0.8 + c*0.9 + b.id) > 0;
-          ctx.fillStyle = lit ? 'rgba(22,199,132,0.5)' : 'rgba(22,199,132,0.10)';
-          ctx.fillRect(x+6+c*(ww+0.5), y+f*fh+3, ww, fh-5);
-        }
-      }
-      ctx.fillStyle = 'rgba(22,199,132,0.2)';
-      ctx.fillRect(cx-6, y-4, 12, 4);
-    }
-
-    if (b.type === 'datacenter') {
-      ctx.fillStyle = '#04101c';
-      ctx.strokeStyle = 'rgba(26,145,255,0.5)'; ctx.lineWidth = 1;
-      ctx.beginPath(); ctx.roundRect(x, y, b.w, b.h, 2); ctx.fill(); ctx.stroke();
-      for (let i = 0; i < 5; i++) {
-        const rx2 = x + 6 + i * ((b.w-12)/5);
-        const rw = (b.w-12)/5 - 2;
-        ctx.fillStyle = 'rgba(26,145,255,0.08)';
-        ctx.fillRect(rx2, y+4, rw, b.h-8);
-        ctx.strokeStyle = 'rgba(26,145,255,0.25)'; ctx.lineWidth = 0.5;
-        ctx.strokeRect(rx2, y+4, rw, b.h-8);
-        for (let j = 0; j < 3; j++) {
-          const on = Math.sin(frame*0.18 + i*1.9 + j*2.5) > 0.4;
-          ctx.beginPath(); ctx.arc(rx2+rw/2, y+10+j*9, 1.3, 0, Math.PI*2);
-          ctx.fillStyle = on ? B : 'rgba(26,145,255,0.15)'; ctx.fill();
-        }
-      }
-    }
-
-    ctx.restore();
+    W = parent.offsetWidth;
+    // 캔버스 높이를 뷰포트 높이로 상한 → 히어로가 화면보다 길어도 도시 하단이 안 잘림
+    H = Math.min(parent.offsetHeight, window.innerHeight);
+    cv.width = W * DPR; cv.height = H * DPR;
+    cv.style.width = W + 'px'; cv.style.height = H + 'px';
+    ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
+    off.width = W * DPR; off.height = H * DPR;
+    offc.setTransform(DPR, 0, 0, DPR, 0, 0);
+    layout();
   }
 
-  function drawXray(b, frame) {
-    const cx = bx(b), cy = by(b);
-    const x = cx - b.w/2, y = cy - b.h/2;
-    const prog = ((frame * 0.55 + b.scanOff) % (b.h + 30)) - 15;
-    const sy = y + prog;
-    if (sy < y - 12 || sy > y + b.h + 6) return;
+  // ── 건물 타입별 정적 렌더 (오프스크린 g에 그림) ──
+  const FILL = a => `rgba(77,240,0,${a})`;
+  const OUT = 'rgba(77,240,0,0.3)';
 
-    ctx.save();
-    ctx.beginPath(); ctx.rect(x, y, b.w, b.h); ctx.clip();
-
-    const g = ctx.createLinearGradient(x, sy-22, x, sy+8);
-    g.addColorStop(0, 'rgba(22,199,132,0)');
-    g.addColorStop(0.5, 'rgba(22,199,132,0.07)');
-    g.addColorStop(1, 'rgba(22,199,132,0.18)');
-    ctx.fillStyle = g;
-    ctx.fillRect(x, sy-22, b.w, 30);
-
-    ctx.strokeStyle = `rgba(22,199,132,${0.55 + 0.25*Math.sin(frame*0.12)})`;
-    ctx.lineWidth = 0.7;
-    ctx.setLineDash([3, 4]);
-    ctx.beginPath(); ctx.moveTo(x, sy); ctx.lineTo(x+b.w, sy); ctx.stroke();
-    ctx.setLineDash([]);
-    ctx.restore();
+  function bodyA(g, b) {                       // 초고층 슬림 + 안테나
+    const { x, y, w, h } = b.px;
+    g.fillStyle = b.tone; g.strokeStyle = OUT; g.lineWidth = 1;
+    rr(g, x, y, w, h, 2); g.fill(); g.stroke();
+    g.fillStyle = FILL(0.5);                   // 세로 창문 라인
+    const n = b.stripes, sw = Math.max(1.5, w / (n * 3.2));
+    for (let i = 0; i < n; i++) g.fillRect(x + (i + 0.5) * (w / n) - sw / 2, y + 4, sw, h - 8);
+    g.strokeStyle = 'rgba(77,240,0,0.5)';      // 가는 안테나 (항공등은 동적으로 깜빡)
+    g.beginPath(); g.moveTo(x + w / 2, y); g.lineTo(x + w / 2, y - b.antenna); g.stroke();
   }
 
-  function drawAlertZone(b, frame) {
-    const cx = bx(b), cy = by(b);
-    const x = cx - b.w/2, y = cy - b.h/2;
-    const fh = b.h / b.floors;
-    const af = Math.floor(b.floors * 0.45);
-    const ay = y + af * fh;
-    const pulse = Math.sin(frame * 0.09 + b.id);
-
-    ctx.save();
-    ctx.beginPath(); ctx.rect(x+1, ay+1, b.w-2, fh-2); ctx.clip();
-    ctx.fillStyle = `rgba(246,100,60,${0.15 + 0.12*pulse})`;
-    ctx.fillRect(x+1, ay+1, b.w-2, fh-2);
-    ctx.restore();
-
-    const dotX = cx + b.w*0.3, dotY = ay + fh*0.5;
-    for (let r = 0; r < 3; r++) {
-      const rr = 4 + r*8 + pulse*3;
-      ctx.beginPath(); ctx.arc(dotX, dotY, rr, 0, Math.PI*2);
-      ctx.strokeStyle = `rgba(246,100,60,${0.25 - r*0.07})`;
-      ctx.lineWidth = 0.7; ctx.stroke();
+  function bodyB(g, b) {                       // 중층 오피스 — 창문 그리드
+    const { x, y, w, h } = b.px;
+    g.fillStyle = b.tone; g.strokeStyle = OUT; g.lineWidth = 1;
+    rr(g, x, y, w, h, 2); g.fill(); g.stroke();
+    const pad = 4, gw = (w - pad * 2) / b.cols, gh = (h - pad * 2) / b.rows;
+    const ww = gw * 0.62, wh = gh * 0.55;
+    for (let r = 0; r < b.rows; r++) for (let c = 0; c < b.cols; c++) {
+      g.fillStyle = b.lit[r * b.cols + c] ? FILL(0.5) : FILL(0.08);
+      g.fillRect(x + pad + c * gw + (gw - ww) / 2, y + pad + r * gh + (gh - wh) / 2, ww, wh);
     }
-    ctx.beginPath(); ctx.arc(dotX, dotY, 3.5, 0, Math.PI*2);
-    ctx.fillStyle = O; ctx.fill();
   }
 
-  function drawConnLine(b, frame) {
-    const sx = bx(b), sy = by(b);
-    const tx = HX(), ty = HY();
-    const mx = (sx+tx)/2, my = (sy+ty)/2 - (Math.abs(sx-tx)*0.18);
-
-    ctx.beginPath(); ctx.moveTo(sx, sy); ctx.quadraticCurveTo(mx, my, tx, ty);
-    ctx.strokeStyle = 'rgba(22,199,132,0.08)'; ctx.lineWidth = 1; ctx.stroke();
-
-    const off = -(frame * 1.4 + b.id * 28) % 32;
-    ctx.beginPath(); ctx.moveTo(sx, sy); ctx.quadraticCurveTo(mx, my, tx, ty);
-    ctx.strokeStyle = 'rgba(22,199,132,0.3)'; ctx.lineWidth = 1;
-    ctx.setLineDash([5, 27]); ctx.lineDashOffset = off;
-    ctx.stroke(); ctx.setLineDash([]);
+  function bodyC(g, b) {                       // 저층 넓은형 + 지붕 환기구
+    const { x, y, w, h } = b.px;
+    g.fillStyle = b.tone; g.strokeStyle = OUT; g.lineWidth = 1;
+    for (let i = 0; i < b.vents; i++) {        // 환기구 돌출
+      const vw = w / (b.vents * 2.2), vx = x + (i + 0.5) * (w / b.vents) - vw / 2;
+      rr(g, vx, y - 5, vw, 5, 1); g.fill(); g.stroke();
+    }
+    rr(g, x, y, w, h, 2); g.fill(); g.stroke();
+    const pad = 5, gw = (w - pad * 2) / b.cols, gh = (h - pad * 2) / b.rows;
+    for (let r = 0; r < b.rows; r++) for (let c = 0; c < b.cols; c++) {
+      g.fillStyle = b.lit[r * b.cols + c] ? FILL(0.45) : FILL(0.08);
+      g.fillRect(x + pad + c * gw + 1, y + pad + r * gh + 1, gw - 2, gh - 2);
+    }
   }
 
-  function spawnParticle(b) {
-    const isAlert = Math.random() < b.alertChance;
-    const sx = bx(b), sy = by(b);
-    const tx = HX(), ty = HY();
-    const mx = (sx+tx)/2, my = (sy+ty)/2 - (Math.abs(sx-tx)*0.18);
-    particles.push({
-      sx, sy, tx, ty, mx, my,
-      t: 0,
-      speed: 0.0045 + Math.random() * 0.004,
-      alert: isAlert,
-      size: isAlert ? 3.5 : 2.2,
-      color: isAlert ? O : G,
+  function bodyD(g, b) {                       // 특수형 4종
+    const { x, y, w, h, cx } = b.px;
+    g.fillStyle = b.tone; g.strokeStyle = OUT; g.lineWidth = 1;
+    if (b.variant === 0) {                     // 계단식 피라미드
+      const steps = 4, sh = h / steps;
+      for (let s = 0; s < steps; s++) {
+        const sw = w * (1 - s * 0.2), sx = cx - sw / 2;
+        rr(g, sx, y + s * sh, sw, sh, 1); g.fill(); g.stroke();
+      }
+    } else if (b.variant === 1) {              // 돔 지붕
+      rr(g, x, y + h * 0.28, w, h * 0.72, 2); g.fill(); g.stroke();
+      g.beginPath(); g.arc(cx, y + h * 0.28, w / 2, Math.PI, 0); g.fill(); g.stroke();
+    } else if (b.variant === 2) {              // 쌍둥이 타워
+      const tw = w * 0.42;
+      rr(g, x, y, tw, h, 2); g.fill(); g.stroke();
+      rr(g, x + w - tw, y + h * 0.06, tw, h * 0.94, 2); g.fill(); g.stroke();
+      g.fillStyle = b.tone; g.fillRect(x + tw, y + h * 0.55, w - 2 * tw, 4);
+      g.strokeRect(x + tw, y + h * 0.55, w - 2 * tw, 4);
+    } else {                                   // 세트백 타워
+      rr(g, x, y + h * 0.4, w, h * 0.6, 2); g.fill(); g.stroke();
+      rr(g, cx - w * 0.32, y, w * 0.64, h * 0.42, 2); g.fill(); g.stroke();
+    }
+    g.fillStyle = FILL(0.4);                    // 흩뿌린 창문
+    b.dw.forEach(d => g.fillRect(x + d.fx * (w - 5) + 2, y + d.fy * (h - 8) + 4, 2.5, 3));
+  }
+
+  function bodyE(g, b) {                       // 초저층
+    const { x, y, w, h } = b.px;
+    g.fillStyle = b.tone; g.strokeStyle = OUT; g.lineWidth = 1;
+    rr(g, x, y, w, h, 2); g.fill(); g.stroke();
+    const n = b.lit.length, gw = w / (n + 1);
+    for (let i = 0; i < n; i++) {
+      g.fillStyle = b.lit[i] ? FILL(0.5) : FILL(0.08);
+      g.fillRect(x + gw * (i + 1) - gw * 0.3, y + h * 0.3, gw * 0.55, h * 0.4);
+    }
+  }
+
+  function renderSkyline() {
+    offc.clearRect(0, 0, W, H);
+    // 지면 라인 + 바닥 글로우
+    const grd = offc.createLinearGradient(0, groundY - 18, 0, groundY);
+    grd.addColorStop(0, 'rgba(77,240,0,0)'); grd.addColorStop(1, 'rgba(77,240,0,0.05)');
+    offc.fillStyle = grd; offc.fillRect(panelLeft, groundY - 18, panelW, 18);
+    offc.strokeStyle = 'rgba(77,240,0,0.35)'; offc.lineWidth = 1;
+    offc.beginPath(); offc.moveTo(panelLeft, groundY + 0.5); offc.lineTo(panelLeft + panelW, groundY + 0.5); offc.stroke();
+    // 높은 건물부터(뒤) → 낮은 건물(앞) 순으로 겹쳐 그려 입체감
+    const sorted = activeList().slice().sort((a, c) => c.px.h - a.px.h);
+    sorted.forEach(b => {
+      if (b.type === 'A') bodyA(offc, b);
+      else if (b.type === 'B') bodyB(offc, b);
+      else if (b.type === 'C') bodyC(offc, b);
+      else if (b.type === 'D') bodyD(offc, b);
+      else bodyE(offc, b);
     });
   }
 
-  function updateParticles() {
-    for (let i = particles.length - 1; i >= 0; i--) {
-      const p = particles[i];
-      p.t += p.speed;
-      if (p.t >= 1) { particles.splice(i, 1); continue; }
-      const mt = 1 - p.t, t = p.t;
-      const x = mt*mt*p.sx + 2*mt*t*p.mx + t*t*p.tx;
-      const y = mt*mt*p.sy + 2*mt*t*p.my + t*t*p.ty;
-      const a = Math.sin(t * Math.PI);
-
-      ctx.save();
-      ctx.globalAlpha = a * 0.92;
-      if (p.alert) {
-        ctx.beginPath(); ctx.arc(x, y, p.size*1.8, 0, Math.PI*2);
-        ctx.fillStyle = 'rgba(246,100,60,0.15)'; ctx.fill();
-      }
-      ctx.beginPath(); ctx.arc(x, y, p.size, 0, Math.PI*2);
-      ctx.fillStyle = p.color; ctx.fill();
-
-      if (p.t > 0.03) {
-        const pt = p.t - 0.022;
-        const pmt = 1 - pt;
-        const px2 = pmt*pmt*p.sx + 2*pmt*pt*p.mx + pt*pt*p.tx;
-        const py2 = pmt*pmt*p.sy + 2*pmt*pt*p.my + pt*pt*p.ty;
-        ctx.beginPath(); ctx.moveTo(x, y); ctx.lineTo(px2, py2);
-        ctx.strokeStyle = p.color; ctx.lineWidth = p.size * 0.7;
-        ctx.globalAlpha = a * 0.35; ctx.stroke();
-      }
-      ctx.restore();
-    }
+  // ── 데이터 패킷 ──
+  const packets = [];
+  function spawnUp(b, alert) {
+    packets.push({
+      b, sx: b.px.cx, sy: b.px.top, tx: hubX, ty: hubY, t: 0,
+      speed: alert ? rnd(0.012, 0.02) : rnd(0.006, 0.01),
+      alert, size: alert ? 5 : 3, jitter: Math.random(),
+    });
+  }
+  function spawnDown(b) {                       // 진단 응답(흰색, 역방향 하강)
+    packets.push({ b, sx: hubX, sy: hubY, tx: b.px.cx, ty: b.px.top, t: 0, speed: rnd(0.02, 0.03), diag: true, size: 4 });
   }
 
-  function drawHub(frame) {
-    const cx = HX(), cy = HY();
-    const pulse = Math.sin(frame * 0.05) * 0.5 + 0.5;
-
-    // 1) 바깥으로 퍼지는 스캔 펄스 (파동 3겹)
-    for (let k = 0; k < 3; k++) {
-      const wave = ((frame * 0.6 + k * 40) % 120) / 120;
-      const rr = 40 + wave * 90;
-      ctx.beginPath(); ctx.arc(cx, cy, rr, 0, Math.PI*2);
-      ctx.strokeStyle = `rgba(22,199,132,${(1 - wave) * 0.25})`;
-      ctx.lineWidth = 1;
-      ctx.stroke();
+  function drawPackets() {
+    for (let i = packets.length - 1; i >= 0; i--) {
+      const p = packets[i];
+      let sp = p.speed;
+      if (p.alert) sp *= 0.7 + 0.6 * Math.abs(Math.sin(F * 0.3 + p.jitter * 6)); // 불규칙 속도
+      p.t += sp;
+      if (p.t >= 1) { onArrive(p); packets.splice(i, 1); continue; }
+      const x = p.sx + (p.tx - p.sx) * p.t, y = p.sy + (p.ty - p.sy) * p.t;
+      const col = p.diag ? WHITE : (p.alert ? RED : GREEN);
+      const bt = Math.max(0, p.t - 0.05);
+      const bx = p.sx + (p.tx - p.sx) * bt, by = p.sy + (p.ty - p.sy) * bt;
+      ctx.globalAlpha = p.diag ? 0.5 : 0.3; ctx.strokeStyle = col; ctx.lineWidth = p.size * 0.6;
+      ctx.beginPath(); ctx.moveTo(bx, by); ctx.lineTo(x, y); ctx.stroke();
+      ctx.globalAlpha = 1;
+      if (p.alert) { ctx.fillStyle = 'rgba(255,51,51,0.2)'; ctx.beginPath(); ctx.arc(x, y, p.size * 2, 0, Math.PI * 2); ctx.fill(); }
+      ctx.fillStyle = p.diag ? 'rgba(255,255,255,0.85)' : col;
+      ctx.beginPath(); ctx.arc(x, y, p.size, 0, Math.PI * 2); ctx.fill();
     }
+    ctx.globalAlpha = 1;
+  }
+  function onArrive(p) {
+    if (!p.diag) { if (p.alert) flashSegment(p.b); }      // 이상 패킷 허브 도달 → 세그먼트 플래시
+    else { p.b.flash = 1; p.b.state = 'normal'; p.b.cooldown = F + rnd(180, 360); } // 진단 도달 → 정상 복귀
+  }
 
-    // 2) 글로우 헤일로
-    const halo = ctx.createRadialGradient(cx, cy, 10, cx, cy, 80);
-    halo.addColorStop(0, `rgba(22,199,132,${0.18 + pulse*0.08})`);
-    halo.addColorStop(1, 'rgba(22,199,132,0)');
-    ctx.fillStyle = halo;
-    ctx.beginPath(); ctx.arc(cx, cy, 80, 0, Math.PI*2); ctx.fill();
+  // ── 허브 세그먼트 링(16등분) ──
+  const SEG = 16;
+  const segFlash = new Array(SEG).fill(0);
+  function segOf(b) {
+    let n = Math.atan2(b.px.top - hubY, b.px.cx - hubX) / (Math.PI * 2);
+    n = (n % 1 + 1) % 1; return Math.floor(n * SEG) % SEG;
+  }
+  function flashSegment(b) { segFlash[segOf(b)] = 1; }
 
-    // 3) 회전 링 (바깥, 시계방향)
+  // ── 이상 신호 상태머신 (1~2개 순환) ──
+  function updateAnomalies() {
+    const canList = activeList().filter(b => b.canAlert);
+    const active = canList.filter(b => b.state === 'alert' || b.state === 'diagnosing');
+    if (active.length < 1 || (active.length < 2 && Math.random() < 0.004)) {
+      const elig = canList.filter(b => b.state === 'normal' && F > b.cooldown);
+      if (elig.length) {
+        const b = elig[ri(0, elig.length - 1)];
+        b.state = 'alert'; b.stateEnd = F + rnd(240, 360); b.aspawn = 0; // 4~6초
+      }
+    }
+    canList.forEach(b => {
+      if (b.state === 'alert') {
+        if (--b.aspawn <= 0) { spawnUp(b, true); b.aspawn = ri(18, 42); }  // 빠른 빨간 패킷
+        if (F >= b.stateEnd) { b.state = 'diagnosing'; spawnDown(b); }     // 진단 응답 발사
+      }
+    });
+  }
+
+  function updateNormalPackets() {
+    activeList().forEach(b => {
+      if (b.state !== 'normal') return;
+      if (--b.spawn <= 0 && packets.length < 70) { spawnUp(b, false); b.spawn = rnd(90, 180); }
+    });
+  }
+
+  // 이상 건물 빨간 발광/테두리 + 진단 도달 플래시
+  function drawAnomaly() {
+    activeList().forEach(b => {
+      const { x, y, w, h } = b.px;
+      if (b.state === 'alert' || b.state === 'diagnosing') {
+        const pulse = 0.5 + 0.5 * Math.sin(F * 0.18 + b.idx);
+        const gg = ctx.createRadialGradient(x + w / 2, y + h / 2, 2, x + w / 2, y + h / 2, Math.max(w, h));
+        gg.addColorStop(0, `rgba(255,51,51,${0.28 + 0.15 * pulse})`); gg.addColorStop(1, 'rgba(255,51,51,0)');
+        ctx.fillStyle = gg; ctx.fillRect(x - w, y - h * 0.4, w * 3, h * 1.6);
+        ctx.strokeStyle = `rgba(255,51,51,${0.7 + 0.3 * pulse})`; ctx.lineWidth = 1.4;
+        rr(ctx, x, y, w, h, 2); ctx.stroke();
+      }
+      if (b.flash > 0) {
+        ctx.fillStyle = `rgba(255,255,255,${b.flash * 0.5})`; rr(ctx, x, y, w, h, 2); ctx.fill();
+        ctx.strokeStyle = `rgba(77,240,0,${b.flash})`; ctx.lineWidth = 1.5; rr(ctx, x, y, w, h, 2); ctx.stroke();
+        b.flash = Math.max(0, b.flash - 0.03);
+      }
+    });
+  }
+
+  // 초고층(A) 빨간 항공등 깜빡임
+  function drawAircraftLights() {
+    activeList().forEach(b => {
+      if (b.type !== 'A') return;
+      if (Math.sin(F * 0.12 + b.idx) > 0) {
+        const { x, y, w } = b.px;
+        ctx.fillStyle = RED; ctx.shadowColor = RED; ctx.shadowBlur = 6;
+        ctx.beginPath(); ctx.arc(x + w / 2, y - b.antenna, 2, 0, Math.PI * 2); ctx.fill();
+        ctx.shadowBlur = 0;
+      }
+    });
+  }
+
+  // 도시 → 허브 연결선 (희미)
+  function drawLines() {
+    ctx.strokeStyle = 'rgba(77,240,0,0.12)'; ctx.lineWidth = 0.6;
+    activeList().forEach(b => { ctx.beginPath(); ctx.moveTo(b.px.cx, b.px.top); ctx.lineTo(hubX, hubY); ctx.stroke(); });
+  }
+
+  // 레이더 스윕 (3초/1회전, 이상 건물 지날 때 빨강)
+  function drawRadar() {
+    const ang = (F / 180) * Math.PI * 2;        // 3s @60fps
+    const halfW = 0.38;
+    const R = Math.hypot(panelW * 0.6, groundY - hubY) + 40;
+    let red = false;
+    activeList().forEach(b => {
+      if (b.state !== 'alert') return;
+      const ba = Math.atan2(b.px.top - hubY, b.px.cx - hubX);
+      const d = Math.abs(((ang - ba + Math.PI) % (Math.PI * 2)) - Math.PI);
+      if (d < halfW) red = true;
+    });
+    const col = red ? '255,51,51' : '77,240,0';
     ctx.save();
-    ctx.translate(cx, cy); ctx.rotate(frame * 0.01);
-    ctx.beginPath(); ctx.arc(0, 0, 62, 0, Math.PI*2);
-    ctx.strokeStyle = 'rgba(22,199,132,0.3)'; ctx.lineWidth = 1.2;
-    ctx.setLineDash([4, 10]); ctx.stroke(); ctx.setLineDash([]);
+    ctx.beginPath(); ctx.rect(panelLeft, 0, panelW, H); ctx.clip();
+    ctx.beginPath(); ctx.moveTo(hubX, hubY); ctx.arc(hubX, hubY, R, ang - halfW, ang); ctx.closePath();
+    ctx.fillStyle = `rgba(${col},0.06)`; ctx.fill();
+    const g = ctx.createLinearGradient(hubX, hubY, hubX + Math.cos(ang) * R, hubY + Math.sin(ang) * R);
+    g.addColorStop(0, `rgba(${col},0)`); g.addColorStop(1, `rgba(${col},0.5)`);
+    ctx.strokeStyle = g; ctx.lineWidth = 1.5;
+    ctx.beginPath(); ctx.moveTo(hubX, hubY); ctx.lineTo(hubX + Math.cos(ang) * R, hubY + Math.sin(ang) * R); ctx.stroke();
+    ctx.restore();
+  }
+
+  // 허브 — 4겹 구조 + 글로우 + 코어 (hubScale 배율로 전체 비례 확대)
+  function drawHub() {
+    const S = hubScale;
+    const pulse = 0.5 + 0.5 * Math.sin(F * 0.05);
+    // 글로우 헤일로
+    const halo = ctx.createRadialGradient(hubX, hubY, 6 * S, hubX, hubY, 92 * S);
+    halo.addColorStop(0, `rgba(77,240,0,${0.2 + 0.1 * pulse})`); halo.addColorStop(1, 'rgba(77,240,0,0)');
+    ctx.fillStyle = halo; ctx.beginPath(); ctx.arc(hubX, hubY, 92 * S, 0, Math.PI * 2); ctx.fill();
+
+    // 4겹: 틱마크 링 (바깥, 반시계 천천히)
+    ctx.save(); ctx.translate(hubX, hubY); ctx.rotate(-F * 0.004);
+    const R4 = 66 * S; ctx.strokeStyle = 'rgba(77,240,0,0.45)';
+    for (let i = 0; i < 48; i++) {
+      const a = i / 48 * Math.PI * 2, long = i % 4 === 0, r1 = R4 - (long ? 6 : 3) * S;
+      ctx.lineWidth = (long ? 1.2 : 0.6) * S;
+      ctx.beginPath(); ctx.moveTo(Math.cos(a) * r1, Math.sin(a) * r1); ctx.lineTo(Math.cos(a) * R4, Math.sin(a) * R4); ctx.stroke();
+    }
     ctx.restore();
 
-    // 4) 회전 링 (안쪽, 반시계방향)
-    ctx.save();
-    ctx.translate(cx, cy); ctx.rotate(-frame * 0.016);
-    ctx.beginPath(); ctx.arc(0, 0, 50, 0, Math.PI*2);
-    ctx.strokeStyle = 'rgba(22,199,132,0.45)'; ctx.lineWidth = 1;
-    ctx.setLineDash([2, 14]); ctx.stroke(); ctx.setLineDash([]);
-    ctx.restore();
-
-    // 5) 코어 외곽 링 (펄스)
-    ctx.beginPath(); ctx.arc(cx, cy, 40 + pulse*3, 0, Math.PI*2);
-    ctx.strokeStyle = `rgba(22,199,132,${0.6 + pulse*0.3})`;
-    ctx.lineWidth = 1.5;
-    ctx.stroke();
-
-    // 6) 코어 본체
-    const coreGrd = ctx.createRadialGradient(cx, cy, 2, cx, cy, 38);
-    coreGrd.addColorStop(0, `rgba(22,199,132,${0.25 + pulse*0.15})`);
-    coreGrd.addColorStop(0.6, 'rgba(8,20,16,0.95)');
-    coreGrd.addColorStop(1, 'rgba(3,8,16,1)');
-    ctx.beginPath(); ctx.arc(cx, cy, 38, 0, Math.PI*2);
-    ctx.fillStyle = coreGrd; ctx.fill();
-    ctx.strokeStyle = G; ctx.lineWidth = 2;
-    ctx.stroke();
-
-    // 7) 텍스트
-    ctx.fillStyle = '#16c784';
-    ctx.font = '700 15px sans-serif';
-    ctx.textAlign = 'center';
-    ctx.fillText('T-ARCH', cx, cy - 1);
-    ctx.fillStyle = 'rgba(22,199,132,0.7)';
-    ctx.font = '500 9px sans-serif';
-    ctx.fillText('데이터 포렌식 허브', cx, cy + 13);
-
-    // 8) 실시간 카운터
-    const cnt = 250 + Math.round(Math.sin(frame*0.03)*2);
-    ctx.fillStyle = 'rgba(22,199,132,0.85)';
-    ctx.font = '600 11px monospace';
-    ctx.fillText(`● ${cnt} pts`, cx, cy - 50);
-  }
-
-  function drawGrid() {
-    const step = 52;
-    ctx.strokeStyle = 'rgba(22,199,132,0.04)';
-    ctx.lineWidth = 0.5;
-    for (let x = 0; x < W(); x += step) {
-      ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, H()); ctx.stroke();
+    // 2겹: 세그먼트 링(16등분) — 이상 시 빨강 플래시
+    const R2 = 52 * S, gp = 0.04;
+    for (let i = 0; i < SEG; i++) {
+      const a0 = i / SEG * Math.PI * 2 + gp, a1 = (i + 1) / SEG * Math.PI * 2 - gp, fl = segFlash[i];
+      ctx.strokeStyle = fl > 0 ? `rgba(255,51,51,${0.4 + 0.6 * fl})` : 'rgba(77,240,0,0.45)';
+      ctx.lineWidth = (fl > 0 ? 4 : 2.5) * S;
+      ctx.beginPath(); ctx.arc(hubX, hubY, R2, a0, a1); ctx.stroke();
+      if (fl > 0) segFlash[i] = Math.max(0, fl - 0.025);
     }
-    for (let y = 0; y < H(); y += step) {
-      ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(W(), y); ctx.stroke();
-    }
-  }
 
-  function drawBuildingLabel(b) {
-    ctx.fillStyle = 'rgba(22,199,132,0.65)';
-    ctx.font = '500 10px sans-serif';
-    ctx.textAlign = 'center';
-    ctx.fillText(b.label, bx(b), by(b) + b.h/2 + 16);
+    // 1겹: 안쪽 얇은 링 (빠른 시계방향)
+    ctx.save(); ctx.translate(hubX, hubY); ctx.rotate(F * 0.05);
+    ctx.strokeStyle = 'rgba(77,240,0,0.9)'; ctx.lineWidth = 1.5 * S; ctx.setLineDash([6 * S, 8 * S]);
+    ctx.beginPath(); ctx.arc(0, 0, 42 * S, 0, Math.PI * 2); ctx.stroke(); ctx.setLineDash([]); ctx.restore();
+
+    // 코어
+    const core = ctx.createRadialGradient(hubX, hubY, 2, hubX, hubY, 34 * S);
+    core.addColorStop(0, `rgba(77,240,0,${0.22 + 0.12 * pulse})`);
+    core.addColorStop(0.6, 'rgba(6,16,8,0.96)'); core.addColorStop(1, 'rgba(6,8,7,1)');
+    ctx.beginPath(); ctx.arc(hubX, hubY, 34 * S, 0, Math.PI * 2); ctx.fillStyle = core; ctx.fill();
+    ctx.strokeStyle = GREEN; ctx.lineWidth = 1.8 * S; ctx.stroke();
+
+    // 로고마크(□) + 텍스트 (비례 확대)
+    ctx.strokeStyle = GREEN; ctx.lineWidth = 1.4 * S; ctx.strokeRect(hubX - 5 * S, hubY - 17 * S, 10 * S, 10 * S);
+    ctx.fillStyle = GREEN; ctx.textAlign = 'center'; ctx.font = `700 ${14 * S}px sans-serif`;
+    ctx.fillText('T-ARCH', hubX, hubY + 6 * S);
+    ctx.fillStyle = 'rgba(77,240,0,0.65)'; ctx.font = `500 ${8 * S}px sans-serif`;
+    ctx.fillText('FORENSIC HUB', hubX, hubY + 18 * S);
   }
 
   function animate() {
-    ctx.clearRect(0, 0, W(), H());
-    ctx.fillStyle = '#04080d';
-    ctx.fillRect(0, 0, W(), H());
-
-    drawGrid();
-    BLDGS.forEach(b => drawConnLine(b, F));
-    BLDGS.forEach(b => {
-      drawBuildingShape(b, F);
-      drawXray(b, F);
-      if (b.alertChance > 0.08) drawAlertZone(b, F);
-      drawBuildingLabel(b);
-
-      spawnTimers[b.id] -= 1;
-      if (spawnTimers[b.id] <= 0 && particles.length < 90) {
-        spawnParticle(b);
-        spawnTimers[b.id] = 30 + Math.random() * 60;
-      }
-    });
-
-    updateParticles();
-    drawHub(F);
+    ctx.clearRect(0, 0, W, H);
+    ctx.fillStyle = BG; ctx.fillRect(0, 0, W, H);
+    ctx.drawImage(off, 0, 0, W, H);             // 정적 스카이라인 캐시
+    if (!isMobile()) drawRadar();               // 모바일은 레이더 제거
+    drawLines();
+    drawAircraftLights();
+    updateAnomalies();
+    updateNormalPackets();
+    drawAnomaly();
+    drawPackets();
+    drawHub();
     F++;
     animId = requestAnimationFrame(animate);
   }
 
+  genBuildings();
+  resize();
+  window.addEventListener('resize', () => { clearTimeout(rt); rt = setTimeout(resize, 150); });
   document.addEventListener('visibilitychange', () => {
-    if (document.hidden) {
-      if (animId) { cancelAnimationFrame(animId); animId = null; }
-    } else if (animId === null) {
-      animate();
-    }
+    if (document.hidden) { if (animId) { cancelAnimationFrame(animId); animId = null; } }
+    else if (animId === null) animate();
   });
-
   animate();
 })();
 </script>
