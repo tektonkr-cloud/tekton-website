@@ -3,1624 +3,1307 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>TEKTON | T-ARCH 빌딩 에너지 포렌식</title>
+<title>TEKTON | T-ARCH — 고장 나기 전에, 먼저 압니다</title>
+<meta name="description" content="T-ARCH는 건물 설비 데이터를 의심하는 AI 시설관리 시스템입니다. BMS가 놓치는 가짜 정상을 잡아내고, 수리가 필요하면 검증된 시설업체까지 연결합니다.">
+
+<!-- favicon / OG (배포 시 index.html과 같은 폴더에 자산 파일을 둘 것) -->
+<link rel="icon" type="image/svg+xml" href="tekton_icon.svg">
+<meta property="og:type" content="website">
+<meta property="og:title" content="T-ARCH — 고장 나기 전에, 먼저 압니다">
+<meta property="og:description" content="건물 설비 데이터를 의심하는 AI 시설관리 시스템. 가짜 정상을 잡아내고, 검증된 시설업체까지 연결합니다.">
+<meta property="og:url" content="https://tekton.co.kr/">
+<meta property="og:image" content="https://tekton.co.kr/tekton_social_1200x630.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="T-ARCH — 고장 나기 전에, 먼저 압니다">
+<meta name="twitter:description" content="건물 설비 데이터를 의심하는 AI 시설관리 시스템.">
+<meta name="twitter:image" content="https://tekton.co.kr/tekton_social_1200x630.png">
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700;800;900&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,300&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
-:root{--black:#080808;--black2:#111111;--black3:#181818;--gray1:#222222;--gray2:#2e2e2e;--gray3:#bbbbbb;--gray4:#999999;--white:#f5f5f5;--white2:#ffffff;--green:#39FF14;--green2:#2dd10e;--green-dim:rgba(57,255,20,0.12);--green-glow:rgba(57,255,20,0.25);--border:rgba(57,255,20,0.15);--border2:rgba(255,255,255,0.07)}
-*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
-html{scroll-behavior:smooth}
-body{font-family:'DM Sans',sans-serif;background:var(--black);color:var(--white);overflow-x:hidden;-webkit-font-smoothing:antialiased;font-size:16px;line-height:1.6}
-::-webkit-scrollbar{width:4px}::-webkit-scrollbar-track{background:var(--black)}::-webkit-scrollbar-thumb{background:var(--gray2);border-radius:2px}
-nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:0 64px;height:64px;background:rgba(8,8,8,0.85);backdrop-filter:blur(24px);border-bottom:1px solid var(--border2);transition:border-color .3s}
-nav.scrolled{border-color:var(--border)}
-.nav-logo{display:flex;align-items:center;gap:10px;text-decoration:none}
-.nav-logo-text{font-family:'DM Mono',monospace;font-size:18px;font-weight:500;letter-spacing:3px;color:var(--white2);text-transform:uppercase}
-@keyframes mp{0%,100%{opacity:1}50%{opacity:.3}}
-.nav-menu{display:flex;align-items:center;gap:40px;list-style:none}
-.nav-menu a{font-size:13px;font-weight:500;letter-spacing:.3px;color:var(--gray3);text-decoration:none;transition:color .2s}
-.nav-menu a:hover{color:var(--white)}
-.nav-cta{background:var(--green)!important;color:var(--black)!important;padding:10px 20px;border-radius:6px;font-weight:700!important;box-shadow:0 0 20px var(--green-glow);transition:all .2s!important}
-.nav-cta:hover{background:var(--white2)!important;transform:translateY(-1px)}
-.hero{height:100vh;display:grid;grid-template-columns:1fr;align-items:center;padding:0 64px;padding-top:64px;position:relative;overflow:hidden}
-.hero::before{content:'';position:absolute;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.025'/%3E%3C/svg%3E");pointer-events:none;z-index:0}
-.hero::after{content:'';position:absolute;top:-20%;right:-10%;width:600px;height:600px;background:radial-gradient(circle,rgba(57,255,20,.06) 0%,transparent 70%);pointer-events:none;z-index:0}
-.hero-grid{position:absolute;inset:0;z-index:0;pointer-events:none;background-image:linear-gradient(rgba(57,255,20,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(57,255,20,.025) 1px,transparent 1px);background-size:80px 80px;mask-image:radial-gradient(ellipse 80% 80% at 80% 50%,black 20%,transparent 80%)}
-.hero-left{position:relative;z-index:1;padding:32px 0;animation:fadeUp 1s ease both}
-@keyframes fadeUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
-.hero-badge{display:inline-flex;align-items:center;gap:10px;border:1px solid var(--border);background:var(--green-dim);padding:7px 14px;border-radius:4px;margin-bottom:40px}
-.hero-badge-dot{width:6px;height:6px;border-radius:50%;background:var(--green);box-shadow:0 0 8px var(--green);animation:mp 2s infinite}
-.hero-badge span{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:var(--green)}
-.hero-h1{font-size:clamp(40px,5vw,66px);font-weight:700;line-height:1.08;letter-spacing:-1.5px;margin-bottom:24px}
-.hero-h1 .l1{display:block;color:var(--white2)}
-.hero-h1 .l2{display:block;color:var(--green);text-shadow:0 0 40px rgba(57,255,20,.35);margin-top:12px}
-.hero-subtitle{font-size:clamp(18px,2vw,22px);font-weight:300;color:var(--gray3);letter-spacing:-.3px;margin-bottom:40px;line-height:1.5}
-.hero-subtitle strong{color:var(--white);font-weight:600}
-.hero-btns{display:flex;gap:14px;flex-wrap:wrap}
-.btn-green{display:inline-flex;align-items:center;gap:8px;background:var(--green);color:var(--black);padding:14px 28px;border-radius:6px;font-size:14px;font-weight:700;text-decoration:none;box-shadow:0 0 24px var(--green-glow);transition:all .25s}
-.btn-green:hover{background:var(--white2);box-shadow:0 0 32px rgba(255,255,255,.15);transform:translateY(-2px)}
-.btn-ghost{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--border2);color:var(--gray3);padding:14px 28px;border-radius:6px;font-size:14px;font-weight:500;text-decoration:none;transition:all .25s;background:rgba(255,255,255,.02)}
-.btn-ghost:hover{border-color:var(--border);color:var(--white);background:var(--green-dim)}
-.hero-right{position:relative;z-index:1;display:flex;align-items:center;justify-content:flex-end;padding:80px 0 80px 48px}
-@keyframes dashIn{from{opacity:0;transform:translateY(28px) scale(.97)}to{opacity:1;transform:translateY(0) scale(1)}}
-.section{padding:120px 64px;max-width:1280px;margin:0 auto}
-.section-full{padding:120px 64px}
-.section-inner{max-width:1280px;margin:0 auto}
-.eyebrow{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:3px;text-transform:uppercase;color:var(--green);margin-bottom:20px;display:flex;align-items:center;gap:12px}
-.eyebrow::before{content:'';width:24px;height:1px;background:var(--green)}
-.sec-title{font-size:clamp(30px,4vw,50px);font-weight:700;line-height:1.1;letter-spacing:-1px;margin-bottom:20px}
-.sec-sub{font-size:16px;color:var(--gray4);line-height:1.7;max-width:540px;margin-bottom:60px}
-.problem-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border2);border:1px solid var(--border2);border-radius:16px;overflow:hidden}
-.problem-card{background:var(--black2);padding:40px 36px;position:relative;overflow:hidden;transition:background .3s}
-.problem-card:hover{background:var(--black3)}
-.problem-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,#FF3B3B,transparent);opacity:.6}
-.problem-num{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:2px;color:var(--gray4);margin-bottom:20px}
-.problem-title{font-size:20px;font-weight:700;margin-bottom:14px;line-height:1.3}
-.problem-body{font-size:15px;color:var(--gray4);line-height:1.7;margin-bottom:24px}
-.problem-cost{display:inline-flex;align-items:center;gap:8px;background:rgba(255,59,59,.08);border:1px solid rgba(255,59,59,.2);border-radius:6px;padding:8px 14px;font-family:'DM Mono',monospace;font-size:12px;color:#FF5555;font-weight:500}
-.compare-wrap{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--border2);border:1px solid var(--border2);border-radius:16px;overflow:hidden;margin-bottom:64px}
-.compare-col{background:var(--black2);padding:40px}
-.compare-col.tekton{background:var(--black3)}
-.compare-header{display:flex;align-items:center;gap:12px;margin-bottom:32px}
-.compare-header h3{font-size:18px;font-weight:700}
-.compare-col.old .compare-header h3{color:var(--gray3)}
-.compare-tag{font-size:11px;padding:4px 10px;border-radius:4px;font-weight:600;letter-spacing:.5px}
-.old-tag{background:rgba(255,255,255,.06);color:var(--gray4)}
-.new-tag{background:var(--green-dim);color:var(--green);border:1px solid var(--border)}
-.ci{display:flex;gap:14px;align-items:flex-start;padding:14px 0;border-bottom:1px solid var(--border2);font-size:15px;color:var(--gray4);line-height:1.5}
-.ci:last-child{border-bottom:none}
-.ci-ico{flex-shrink:0;font-size:13px;margin-top:2px}
-.compare-col.old .ci-ico{color:#FF5555}
-.compare-col.tekton .ci-ico{color:var(--green)}
-.step-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
-.step-card{background:var(--black2);border:1px solid var(--border2);border-radius:12px;padding:32px 28px;position:relative;overflow:hidden;transition:all .3s;cursor:default}
-.step-card:hover{border-color:var(--border);transform:translateY(-4px);box-shadow:0 20px 40px rgba(0,0,0,.4),0 0 20px var(--green-glow)}
-.step-card::after{content:'';position:absolute;bottom:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--green),transparent);transform:scaleX(0);transition:transform .3s;transform-origin:left}
-.step-card:hover::after{transform:scaleX(1)}
-.step-n{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:2px;color:var(--green);margin-bottom:16px}
-.step-title{font-size:17px;font-weight:700;margin-bottom:10px}
-.step-desc{font-size:14px;color:var(--gray4);line-height:1.6}
-.connect-section{background:var(--black2)}
-.ctabs{display:flex;gap:4px;background:var(--black3);border:1px solid var(--border2);border-radius:10px;padding:4px;margin-bottom:40px;width:fit-content}
-.ctab{padding:10px 22px;border-radius:7px;border:none;background:transparent;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:500;color:var(--gray4);cursor:pointer;transition:all .2s;white-space:nowrap}
-.ctab.active{background:var(--green-dim);color:var(--green);border:1px solid var(--border)}
-.ctab:hover:not(.active){color:var(--white)}
-.cpanel{display:none}
-.cpanel.active{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:start;animation:pan .3s ease}
-@keyframes pan{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
-.connect-info h3{font-size:26px;font-weight:700;margin-bottom:12px}
-.cbadge{display:inline-flex;align-items:center;gap:8px;background:var(--green-dim);border:1px solid var(--border);border-radius:4px;padding:6px 12px;font-size:11px;font-weight:600;letter-spacing:1px;color:var(--green);text-transform:uppercase;margin-bottom:20px}
-.cdesc{font-size:15px;color:var(--gray4);line-height:1.7;margin-bottom:28px}
-.csteps{list-style:none}
-.csteps li{display:flex;gap:16px;align-items:flex-start;padding:12px 0;border-bottom:1px solid var(--border2);font-size:15px;color:var(--gray4)}
-.csteps li:last-child{border-bottom:none}
-.cs-n{width:24px;height:24px;border-radius:50%;background:var(--gray1);color:var(--green);display:flex;align-items:center;justify-content:center;font-family:'DM Mono',monospace;font-size:11px;flex-shrink:0;margin-top:1px}
-.fdiag{background:var(--black3);border:1px solid var(--border2);border-radius:12px;padding:28px}
-.fn{background:var(--black2);border:1px solid var(--border2);border-radius:8px;padding:14px 18px;margin-bottom:8px;display:flex;align-items:center;gap:12px}
-.fn.hi{border-color:var(--border);background:var(--green-dim)}
-.ftag{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:1px;padding:3px 8px;border-radius:3px;background:var(--gray1);color:var(--gray3);flex-shrink:0}
-.fn.hi .ftag{background:rgba(57,255,20,.15);color:var(--green)}
-.fn-txt{font-size:13px;color:var(--gray3)}
-.farr{text-align:center;color:var(--gray4);font-size:16px;margin:4px 0;opacity:.5}
-.flbl{font-size:10px;color:var(--green);text-align:center;font-family:'DM Mono',monospace;letter-spacing:.5px;margin-bottom:8px;opacity:.7}
-.cta-section{text-align:center;padding:160px 64px;position:relative;overflow:hidden}
-.cta-section::before{content:'';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:600px;height:600px;background:radial-gradient(circle,rgba(57,255,20,.07) 0%,transparent 65%);pointer-events:none}
-.cta-eyebrow{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:3px;text-transform:uppercase;color:var(--green);margin-bottom:24px}
-.cta-h2{font-size:clamp(36px,5vw,62px);font-weight:700;line-height:1.1;letter-spacing:-1.5px;margin-bottom:20px}
-.cta-sub{font-size:16px;color:var(--gray4);max-width:480px;margin:0 auto 48px;line-height:1.7}
-.cta-btns{display:flex;gap:16px;justify-content:center;flex-wrap:wrap}
-.cta-note{margin-top:24px;font-size:12px;color:var(--gray4);letter-spacing:.3px}
-footer{background:var(--black2);border-top:1px solid var(--border2);padding:64px}
-.footer-inner{max-width:1280px;margin:0 auto;display:grid;grid-template-columns:1.5fr 1fr 1fr;gap:80px;padding-bottom:48px;border-bottom:1px solid var(--border2)}
-.flogo-txt{font-family:'DM Mono',monospace;font-size:20px;font-weight:500;letter-spacing:3px;color:var(--white2)}
-.fdesc{font-size:13px;color:var(--gray4);line-height:1.7;margin:16px 0 20px}
-.feco{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--border);background:var(--green-dim);padding:8px 14px;border-radius:6px;font-size:11px;font-weight:600;color:var(--green);letter-spacing:.5px}
-.footer-col h4{font-size:11px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--gray4);margin-bottom:20px}
-.footer-col ul{list-style:none}
-.footer-col li{margin-bottom:12px}
-.footer-col a{font-size:14px;color:var(--gray4);text-decoration:none;transition:color .2s}
-.footer-col a:hover{color:var(--green)}
-.footer-bottom{max-width:1280px;margin:0 auto;padding-top:32px;display:flex;justify-content:space-between;font-size:12px;color:var(--gray4)}
-.reveal{opacity:0;transform:translateY(20px);transition:opacity .7s cubic-bezier(.22,.68,0,1),transform .7s cubic-bezier(.22,.68,0,1)}
-.reveal.on{opacity:1;transform:translateY(0)}
-.d1{transition-delay:.1s}.d2{transition-delay:.2s}.d3{transition-delay:.3s}.d4{transition-delay:.4s}
-@media(max-width:960px){
-  nav{padding:0 24px}
-  .nav-menu{display:none}
-  .hero{grid-template-columns:1fr;padding:80px 24px 60px}
-  .hero-right{display:none}
-  .section,.section-full{padding:80px 24px}
-  .problem-grid,.step-grid{grid-template-columns:1fr}
-  .compare-wrap,.cpanel.active{grid-template-columns:1fr}
-  .footer-inner{grid-template-columns:1fr;gap:40px}
-  .footer-bottom{flex-direction:column;gap:8px}
-  .cta-section{padding:100px 24px}
-  footer{padding:48px 24px}
+/* ============================================================
+   TEKTON T-ARCH — 디자인 토큰
+   Sage Green + Warm Neutrals · 의료 검진실 × 관제실
+   ============================================================ */
+:root{
+  --paper:      #F6F4EE;
+  --paper-2:    #EFECE2;
+  --ink:        #21261F;
+  --ink-soft:   #5C6256;
+  --sage:       #5E7B62;
+  --sage-deep:  #2F4337;
+  --sage-tint:  #E2E9DF;
+  --line:       #DCD8CB;
+
+  --monitor:        #121714;
+  --monitor-edge:   #233029;
+  --monitor-line:   #1D2620;
+  --monitor-text:   #C8D5C6;
+  --monitor-dim:    #76836F;
+  --ok:             #7DB98A;
+  --warn:           #CB9A4E;
+  --fault:          #C95A4C;
+
+  --radius: 14px;
+  --radius-sm: 8px;
+  --maxw: 1140px;
+
+  --font-body: "IBM Plex Sans KR", -apple-system, "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
+  --font-mono: "IBM Plex Mono", "SF Mono", Consolas, monospace;
 }
 
-/* ─── 히어로 하단 stat 바 (3분할) ─── */
-.hero-stats{
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:1px;
-  margin-top:36px;
-  max-width:560px;
-  background:var(--border2);
-  border:1px solid var(--border2);
-  border-radius:10px;
-  overflow:hidden;
-  backdrop-filter:blur(4px);
+*{ margin:0; padding:0; box-sizing:border-box; }
+html{ scroll-behavior:smooth; }
+@media (prefers-reduced-motion: reduce){
+  html{ scroll-behavior:auto; }
+  *, *::before, *::after{ animation:none !important; transition:none !important; }
 }
-.hs-item{
-  background:rgba(8,8,8,0.55);
-  padding:14px 16px;
-  display:flex;
-  flex-direction:column;
-  gap:4px;
-  transition:background .25s;
-}
-.hs-item:hover{background:rgba(8,8,8,0.75)}
-.hs-main{
-  font-size:13px;
-  color:var(--gray3);
-  line-height:1.4;
-  letter-spacing:-.2px;
-}
-.hs-val{
-  color:var(--green);
-  font-family:'DM Mono',monospace;
-  font-size:17px;
-  font-weight:600;
-  text-shadow:0 0 12px rgba(57,255,20,.3);
-  margin:0 2px;
-}
-.hs-cap{
-  font-size:10px;
-  color:var(--gray4);
-  letter-spacing:.2px;
-}
-@media(max-width:960px){
-  .hero-stats{grid-template-columns:1fr;max-width:none;margin-top:24px}
-}
-@media (max-width: 768px) {
-  #tarch-hero-canvas { opacity: 0.35; }
-}
-
-/* ─── 브랜드 무관 callout (히어로) ─── */
-.brand-compat{
-  margin-top:32px;
-  max-width:560px;
-  text-align:center;
-}
-.brand-compat__brands{
-  font-family:'DM Mono',monospace;
-  font-size:0.8rem;
-  letter-spacing:0.08em;
-  color:var(--gray4);
-  line-height:1.6;
-}
-.brand-compat__desc{
-  font-size:0.9rem;
-  color:var(--gray3);
-  margin-top:0.5rem;
-  line-height:1.6;
-}
-
-/* ─── 라이브 현장 카드 ─── */
-.live-sites{padding:100px 64px 80px;max-width:1280px;margin:0 auto}
-.live-sites-head{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:40px;flex-wrap:wrap;gap:24px}
-.live-sites-head .sec-title{margin-bottom:0}
-.live-sites-cap{font-size:14px;color:var(--gray4);max-width:380px;line-height:1.7}
-.sites-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
-.site-card{background:var(--black2);border:1px solid var(--border2);border-radius:14px;padding:24px;transition:all .3s;display:flex;flex-direction:column}
-.site-card:hover{border-color:var(--border);transform:translateY(-3px);box-shadow:0 18px 36px rgba(0,0,0,.4),0 0 16px var(--green-glow)}
-.sc-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;gap:8px}
-.sc-tag{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:1px;color:var(--gray4);padding:3px 8px;border:1px solid var(--border2);border-radius:3px;text-transform:uppercase;white-space:nowrap}
-.sc-tag.live{color:var(--green);border-color:var(--border);background:var(--green-dim);display:inline-flex;align-items:center;gap:5px}
-.sc-live-dot{width:6px;height:6px;border-radius:50%;background:var(--green);box-shadow:0 0 6px var(--green);animation:mp 1.5s infinite;flex-shrink:0}
-.sc-title{font-size:15px;font-weight:700;line-height:1.3;margin-bottom:4px}
-.sc-sub{font-size:11px;color:var(--gray4);line-height:1.55;margin-bottom:18px;min-height:34px}
-.sc-grade{display:flex;align-items:baseline;gap:8px;margin-bottom:14px}
-.sc-grade-l{font-family:'DM Mono',monospace;font-size:32px;font-weight:500;color:var(--green);line-height:1;text-shadow:0 0 16px rgba(57,255,20,.3)}
-.sc-grade-l.dim{color:var(--gray3);text-shadow:none}
-.sc-grade-sub{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:1px;color:var(--gray4)}
-.sc-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;padding-top:14px;border-top:1px solid var(--border2)}
-.sc-stat{text-align:center}
-.sc-stat-n{font-family:'DM Mono',monospace;font-size:14px;color:var(--white);font-weight:500;line-height:1}
-.sc-stat-n.dim{color:var(--gray3)}
-.sc-stat-l{font-size:9px;color:var(--gray4);letter-spacing:.3px;margin-top:4px}
-.sc-foot{margin-top:14px;font-size:11px;color:var(--gray4);line-height:1.5;border-top:1px solid var(--border2);padding-top:12px;flex:1}
-
-/* ─── ★당신은? 직군 블록 (2×2) ─── */
-.you-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:18px}
-.you-card{background:var(--black2);border:1px solid var(--border2);border-radius:16px;padding:40px 32px;transition:all .3s;display:flex;flex-direction:column;position:relative;overflow:hidden}
-.you-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--green),transparent);opacity:.5;transform:scaleX(0);transform-origin:left;transition:transform .4s}
-.you-card:hover::before{transform:scaleX(1)}
-.you-card:hover{border-color:var(--border);background:var(--black3);transform:translateY(-4px);box-shadow:0 24px 48px rgba(0,0,0,.45),0 0 24px var(--green-glow)}
-.you-icon{font-size:32px;margin-bottom:18px;line-height:1}
-.you-cat{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:2px;color:var(--green);text-transform:uppercase;margin-bottom:18px}
-.you-hook{font-size:22px;font-weight:700;line-height:1.3;letter-spacing:-.4px;margin-bottom:24px;color:var(--white2)}
-.you-list{list-style:none;margin-bottom:28px;flex:1}
-.you-list li{font-size:14px;color:var(--gray3);line-height:1.65;padding:12px 0 12px 18px;border-bottom:1px solid rgba(255,255,255,.04);position:relative}
-.you-list li::before{content:'';position:absolute;left:0;top:21px;width:8px;height:1px;background:var(--green)}
-.you-list li:last-child{border-bottom:none}
-.you-btn{display:inline-flex;align-items:center;justify-content:center;background:transparent;color:var(--green);border:1px solid var(--border);padding:12px 18px;border-radius:8px;font-size:13px;font-weight:600;text-decoration:none;transition:all .2s;margin-top:auto}
-.you-btn:hover{background:var(--green);color:var(--black);box-shadow:0 0 20px var(--green-glow)}
-
-/* ─── 락인 3종 ─── */
-.lockin-band{margin-top:48px;padding:36px 40px;background:linear-gradient(180deg,var(--black2) 0%,var(--black3) 100%);border:1px solid var(--border2);border-radius:16px}
-.lockin-head{margin-bottom:28px}
-.lockin-head h3{font-size:22px;font-weight:700;letter-spacing:-.3px;margin-top:8px}
-.lockin-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
-.lockin-item{padding:20px 22px;background:rgba(8,8,8,.5);border:1px solid var(--border2);border-radius:10px;transition:border-color .2s}
-.lockin-item:hover{border-color:var(--border)}
-.lockin-icon{font-size:22px;margin-bottom:12px;line-height:1}
-.lockin-title{font-size:15px;font-weight:700;margin-bottom:6px}
-.lockin-desc{font-size:13px;color:var(--gray4);line-height:1.6}
-
-/* ─── 파트너십 ─── */
-.partner-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
-.partner-card{background:var(--black2);border:1px solid var(--border2);border-radius:14px;padding:28px 24px;transition:all .3s;text-align:center}
-.partner-card:hover{border-color:var(--border);transform:translateY(-3px);box-shadow:0 16px 32px rgba(0,0,0,.4)}
-.partner-icon{font-size:30px;margin-bottom:14px;line-height:1}
-.partner-title{font-size:15px;font-weight:700;margin-bottom:8px}
-.partner-desc{font-size:12px;color:var(--gray4);line-height:1.6}
-
-/* ─── 가격 (숫자 제거 버전) ─── */
-.plan-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
-.plan-card{background:var(--black2);border:1px solid var(--border2);border-radius:16px;padding:36px 32px;transition:all .3s;display:flex;flex-direction:column}
-.plan-card:hover{transform:translateY(-4px)}
-.plan-card.featured{border-color:var(--border);background:linear-gradient(180deg,rgba(57,255,20,.05) 0%,var(--black2) 50%);box-shadow:0 0 32px var(--green-glow)}
-.plan-tier{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--gray4);margin-bottom:10px}
-.plan-card.featured .plan-tier{color:var(--green)}
-.plan-name{font-size:22px;font-weight:700;margin-bottom:24px;letter-spacing:-.3px}
-.plan-list{list-style:none;margin-bottom:28px;flex:1}
-.plan-list li{display:flex;gap:10px;align-items:flex-start;font-size:14px;color:var(--gray3);padding:10px 0;border-bottom:1px solid rgba(255,255,255,.04)}
-.plan-list li:last-child{border-bottom:none}
-.plan-list li::before{content:'✓';color:var(--green);flex-shrink:0;font-size:12px;font-weight:700}
-.plan-btn{display:inline-flex;align-items:center;justify-content:center;background:transparent;color:var(--white);border:1px solid var(--border2);padding:13px 18px;border-radius:8px;font-size:13px;font-weight:600;text-decoration:none;transition:all .2s;margin-top:auto}
-.plan-card.featured .plan-btn{background:var(--green);color:var(--black);border-color:var(--green);box-shadow:0 0 20px var(--green-glow)}
-.plan-btn:hover{border-color:var(--border);color:var(--green)}
-.plan-card.featured .plan-btn:hover{background:var(--white2);color:var(--black)}
-.plan-foot{margin-top:32px;padding:16px 24px;background:var(--black2);border:1px solid var(--border2);border-radius:10px;font-size:13px;color:var(--gray3);line-height:1.7;display:flex;align-items:center;gap:12px}
-
-@media(max-width:960px){
-  .live-sites{padding:60px 24px 40px}
-  .sites-grid,.you-grid,.lockin-grid,.partner-grid,.plan-grid{grid-template-columns:1fr}
-  .live-sites-head{flex-direction:column;align-items:flex-start}
-}
-@media(min-width:961px) and (max-width:1100px){
-  .sites-grid,.partner-grid{grid-template-columns:repeat(2,1fr)}
-}
-
-.tekton-logo-wrap { display:flex; align-items:center; gap:0; text-decoration:none; }
-.tekton-logo-text {
-  font-family: 'Barlow Condensed', sans-serif;
-  font-weight: 900;
-  font-size: 26px;
-  letter-spacing: -0.5px;
-  color: #ffffff;
-  text-transform: uppercase;
-  line-height: 1;
-}
-.tekton-logo-symbol {
-  display: inline-flex;
-  align-items: flex-start;
-  margin-left: 3px;
-  margin-top: -12px;
-}
-.tekton-logo-symbol .outer-sq {
-  width: 13px; height: 13px;
-  border: 2.5px solid #39FF14;
-  position: relative;
-  display: flex; align-items: center; justify-content: center;
-}
-/* 헤더(#nav) 로고 전용 — PNG 워드마크 우상단의 초록 네모(CSS border + 발광).
-   footer는 기존 .tekton-logo-symbol > .outer-sq 구조를 그대로 사용하므로 #nav로 스코프. */
-#nav .tekton-logo-symbol {
-  width: 20px;
-  height: 20px;
-  border: 2px solid #16c784;
-  border-radius: 1px;
-  display: inline-block;
-  align-self: flex-start;
-  margin: 2px 0 0 0;
-  box-shadow: 0 0 6px rgba(22, 199, 132, 0.5);
-}
-
-/* ─── 데모 표기 ─── */
-.demo-note{
-  margin-top:18px;
-  font-family:'DM Mono',monospace;
-  font-size:11px;
-  letter-spacing:1px;
-  color:var(--gray4);
-  text-align:right;
-  opacity:.72;
-  line-height:1.5;
-}
-.demo-note::before{
-  content:'※ ';
-  color:var(--gray4);
-}
-.viz-demo-badge{
-  position:absolute;
-  top:14px;
-  right:14px;
-  z-index:2;
-  font-family:'DM Mono',monospace;
-  font-size:9px;
-  font-weight:600;
-  letter-spacing:1.5px;
-  color:var(--gray3);
-  background:rgba(8,8,8,.78);
-  border:1px solid var(--border2);
-  padding:3px 8px;
-  border-radius:4px;
-  text-transform:uppercase;
-  opacity:.85;
-}
-@media(max-width:960px){
-  .demo-note{text-align:left}
-}
-
-/* ─── 파일럿 모집 모달 ─── */
-.pilot-overlay{
-  position:fixed;
-  inset:0;
-  z-index:200;
-  display:none;
-  align-items:center;
-  justify-content:center;
-  padding:24px;
-  background:rgba(0,0,0,.78);
-  backdrop-filter:blur(6px);
-  opacity:0;
-  transition:opacity .3s ease;
-}
-.pilot-overlay.show{display:flex;opacity:1}
-.pilot-modal{
-  position:relative;
-  width:100%;
-  max-width:440px;
-  background:var(--black2);
-  border:1px solid var(--border);
-  border-radius:16px;
-  padding:40px 36px 32px;
-  box-shadow:0 24px 64px rgba(0,0,0,.6),0 0 32px var(--green-glow);
-  transform:translateY(12px);
-  transition:transform .3s ease;
-}
-.pilot-overlay.show .pilot-modal{transform:translateY(0)}
-.pilot-close{
-  position:absolute;
-  top:14px;
-  right:16px;
-  padding:6px 8px;
-  background:transparent;
-  border:none;
-  color:var(--gray3);
-  font-size:20px;
-  line-height:1;
-  cursor:pointer;
-  transition:color .2s;
-}
-.pilot-close:hover{color:var(--white)}
-.pilot-eyebrow{
-  font-family:'DM Mono',monospace;
-  font-size:10px;
-  letter-spacing:2px;
-  text-transform:uppercase;
-  color:var(--green);
-  margin-bottom:14px;
-}
-.pilot-title{
-  font-size:22px;
-  font-weight:700;
-  line-height:1.3;
-  letter-spacing:-.3px;
-  color:var(--white2);
-  margin-bottom:18px;
-}
-.pilot-progress{
-  display:flex;
-  align-items:center;
-  gap:12px;
-  margin-bottom:18px;
-  flex-wrap:wrap;
-}
-.pilot-dots{display:inline-flex;gap:6px}
-.pilot-dot{
-  width:12px;
-  height:12px;
-  border-radius:50%;
-  border:1.5px solid var(--green);
-  background:transparent;
-}
-.pilot-dot.filled{
-  background:var(--green);
-  box-shadow:0 0 10px var(--green-glow);
-}
-.pilot-progress-text{
-  font-family:'DM Mono',monospace;
-  font-size:11px;
-  letter-spacing:.5px;
-  color:var(--gray3);
-}
-.pilot-body{
-  font-size:14px;
-  color:var(--gray3);
+body{
+  font-family:var(--font-body);
+  background:var(--paper);
+  color:var(--ink);
   line-height:1.65;
-  margin-bottom:24px;
+  font-size:16px;
+  -webkit-font-smoothing:antialiased;
+  word-break:keep-all;
 }
-.pilot-body strong{color:var(--white)}
-.pilot-btns{
-  display:flex;
-  gap:10px;
-  flex-wrap:wrap;
+a{ color:inherit; text-decoration:none; }
+button{ font-family:inherit; cursor:pointer; }
+:focus-visible{ outline:3px solid var(--sage); outline-offset:2px; border-radius:4px; }
+
+.wrap{ max-width:var(--maxw); margin:0 auto; padding:0 24px; }
+
+.eyebrow{
+  font-family:var(--font-mono);
+  font-size:12px; font-weight:600;
+  letter-spacing:.22em;
+  color:var(--sage);
+  text-transform:uppercase;
+  display:flex; align-items:center; gap:10px;
 }
-.pilot-btn-primary{
-  flex:1;
-  min-width:180px;
-  display:inline-flex;
-  align-items:center;
-  justify-content:center;
-  gap:6px;
-  padding:13px 18px;
-  border-radius:8px;
-  background:var(--green);
-  color:var(--black);
-  font-size:14px;
-  font-weight:700;
-  text-decoration:none;
-  box-shadow:0 0 20px var(--green-glow);
-  transition:all .2s;
+.eyebrow::before{ content:""; width:14px; height:14px; background:var(--sage); display:inline-block; }
+
+h2.sec-title{
+  font-size:clamp(26px, 4vw, 40px);
+  font-weight:700; line-height:1.35;
+  letter-spacing:-0.02em;
+  margin:18px 0 14px;
 }
-.pilot-btn-primary:hover{
-  background:var(--white2);
-  transform:translateY(-1px);
+.sec-lede{ color:var(--ink-soft); font-size:17px; max-width:640px; }
+
+.reveal{ opacity:0; transform:translateY(18px); transition:opacity .7s ease, transform .7s ease; }
+.reveal.in{ opacity:1; transform:none; }
+
+/* ── 로고 ── */
+.logo-link{ display:flex; align-items:center; color:var(--ink); }
+.logo-svg{ display:block; height:26px; width:auto; }
+.logo-img{ display:block; height:26px; width:auto; }
+/* 다크 배경(푸터)에서는 워드마크 흰색 */
+.on-dark .logo-link{ color:#EAF1E7; }
+
+/* ============================================================
+   1. 네비게이션
+   ============================================================ */
+.nav{
+  position:sticky; top:0; z-index:50;
+  background:rgba(246,244,238,.88);
+  backdrop-filter:blur(10px);
+  -webkit-backdrop-filter:blur(10px);
+  border-bottom:1px solid var(--line);
 }
-.pilot-btn-secondary{
-  display:inline-flex;
-  align-items:center;
-  justify-content:center;
-  padding:13px 18px;
-  border-radius:8px;
-  border:1px solid var(--border2);
-  background:transparent;
-  color:var(--gray3);
-  font-family:inherit;
-  font-size:14px;
-  font-weight:500;
-  cursor:pointer;
-  transition:all .2s;
+.nav-inner{
+  max-width:var(--maxw); margin:0 auto; padding:0 24px;
+  height:68px; display:flex; align-items:center; justify-content:space-between;
 }
-.pilot-btn-secondary:hover{
-  border-color:var(--border);
-  color:var(--white);
+.nav-ctas{ display:flex; gap:10px; align-items:center; }
+
+.btn{
+  display:inline-flex; align-items:center; justify-content:center; gap:8px;
+  font-size:15px; font-weight:600;
+  padding:11px 22px; border-radius:999px;
+  border:1.5px solid transparent;
+  transition:transform .15s ease, background .15s ease, color .15s ease, border-color .15s ease;
+  white-space:nowrap;
 }
-@media(max-width:480px){
-  .pilot-modal{padding:32px 22px 26px}
-  .pilot-title{font-size:19px}
-  .pilot-btn-primary,.pilot-btn-secondary{flex:1;min-width:0}
+.btn:hover{ transform:translateY(-1px); }
+.btn-primary{ background:var(--sage-deep); color:#F4F6F1; }
+.btn-primary:hover{ background:#243529; }
+.btn-ghost{ border-color:var(--ink); color:var(--ink); background:transparent; }
+.btn-ghost:hover{ background:var(--ink); color:var(--paper); }
+.btn-lg{ padding:15px 30px; font-size:16px; }
+
+/* ============================================================
+   2. 히어로
+   ============================================================ */
+.hero{ padding:84px 0 64px; overflow:hidden; }
+.hero-grid{ display:grid; grid-template-columns:1fr 1.08fr; gap:56px; align-items:center; }
+.hero h1{
+  font-size:clamp(34px, 5vw, 56px);
+  font-weight:700; line-height:1.28;
+  letter-spacing:-0.025em;
+  margin:20px 0 16px;
+}
+.hero h1 .accent{ color:var(--sage); }
+.hero-sub{ font-size:19px; font-weight:600; color:var(--sage-deep); margin-bottom:14px; }
+.hero-desc{ color:var(--ink-soft); font-size:16.5px; max-width:480px; margin-bottom:30px; }
+.hero-ctas{ display:flex; gap:12px; flex-wrap:wrap; }
+.hero-note{ margin-top:18px; font-family:var(--font-mono); font-size:12.5px; color:var(--ink-soft); letter-spacing:.04em; }
+
+/* ── 관제 모니터 목업 ── */
+.monitor{
+  background:var(--monitor);
+  border:1px solid var(--monitor-edge);
+  border-radius:var(--radius);
+  color:var(--monitor-text);
+  font-family:var(--font-mono);
+  box-shadow:0 24px 60px -20px rgba(33,38,31,.35);
+  overflow:hidden;
+  position:relative;
+}
+.monitor::after{
+  content:""; position:absolute; left:0; right:0; height:90px; top:-90px;
+  background:linear-gradient(to bottom, transparent, rgba(125,185,138,.05), transparent);
+  animation:scan 7s linear infinite;
+  pointer-events:none;
+}
+@keyframes scan{ to{ top:110%; } }
+
+.mon-head{
+  display:flex; align-items:center; gap:12px; flex-wrap:wrap;
+  padding:14px 18px; border-bottom:1px solid var(--monitor-line);
+  font-size:11.5px; letter-spacing:.06em; color:var(--monitor-dim);
+}
+.live-dot{
+  width:8px; height:8px; border-radius:50%; background:var(--ok);
+  animation:pulse-dot 2.4s ease-out infinite;
+}
+@keyframes pulse-dot{
+  0%{ box-shadow:0 0 0 0 rgba(125,185,138,.45); }
+  70%{ box-shadow:0 0 0 8px rgba(125,185,138,0); }
+  100%{ box-shadow:0 0 0 0 rgba(125,185,138,0); }
+}
+.mon-head .sep{ color:var(--monitor-line); }
+.mon-head .ro{ margin-left:auto; border:1px solid var(--monitor-edge); padding:2px 8px; border-radius:4px; color:var(--ok); font-weight:600; }
+
+.mon-kpis{ display:grid; grid-template-columns:repeat(3,1fr); border-bottom:1px solid var(--monitor-line); }
+.mon-kpi{ padding:16px 18px; border-right:1px solid var(--monitor-line); }
+.mon-kpi:last-child{ border-right:none; }
+.mon-kpi .k-label{ font-size:10.5px; color:var(--monitor-dim); letter-spacing:.12em; margin-bottom:6px; }
+.mon-kpi .k-value{ font-size:26px; font-weight:600; color:#E8F0E6; line-height:1; }
+.mon-kpi .k-unit{ font-size:12px; color:var(--monitor-dim); margin-left:4px; }
+
+.mon-table{ width:100%; border-collapse:collapse; font-size:12.5px; }
+.mon-table th{ text-align:left; padding:10px 18px; font-weight:500; font-size:10.5px; letter-spacing:.12em; color:var(--monitor-dim); border-bottom:1px solid var(--monitor-line); }
+.mon-table td{ padding:11px 18px; border-bottom:1px solid var(--monitor-line); vertical-align:middle; }
+.mon-table tr:last-child td{ border-bottom:none; }
+.mon-table .pt-name{ color:#E8F0E6; }
+.mon-table .pt-sub{ display:block; font-size:10.5px; color:var(--monitor-dim); margin-top:2px; }
+.val{ font-weight:600; transition:color .3s ease; }
+
+.tag{ display:inline-block; font-size:10.5px; font-weight:600; padding:3px 9px; border-radius:4px; letter-spacing:.05em; border:1px solid; transition:opacity .4s ease; }
+.tag-ok{ color:var(--ok); border-color:rgba(125,185,138,.4); background:rgba(125,185,138,.08); }
+.tag-warn{ color:var(--warn); border-color:rgba(203,154,78,.4); background:rgba(203,154,78,.08); }
+.tag-fault{ color:#E8A099; border-color:rgba(201,90,76,.55); background:rgba(201,90,76,.14); }
+.tag-pending{ opacity:0; }
+.tag-fault.show{ animation:pulse-fault 2.2s ease-in-out infinite; }
+@keyframes pulse-fault{
+  0%,100%{ box-shadow:0 0 0 0 rgba(201,90,76,0); }
+  50%{ box-shadow:0 0 0 5px rgba(201,90,76,.12); }
+}
+
+.mon-foot{
+  display:flex; align-items:center; gap:14px; flex-wrap:wrap;
+  padding:14px 18px; background:rgba(201,90,76,.06);
+  border-top:1px solid var(--monitor-line); font-size:12px;
+  opacity:0; transition:opacity .5s ease;
+}
+.mon-foot.show{ opacity:1; }
+.mon-foot .prio{ color:#E8A099; font-weight:600; letter-spacing:.04em; }
+.mon-foot .desc{ color:var(--monitor-dim); }
+.mon-foot .quote-btn{ margin-left:auto; font-family:var(--font-mono); font-size:11.5px; font-weight:600; color:var(--monitor); background:var(--ok); border:none; padding:7px 14px; border-radius:5px; }
+
+/* ============================================================
+   3. 신뢰 바
+   ============================================================ */
+.trust{ border-top:1px solid var(--line); border-bottom:1px solid var(--line); background:var(--paper-2); }
+.trust-inner{ max-width:var(--maxw); margin:0 auto; padding:18px 24px; display:flex; gap:14px 36px; flex-wrap:wrap; align-items:center; justify-content:center; }
+.trust-item{ display:flex; align-items:center; gap:9px; font-family:var(--font-mono); font-size:12.5px; font-weight:500; color:var(--ink-soft); letter-spacing:.03em; }
+.trust-item svg{ width:15px; height:15px; flex:none; }
+.trust-num{ color:var(--sage-deep); font-weight:600; }
+
+/* ============================================================
+   4. 차별점 (대비 + 가짜정상 체험 위젯)
+   ============================================================ */
+.section{ padding:96px 0; }
+.section-tint{ background:var(--paper-2); }
+
+.vs-grid{ display:grid; grid-template-columns:1fr 1fr; gap:22px; margin-top:44px; }
+.vs-card{ border-radius:var(--radius); padding:30px; border:1px solid var(--line); background:#FBFAF6; }
+.vs-card.tarch{ background:var(--monitor); border-color:var(--monitor-edge); color:var(--monitor-text); }
+.vs-label{ font-family:var(--font-mono); font-size:11.5px; font-weight:600; letter-spacing:.18em; margin-bottom:20px; }
+.vs-card .vs-label{ color:var(--ink-soft); }
+.vs-card.tarch .vs-label{ color:var(--ok); }
+
+.flow{ display:flex; flex-direction:column; gap:0; }
+.flow-step{ display:flex; align-items:center; gap:12px; font-size:14.5px; padding:11px 14px; border:1px solid var(--line); border-radius:var(--radius-sm); background:#fff; }
+.vs-card.tarch .flow-step{ background:rgba(232,240,230,.04); border-color:var(--monitor-edge); }
+.flow-arrow{ align-self:center; height:22px; display:flex; align-items:center; color:var(--ink-soft); font-family:var(--font-mono); font-size:12px; }
+.vs-card.tarch .flow-arrow{ color:var(--monitor-dim); }
+.flow-step .step-tag{ font-family:var(--font-mono); font-size:10px; letter-spacing:.1em; color:var(--ink-soft); flex:none; width:62px; }
+.vs-card.tarch .flow-step .step-tag{ color:var(--monitor-dim); }
+.flow-step.result-believe{ border-color:#D9CDB6; background:#F8F3E6; }
+.flow-step.result-catch{ border-color:rgba(201,90,76,.5); background:rgba(201,90,76,.1); color:#E8A099; font-weight:600; }
+.vs-caption{ margin-top:18px; font-size:14px; color:var(--ink-soft); }
+.vs-card.tarch .vs-caption{ color:var(--monitor-dim); }
+
+/* 가짜 정상 체험 위젯 */
+.demo{ margin-top:30px; border:1px solid var(--monitor-edge); border-radius:var(--radius); overflow:hidden; background:var(--monitor); }
+.demo-head{ display:flex; align-items:center; gap:10px; flex-wrap:wrap; padding:16px 20px; border-bottom:1px solid var(--monitor-line); }
+.demo-head h3{ font-size:15px; color:#E8F0E6; font-weight:600; font-family:var(--font-mono); letter-spacing:.02em; }
+.demo-head .hint{ font-family:var(--font-mono); font-size:11.5px; color:var(--monitor-dim); margin-left:auto; }
+.demo-body{ display:grid; grid-template-columns:1.1fr 1fr 1fr; gap:0; }
+.demo-cell{ padding:22px 20px; border-right:1px solid var(--monitor-line); }
+.demo-cell:last-child{ border-right:none; }
+.demo-cell .cell-label{ font-family:var(--font-mono); font-size:10.5px; letter-spacing:.12em; color:var(--monitor-dim); margin-bottom:14px; }
+.sensor-readout{ font-family:var(--font-mono); font-size:30px; font-weight:600; color:#E8F0E6; letter-spacing:.02em; }
+.sensor-readout .unit{ font-size:15px; color:var(--monitor-dim); margin-left:3px; }
+.sparkline{ margin-top:14px; height:34px; width:100%; }
+.sparkline polyline{ fill:none; stroke:var(--ok); stroke-width:2; }
+.demo-verdict{ display:flex; flex-direction:column; gap:6px; }
+.verdict-badge{ font-family:var(--font-mono); font-size:13px; font-weight:600; padding:8px 12px; border-radius:6px; border:1px solid; display:inline-flex; align-items:center; gap:8px; align-self:flex-start; }
+.verdict-ok{ color:var(--ok); border-color:rgba(125,185,138,.4); background:rgba(125,185,138,.08); }
+.verdict-fault{ color:#E8A099; border-color:rgba(201,90,76,.55); background:rgba(201,90,76,.15); }
+.verdict-note{ font-family:var(--font-mono); font-size:11px; color:var(--monitor-dim); }
+.demo-controls{ display:flex; gap:10px; padding:16px 20px; border-top:1px solid var(--monitor-line); flex-wrap:wrap; }
+.demo-btn{ font-family:var(--font-mono); font-size:12.5px; font-weight:600; padding:9px 16px; border-radius:6px; border:1px solid var(--monitor-edge); background:rgba(232,240,230,.05); color:var(--monitor-text); transition:background .15s ease; }
+.demo-btn:hover{ background:rgba(232,240,230,.12); }
+.demo-btn.danger{ border-color:rgba(201,90,76,.5); color:#E8A099; }
+.demo-btn.active{ background:rgba(201,90,76,.18); }
+
+/* ============================================================
+   5. 작동 방식 3단계 + 데이터 흐름 다이어그램
+   ============================================================ */
+.steps{ display:grid; grid-template-columns:repeat(3,1fr); gap:0; margin-top:52px; position:relative; }
+.steps::before{ content:""; position:absolute; top:26px; left:8%; right:8%; border-top:2px dashed var(--sage); opacity:.45; }
+.step{ position:relative; padding:0 26px; text-align:left; }
+.step-num{ position:relative; z-index:1; width:52px; height:52px; border-radius:50%; background:var(--sage-deep); color:#F4F6F1; font-family:var(--font-mono); font-weight:600; font-size:15px; display:flex; align-items:center; justify-content:center; margin-bottom:22px; border:5px solid var(--paper-2); }
+.step h3{ font-size:19px; font-weight:700; margin-bottom:10px; letter-spacing:-0.01em; }
+.step p{ font-size:14.5px; color:var(--ink-soft); }
+.step-chip{ display:inline-block; margin-top:14px; font-family:var(--font-mono); font-size:11px; font-weight:600; letter-spacing:.1em; color:var(--sage-deep); background:var(--sage-tint); padding:5px 11px; border-radius:4px; }
+
+/* 데이터 흐름 다이어그램 */
+.flowmap-wrap{ margin-top:64px; border:1px solid var(--line); border-radius:var(--radius); background:#FBFAF6; padding:34px 28px 26px; }
+.flowmap-title{ font-family:var(--font-mono); font-size:12px; letter-spacing:.14em; color:var(--ink-soft); text-transform:uppercase; margin-bottom:8px; text-align:center; }
+.flowmap-sub{ text-align:center; font-size:14px; color:var(--ink-soft); margin-bottom:22px; }
+.flowmap{ width:100%; height:auto; display:block; }
+
+/* 모바일 세로 흐름 (기본 숨김, 모바일에서만 표시) */
+.flowmap-mobile{ display:none; }
+.fm-stack{ display:flex; flex-direction:column; gap:0; }
+.fm-stack-node{ display:flex; align-items:center; gap:14px; padding:14px 16px; border:1px solid var(--line); border-radius:var(--radius-sm); background:#fff; }
+.fm-stack-node.edge{ background:var(--monitor); border-color:var(--monitor-edge); }
+.fm-stack-node.edge .fm-stack-name{ color:#E8F0E6; }
+.fm-stack-node.edge .fm-stack-sub{ color:var(--monitor-dim); }
+.fm-stack-idx{ flex:none; width:30px; height:30px; border-radius:50%; background:var(--sage-tint); color:var(--sage-deep); font-family:var(--font-mono); font-size:13px; font-weight:600; display:flex; align-items:center; justify-content:center; }
+.fm-stack-node.edge .fm-stack-idx{ background:rgba(125,185,138,.15); color:var(--ok); }
+.fm-stack-name{ font-family:var(--font-mono); font-size:14px; font-weight:600; color:var(--ink); }
+.fm-stack-sub{ font-size:12px; color:var(--ink-soft); }
+.fm-stack-cav{ font-family:var(--font-mono); font-size:10.5px; color:var(--ink-soft); padding:2px 0 2px 60px; }
+.fm-stack-arrow{ align-self:flex-start; margin-left:30px; height:18px; color:var(--sage); font-size:13px; display:flex; align-items:center; }
+.fm-stack-arrow .ro-mini{ font-family:var(--font-mono); font-size:9.5px; color:var(--sage); margin-left:8px; letter-spacing:.06em; }
+.fm-node-label{ font-family:var(--font-mono); font-size:13px; font-weight:600; fill:var(--ink); }
+.fm-node-sub{ font-family:var(--font-mono); font-size:9.5px; fill:var(--ink-soft); }
+.fm-box{ fill:#fff; stroke:var(--line); stroke-width:1.5; }
+.fm-box.edge{ fill:var(--monitor); stroke:var(--monitor-edge); }
+.fm-box.edge + text, .fm-edge-label{ fill:#E8F0E6; }
+.fm-path{ fill:none; stroke:var(--sage); stroke-width:2; }
+.fm-packet{ fill:var(--sage-deep); }
+.fm-readonly{ font-family:var(--font-mono); font-size:9px; fill:var(--sage); letter-spacing:.08em; }
+.fm-caveat{ font-family:var(--font-mono); font-size:9px; fill:var(--ink-soft); }
+
+/* ============================================================
+   6. 두 고객
+   ============================================================ */
+.aud-grid{ display:grid; grid-template-columns:1fr 1fr; gap:22px; margin-top:44px; }
+.aud-card{ border:1px solid var(--line); border-radius:var(--radius); background:#FBFAF6; padding:38px 34px; display:flex; flex-direction:column; }
+.aud-card.partner{ background:var(--sage-deep); border-color:var(--sage-deep); color:#EDF2EA; }
+.aud-who{ font-family:var(--font-mono); font-size:11.5px; font-weight:600; letter-spacing:.18em; color:var(--sage); margin-bottom:16px; }
+.aud-card.partner .aud-who{ color:#A9C3A8; }
+.aud-card h3{ font-size:24px; font-weight:700; letter-spacing:-0.015em; margin-bottom:20px; }
+.aud-list{ list-style:none; display:flex; flex-direction:column; gap:13px; margin-bottom:30px; }
+.aud-list li{ display:flex; gap:11px; font-size:15px; color:var(--ink-soft); align-items:flex-start; }
+.aud-card.partner .aud-list li{ color:#C5D3C3; }
+.aud-list li svg{ flex:none; width:17px; height:17px; margin-top:4px; }
+.aud-card .btn{ margin-top:auto; align-self:flex-start; }
+.btn-on-dark{ background:#F4F6F1; color:var(--sage-deep); }
+.btn-on-dark:hover{ background:#fff; }
+
+/* ============================================================
+   7. 브랜드 무관
+   ============================================================ */
+.brands{ text-align:center; }
+.brand-chips{ display:flex; gap:10px; flex-wrap:wrap; justify-content:center; margin:34px 0 22px; }
+.brand-chip{ font-family:var(--font-mono); font-size:13px; font-weight:500; color:var(--ink-soft); border:1px solid var(--line); background:#FBFAF6; padding:9px 18px; border-radius:999px; letter-spacing:.03em; }
+.brands .big-line{ font-size:clamp(19px, 2.6vw, 24px); font-weight:600; letter-spacing:-0.01em; max-width:720px; margin:0 auto; }
+.brands .big-line strong{ color:var(--sage); }
+
+/* ============================================================
+   8. ROI 계산기
+   ============================================================ */
+.roi{ max-width:760px; margin:48px auto 0; border:1px solid var(--line); border-radius:var(--radius); background:#FBFAF6; padding:38px 36px; }
+.roi-row{ display:flex; align-items:center; justify-content:space-between; gap:16px; flex-wrap:wrap; margin-bottom:8px; }
+.roi-row label{ font-size:14.5px; font-weight:600; }
+.roi-size-out{ font-family:var(--font-mono); font-weight:600; color:var(--sage-deep); font-size:15px; }
+.roi-slider{ width:100%; -webkit-appearance:none; appearance:none; height:6px; border-radius:3px; background:var(--sage-tint); margin:14px 0 26px; outline:none; }
+.roi-slider::-webkit-slider-thumb{ -webkit-appearance:none; appearance:none; width:22px; height:22px; border-radius:50%; background:var(--sage-deep); cursor:pointer; border:3px solid #fff; box-shadow:0 1px 4px rgba(0,0,0,.2); }
+.roi-slider::-moz-range-thumb{ width:22px; height:22px; border-radius:50%; background:var(--sage-deep); cursor:pointer; border:3px solid #fff; }
+.roi-bars{ display:flex; flex-direction:column; gap:16px; margin:8px 0 14px; }
+.roi-bar-group .roi-bar-label{ display:flex; justify-content:space-between; font-size:13.5px; margin-bottom:7px; }
+.roi-bar-label .amt{ font-family:var(--font-mono); font-weight:600; }
+.roi-bar-track{ height:30px; border-radius:6px; background:var(--paper-2); overflow:hidden; }
+.roi-bar-fill{ height:100%; border-radius:6px; transition:width .35s ease; }
+.roi-bar-fill.cost{ background:var(--fault); }
+.roi-bar-fill.sub{ background:var(--sage); }
+.roi-verdict{ margin-top:20px; padding:16px 18px; border-radius:var(--radius-sm); background:var(--sage-tint); font-size:14.5px; color:var(--sage-deep); font-weight:600; text-align:center; }
+.roi-assume{ margin-top:14px; font-family:var(--font-mono); font-size:11px; color:var(--ink-soft); text-align:center; }
+
+/* ============================================================
+   9. 가격
+   ============================================================ */
+.price-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:20px; margin-top:48px; }
+.price-card{ border:1px solid var(--line); border-radius:var(--radius); background:#FBFAF6; padding:34px 30px; display:flex; flex-direction:column; position:relative; }
+.price-card.featured{ border-color:var(--sage-deep); border-width:2px; box-shadow:0 18px 44px -18px rgba(47,67,55,.28); }
+.pop-badge{ position:absolute; top:-13px; left:30px; font-family:var(--font-mono); font-size:10.5px; font-weight:600; letter-spacing:.12em; background:var(--sage-deep); color:#F4F6F1; padding:5px 12px; border-radius:4px; }
+.tier-name{ font-size:15px; font-weight:700; margin-bottom:4px; }
+.tier-target{ font-size:12.5px; color:var(--ink-soft); font-family:var(--font-mono); margin-bottom:22px; }
+.tier-price{ display:flex; align-items:baseline; gap:6px; margin-bottom:4px; }
+.tier-price .num{ font-size:42px; font-weight:700; letter-spacing:-0.03em; line-height:1; }
+.tier-price .per{ font-size:14px; color:var(--ink-soft); }
+.tier-vat{ font-family:var(--font-mono); font-size:11.5px; color:var(--ink-soft); margin-bottom:22px; }
+.free-badge{ font-family:var(--font-mono); font-size:11.5px; font-weight:600; color:var(--sage-deep); background:var(--sage-tint); padding:7px 12px; border-radius:5px; letter-spacing:.05em; margin-bottom:24px; display:inline-block; align-self:flex-start; }
+.tier-feats{ list-style:none; display:flex; flex-direction:column; gap:10px; margin-bottom:30px; }
+.tier-feats li{ display:flex; gap:9px; font-size:13.5px; color:var(--ink-soft); align-items:flex-start; }
+.tier-feats li svg{ flex:none; width:15px; height:15px; margin-top:3.5px; }
+.price-card .btn{ margin-top:auto; width:100%; }
+.price-note{ margin-top:26px; text-align:center; font-family:var(--font-mono); font-size:12.5px; color:var(--ink-soft); }
+
+/* ============================================================
+   10. 11개 룰 그리드
+   ============================================================ */
+.rules-grid{ display:grid; grid-template-columns:repeat(4,1fr); gap:14px; margin-top:44px; }
+.rule-card{ border:1px solid var(--line); border-radius:var(--radius-sm); background:#FBFAF6; padding:20px 18px; cursor:pointer; transition:border-color .2s ease, box-shadow .2s ease, transform .2s ease; }
+.rule-card:hover, .rule-card:focus-within{ border-color:var(--sage); box-shadow:0 8px 22px -12px rgba(47,67,55,.25); transform:translateY(-2px); }
+.rule-icon{ width:30px; height:30px; margin-bottom:12px; color:var(--sage); }
+.rule-icon svg{ width:100%; height:100%; }
+.rule-name{ font-size:14px; font-weight:700; margin-bottom:6px; letter-spacing:-0.01em; }
+.rule-detail{ font-size:12.5px; color:var(--ink-soft); max-height:0; opacity:0; overflow:hidden; transition:max-height .3s ease, opacity .3s ease, margin .3s ease; }
+.rule-card:hover .rule-detail, .rule-card:focus-within .rule-detail, .rule-card.open .rule-detail{ max-height:140px; opacity:1; margin-top:6px; }
+.rule-num{ font-family:var(--font-mono); font-size:10.5px; color:var(--sage); font-weight:600; letter-spacing:.1em; }
+
+/* ============================================================
+   11. 신청 폼
+   ============================================================ */
+.apply-box{ max-width:680px; margin:48px auto 0; border:1px solid var(--line); border-radius:var(--radius); background:#FBFAF6; overflow:hidden; }
+.tabs{ display:flex; border-bottom:1px solid var(--line); }
+.tab-btn{ flex:1; padding:17px 10px; background:var(--paper-2); border:none; font-size:15px; font-weight:600; color:var(--ink-soft); border-bottom:3px solid transparent; }
+.tab-btn[aria-selected="true"]{ background:#FBFAF6; color:var(--ink); border-bottom-color:var(--sage-deep); }
+.tab-panel{ padding:36px 36px 40px; }
+.tab-panel[hidden]{ display:none; }
+.f-row{ display:grid; grid-template-columns:1fr 1fr; gap:16px; }
+.f-group{ display:flex; flex-direction:column; gap:7px; margin-bottom:18px; }
+.f-group label{ font-size:13.5px; font-weight:600; }
+.f-group label .req{ color:var(--fault); }
+.f-group input, .f-group select{ font-family:var(--font-body); font-size:15px; padding:12px 14px; border:1px solid var(--line); border-radius:var(--radius-sm); background:#fff; color:var(--ink); width:100%; }
+.f-group input:focus, .f-group select:focus{ outline:none; border-color:var(--sage); box-shadow:0 0 0 3px rgba(94,123,98,.15); }
+.form-foot{ margin-top:6px; font-family:var(--font-mono); font-size:11.5px; color:var(--ink-soft); }
+.form-foot a{ color:var(--sage-deep); text-decoration:underline; }
+.apply-success{ text-align:center; padding:26px 10px 6px; }
+.apply-success .ok-circle{ width:56px; height:56px; border-radius:50%; background:var(--sage-tint); display:flex; align-items:center; justify-content:center; margin:0 auto 18px; }
+.apply-success h4{ font-size:20px; font-weight:700; margin-bottom:8px; }
+.apply-success p{ color:var(--ink-soft); font-size:14.5px; margin-bottom:22px; }
+
+/* ============================================================
+   12. 푸터
+   ============================================================ */
+.footer{ background:var(--monitor); color:var(--monitor-dim); padding:60px 0 46px; font-size:13.5px; }
+.footer .logo-link{ margin-bottom:24px; display:inline-flex; }
+.footer-grid{ display:flex; justify-content:space-between; gap:32px; flex-wrap:wrap; }
+.footer .info p{ margin-bottom:5px; }
+.footer .info a{ color:var(--monitor-text); text-decoration:underline; }
+.footer-badges{ display:flex; flex-direction:column; gap:8px; font-family:var(--font-mono); font-size:11.5px; letter-spacing:.04em; text-align:right; }
+.footer-badges span{ color:var(--monitor-text); }
+.footer .copy{ margin-top:38px; padding-top:22px; border-top:1px solid var(--monitor-line); font-family:var(--font-mono); font-size:11px; letter-spacing:.05em; display:flex; justify-content:space-between; gap:14px; flex-wrap:wrap; }
+
+/* ============================================================
+   반응형
+   ============================================================ */
+@media (max-width: 980px){
+  .hero-grid{ grid-template-columns:1fr; gap:44px; }
+  .hero-desc{ max-width:none; }
+  .vs-grid, .aud-grid{ grid-template-columns:1fr; }
+  .steps{ grid-template-columns:1fr; gap:38px; }
+  .steps::before{ left:26px; right:auto; top:8%; bottom:8%; border-top:none; border-left:2px dashed var(--sage); }
+  .step{ padding:0; }
+  .price-grid{ grid-template-columns:1fr; max-width:480px; margin-left:auto; margin-right:auto; }
+  .rules-grid{ grid-template-columns:repeat(2,1fr); }
+  .demo-body{ grid-template-columns:1fr; }
+  .demo-cell{ border-right:none; border-bottom:1px solid var(--monitor-line); }
+  .demo-cell:last-child{ border-bottom:none; }
+  /* 흐름 다이어그램: 가로 숨기고 세로 스택 */
+  .flowmap{ display:none; }
+  .flowmap-mobile{ display:block; }
+}
+@media (max-width: 640px){
+  .section{ padding:68px 0; }
+  .hero{ padding:56px 0 48px; }
+  .nav-ctas .btn-ghost{ display:none; }
+  .btn{ padding:10px 18px; font-size:14px; }
+  .f-row{ grid-template-columns:1fr; }
+  .tab-panel{ padding:26px 22px 30px; }
+  .mon-kpi{ padding:13px 12px; }
+  .mon-kpi .k-value{ font-size:20px; }
+  .mon-table th:nth-child(2), .mon-table td:nth-child(2){ display:none; }
+  .footer-badges{ text-align:left; }
+  .rules-grid{ grid-template-columns:1fr; }
 }
 </style>
 </head>
 <body>
-<nav id="nav">
-  <a href="#" class="tekton-logo-wrap" style="display: inline-flex; align-items: center; gap: 7px; text-decoration: none;">
-    <img src="static/img/tekton_logo_white.svg" alt="TEKTON"
-         style="height: 40px; width: auto; display: block;" />
-  </a>
-  <ul class="nav-menu">
-    <li><a href="#problem">문제</a></li>
-    <li><a href="#about">T-ARCH란</a></li>
-    <li><a href="#you">활용 사례</a></li>
-    <li><a href="#how">작동 방식</a></li>
-    <li><a href="#partners">파트너</a></li>
-    <li><a href="#pricing">요금</a></li>
-    <li><a href="https://docs.google.com/forms/d/e/1FAIpQLSdAIdRmF_CYJji3j7ohxqaTlYH-WB45FWRzHghe-UF_JeSGGg/viewform" target="_blank" class="nav-cta">무료 진단 →</a></li>
-  </ul>
-</nav>
 
-<div class="hero">
-  <div class="hero-grid"></div>
-  <canvas id="tarch-hero-canvas" style="position:absolute;top:0;left:0;width:100%;height:100%;z-index:0;pointer-events:none"></canvas>
-  <div class="hero-left">
-    <div class="hero-badge">
-      <span class="hero-badge-dot"></span>
-      <span>AI 시설관리 시스템 · 2026 에코스타트업 선정</span>
-    </div>
-    <h1 class="hero-h1">
-      <span class="l1">건물은 아플 때도</span>
-      <span class="l1">괜찮다고 말합니다.</span>
-      <span class="l2">T-ARCH는 그 말을<br>믿지 않습니다.</span>
-    </h1>
-    <p class="hero-subtitle">센서가 멈췄는데 화면은 '정상'.<br><strong>다른 시스템은 믿고, T-ARCH는 의심합니다.</strong></p>
-    <div class="hero-btns">
-      <a href="https://docs.google.com/forms/d/e/1FAIpQLSdAIdRmF_CYJji3j7ohxqaTlYH-WB45FWRzHghe-UF_JeSGGg/viewform" target="_blank" class="btn-green">무료 진단 신청하기 →</a>
-      <a href="#you" class="btn-ghost">누구에게 필요한가요?</a>
-    </div>
-    <!-- 히어로 하단 stat 바 (3분할) -->
-    <div class="hero-stats">
-      <div class="hs-item">
-        <div class="hs-main">실시간 감지 <span class="hs-val" data-counter data-target="1" data-suffix="초">0초</span></div>
-        <div class="hs-cap">실시간 폴링 주기</div>
+<!-- ════════════════════════════════════════════════════════
+     ★ 공식 로고 — TEKTON (구글드라이브 tekton_logo_on_dark.svg 기반)
+     viewBox만 잘라 워드마크+그린네모를 인라인화.
+     교체 시 이 <symbol> 한 블록만 바꾸면 네비·푸터 동시 반영.
+     형광 그린(#4DF000)은 공식 브랜드색이므로 로고에 한해 허용.
+     ════════════════════════════════════════════════════════ -->
+<!-- ── 1. 네비게이션 ── -->
+<header class="nav">
+  <div class="nav-inner">
+    <a href="#top" class="logo-link" aria-label="TEKTON 홈">
+      <img class="logo-img" src="tekton_logo_nav.svg" alt="TEKTON" height="26">
+    </a>
+    <nav class="nav-ctas" aria-label="주요 행동">
+      <a class="btn btn-ghost" href="#apply" data-open-tab="partner">협력업체 등록</a>
+      <a class="btn btn-primary" href="#apply" data-open-tab="diag">무료 진단 받기</a>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+
+<!-- ── 2. 히어로 ── -->
+<section class="hero">
+  <div class="wrap hero-grid">
+    <div class="reveal">
+      <p class="eyebrow">AI 시설관리 시스템 · T-ARCH</p>
+      <h1>고장 나기 전에,<br>먼저 압니다.<br><span class="accent">가짜 정상까지.</span></h1>
+      <p class="hero-sub">AI 정밀진단이 트리거가 되는 시설관리 플랫폼</p>
+      <p class="hero-desc">
+        T-ARCH는 건물 설비 데이터를 의심하는 AI 진단 시스템입니다.
+        BMS가 "정상"이라고 말하는 순간에도 센서부터 검증해 숨은 고장을 먼저 찾고,
+        수리가 필요하면 검증된 시설업체까지 연결합니다.
+      </p>
+      <div class="hero-ctas">
+        <a class="btn btn-primary btn-lg" href="#apply" data-open-tab="diag">무료 진단 받기</a>
+        <a class="btn btn-ghost btn-lg" href="#apply" data-open-tab="partner">협력업체로 참여하기</a>
       </div>
-      <div class="hs-item">
-        <div class="hs-main">현장 <span class="hs-val" data-counter data-target="4">0</span>곳 연결 중</div>
-        <div class="hs-cap">파일럿 포함 운영 중</div>
+      <p class="hero-note">READ-ONLY 연결 · 기존 BMS 운영에 영향 없음 · 추가 공사 없음</p>
+    </div>
+
+    <!-- 제품 대시보드 목업 (애니메이션) -->
+    <div class="monitor reveal" id="hero-monitor" role="img" aria-label="T-ARCH 관제 대시보드 화면 예시">
+      <div class="mon-head">
+        <span class="live-dot" aria-hidden="true"></span>
+        <span>T-ARCH 통합 관제</span>
+        <span class="sep">|</span>
+        <span>송도 A 지식산업센터</span>
+        <span class="sep">|</span>
+        <span>수집 60s</span>
+        <span class="ro">READ-ONLY</span>
       </div>
-      <div class="hs-item">
-        <div class="hs-main">입력 노동 <span class="hs-val">0</span></div>
-        <div class="hs-cap">DDC 자동 수집</div>
+      <div class="mon-kpis">
+        <div class="mon-kpi">
+          <div class="k-label">감시 포인트</div>
+          <div class="k-value"><span class="count" data-to="37">0</span><span class="k-unit">pt</span></div>
+        </div>
+        <div class="mon-kpi">
+          <div class="k-label">설비 건강도</div>
+          <div class="k-value"><span class="count" data-to="88">0</span><span class="k-unit">/100</span></div>
+        </div>
+        <div class="mon-kpi">
+          <div class="k-label">오늘 점검 권장</div>
+          <div class="k-value"><span class="count" data-to="3">0</span><span class="k-unit">건</span></div>
+        </div>
+      </div>
+      <table class="mon-table">
+        <thead>
+          <tr><th>포인트</th><th>현재값</th><th>BMS 표시</th><th>T-ARCH 판정</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="pt-name">냉동기 CH-1<span class="pt-sub">냉수 출구온도</span></td>
+            <td class="val">7.4&#8451;</td>
+            <td><span class="tag tag-ok">정상</span></td>
+            <td><span class="tag tag-ok">정상</span></td>
+          </tr>
+          <tr>
+            <td class="pt-name">냉동기 CH-2<span class="pt-sub">냉수 출구온도</span></td>
+            <td class="val" id="ch2-val">7.2&#8451;</td>
+            <td><span class="tag tag-ok">정상</span></td>
+            <td><span class="tag tag-ok tag-verdict" id="ch2-verdict">정상</span></td>
+          </tr>
+          <tr>
+            <td class="pt-name">공조기 AHU-3<span class="pt-sub">급기온도</span></td>
+            <td class="val">23.8&#8451;</td>
+            <td><span class="tag tag-ok">정상</span></td>
+            <td><span class="tag tag-ok">정상</span></td>
+          </tr>
+          <tr>
+            <td class="pt-name">부스터펌프 P-2<span class="pt-sub">운전 상태</span></td>
+            <td class="val">가동</td>
+            <td><span class="tag tag-ok">정상</span></td>
+            <td><span class="tag tag-warn">단속운전 감지</span></td>
+          </tr>
+          <tr>
+            <td class="pt-name">배기팬 F-7<span class="pt-sub">주차장 환기</span></td>
+            <td class="val">정지</td>
+            <td><span class="tag tag-ok">정상</span></td>
+            <td><span class="tag tag-ok">정상</span></td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="mon-foot" id="mon-foot">
+        <span class="prio">점검 권장 1순위</span>
+        <span class="desc">CH-2 온도 센서 — 동일값 <span id="stuck-count">47</span>회 반복, 센서 점검 필요</span>
+        <button class="quote-btn" type="button">시설업체 견적 요청</button>
       </div>
     </div>
-    <!-- 브랜드 무관 callout -->
-    <div class="brand-compat">
-      <p class="brand-compat__brands">지멘스 · 하니웰 · 존슨컨트롤즈 · LG · 삼성 · 국내 DDC</p>
-      <p class="brand-compat__desc">어떤 브랜드가 설치되어 있든, T-ARCH는 연결됩니다. 교체 없이, 추가 공사 없이.</p>
-    </div>
+  </div>
+</section>
+
+<!-- ── 3. 신뢰 바 (카운트업) ── -->
+<div class="trust">
+  <div class="trust-inner">
+    <span class="trust-item">
+      <svg viewBox="0 0 16 16" fill="none"><path d="M8 1l2 4.3 4.7.5-3.5 3.2 1 4.6L8 11.2 3.8 13.6l1-4.6L1.3 5.8 6 5.3 8 1z" fill="#5E7B62"/></svg>
+      기후테크 · 2026 에코스타트업 선정 (환경부 KEITI)
+    </span>
+    <span class="trust-item">
+      <svg viewBox="0 0 16 16" fill="none"><rect x="2" y="2" width="12" height="12" rx="2" stroke="#5E7B62" stroke-width="1.5"/><path d="M5 8.2l2 2 4-4.4" stroke="#5E7B62" stroke-width="1.5" fill="none"/></svg>
+      특허 <span class="trust-num count" data-to="2">0</span>건 출원
+    </span>
+    <span class="trust-item">
+      <svg viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6" stroke="#5E7B62" stroke-width="1.5"/><path d="M8 4.5V8l2.4 1.6" stroke="#5E7B62" stroke-width="1.5" stroke-linecap="round"/></svg>
+      AI 진단 룰 <span class="trust-num count" data-to="11">0</span>종 상시 가동
+    </span>
+    <span class="trust-item">
+      <svg viewBox="0 0 16 16" fill="none"><path d="M2 14V6.5L8 2l6 4.5V14" stroke="#5E7B62" stroke-width="1.5" fill="none"/><path d="M6 14v-4h4v4" stroke="#5E7B62" stroke-width="1.5" fill="none"/></svg>
+      송도 AIT 지식산업센터 파일럿 진행 중
+    </span>
   </div>
 </div>
 
-<!-- ─── 라이브 현장 카드 4개 (강조점: 에너지 절감액 → 이상 탐지) ─── -->
-<section class="live-sites" id="sites">
-  <div class="live-sites-head">
-    <div>
-      <div class="eyebrow reveal">Field Sites</div>
-      <h2 class="sec-title reveal">지금 현장에서<br>잡아내고 있는 것들.</h2>
-    </div>
-    <p class="live-sites-cap reveal">에너지 절감액보다, 데이터를 어떻게 의심하고 있는지가 먼저입니다.</p>
-  </div>
-  <div class="sites-grid">
-    <!-- A 물류센터 -->
-    <div class="site-card reveal">
-      <div class="sc-head">
-        <span class="sc-tag live"><span class="sc-live-dot"></span>LIVE</span>
-        <span class="sc-tag">BACnet/Niagara</span>
-      </div>
-      <div class="sc-title">A 물류센터</div>
-      <div class="sc-sub">DDC 33대 · BACnet/IP · 518 포인트</div>
-      <div class="sc-grade">
-        <span class="sc-grade-l">B</span>
-        <span class="sc-grade-sub">FORENSIC GRADE</span>
-      </div>
-      <div class="sc-stats">
-        <div class="sc-stat"><div class="sc-stat-n">518</div><div class="sc-stat-l">포인트</div></div>
-        <div class="sc-stat"><div class="sc-stat-n" data-live="health" data-base="97.2">97.2%</div><div class="sc-stat-l">정상률</div></div>
-        <div class="sc-stat"><div class="sc-stat-n">14</div><div class="sc-stat-l">이상 탐지</div></div>
-      </div>
-      <div class="sc-foot">최근 탐지: AHU-2 온도센서 드리프트 +5.2°C</div>
-    </div>
-    <!-- B 특용작물 -->
-    <div class="site-card reveal d1">
-      <div class="sc-head">
-        <span class="sc-tag">PRE-LIVE</span>
-        <span class="sc-tag">BACnet</span>
-      </div>
-      <div class="sc-title">B 특용작물지원센터</div>
-      <div class="sc-sub">AHU 3대 · 보일러 · 칠러 · 저수조</div>
-      <div class="sc-grade">
-        <span class="sc-grade-l dim">—</span>
-        <span class="sc-grade-sub">연동 협의 완료</span>
-      </div>
-      <div class="sc-stats">
-        <div class="sc-stat"><div class="sc-stat-n">130</div><div class="sc-stat-l">포인트(예정)</div></div>
-        <div class="sc-stat"><div class="sc-stat-n">6</div><div class="sc-stat-l">장비 그룹</div></div>
-        <div class="sc-stat"><div class="sc-stat-n">2026.06</div><div class="sc-stat-l">연동 예정</div></div>
-      </div>
-      <div class="sc-foot">DDC 설치 후 즉시 4단계 진단 시작 예정</div>
-    </div>
-    <!-- C 청년주택 -->
-    <div class="site-card reveal d2">
-      <div class="sc-head">
-        <span class="sc-tag live"><span class="sc-live-dot"></span>SIM</span>
-        <span class="sc-tag">시뮬레이션</span>
-      </div>
-      <div class="sc-title">C 역세권 청년주택</div>
-      <div class="sc-sub">137 센서 · 10개 장비그룹</div>
-      <div class="sc-grade">
-        <span class="sc-grade-l">A</span>
-        <span class="sc-grade-sub">FORENSIC GRADE</span>
-      </div>
-      <div class="sc-stats">
-        <div class="sc-stat"><div class="sc-stat-n">137</div><div class="sc-stat-l">포인트</div></div>
-        <div class="sc-stat"><div class="sc-stat-n" data-live="health" data-base="94.8">94.8%</div><div class="sc-stat-l">정상률</div></div>
-        <div class="sc-stat"><div class="sc-stat-n">7</div><div class="sc-stat-l">이상 탐지</div></div>
-      </div>
-      <div class="sc-foot">동시 냉난방 이상패턴 감지 케이스 확보</div>
-    </div>
-    <!-- D 지식산업센터 (신규 파일럿) -->
-    <div class="site-card reveal d3">
-      <div class="sc-head">
-        <span class="sc-tag live"><span class="sc-live-dot"></span>PILOT</span>
-        <span class="sc-tag">신규</span>
-      </div>
-      <div class="sc-title">D 지식산업센터 오피스텔</div>
-      <div class="sc-sub">흡수식냉동기 4대 · 냉각탑 · 열교환기 · 지열 · 저수조 · FCU</div>
-      <div class="sc-grade">
-        <span class="sc-grade-l">B</span>
-        <span class="sc-grade-sub">FORENSIC GRADE</span>
-      </div>
-      <div class="sc-stats">
-        <div class="sc-stat"><div class="sc-stat-n">~250</div><div class="sc-stat-l">포인트</div></div>
-        <div class="sc-stat"><div class="sc-stat-n" data-live="health" data-base="88.0">88.0%</div><div class="sc-stat-l">정상률</div></div>
-        <div class="sc-stat"><div class="sc-stat-n">6</div><div class="sc-stat-l">이상 탐지</div></div>
-      </div>
-      <div class="sc-foot">파일럿 진행 중 · 흡수식 효율 + 지열 검증 케이스</div>
-    </div>
-  </div>
-  <p class="demo-note reveal">화면의 수치는 데모 예시입니다 (Demonstration)</p>
-</section>
+<!-- ── 4. 차별점 + 가짜정상 체험 위젯 ── -->
+<section class="section">
+  <div class="wrap">
+    <p class="eyebrow reveal">왜 T-ARCH인가</p>
+    <h2 class="sec-title reveal">데이터를 의심하는 시스템</h2>
+    <p class="sec-lede reveal">
+      모든 설비 진단은 "센서가 진실을 말한다"는 가정 위에 서 있습니다.
+      T-ARCH는 그 가정부터 검증합니다. 센서가 고장 나면 고장조차 "정상"으로 보이기 때문입니다.
+    </p>
 
-<section class="section" id="problem">
-  <div class="eyebrow reveal">The Problem</div>
-  <h2 class="sec-title reveal">센서가 거짓말을 합니다.<br>그래도 화면은 <span style="color:var(--green)">'정상'이라 적힙니다.</span></h2>
-  <p class="sec-sub reveal">고장은 매달 일어나지만, 모르면 그대로 방치됩니다.<br>금액보다 무서운 건 '몰랐다'는 사실입니다.</p>
-  <div class="problem-grid reveal">
-    <div class="problem-card">
-      <div class="problem-num">01 / 센서 드리프트</div>
-      <h3 class="problem-title">온도센서가<br>5°C 높게 표시됩니다.</h3>
-      <p class="problem-body">AHU 급기 덕트 온도센서 경년열화. 실제 22°C → 센서 27°C 표시. 냉방 밸브 과다 개방 중. BAS 화면엔 "정상".</p>
-      <div class="problem-cost">↑ 고장을 모른 채 방치</div>
-    </div>
-    <div class="problem-card">
-      <div class="problem-num">02 / 통신 두절</div>
-      <h3 class="problem-title">60개 포인트가<br>수개월째 고착입니다.</h3>
-      <p class="problem-body">RS-485 배선 노후, 접촉 불량. 센서 60개 데이터 고착. 서버엔 마지막 정상값만 표시. 평균 2~6개월 뒤 우연히 발견.</p>
-      <div class="problem-cost">↑ 수개월간 발견되지 않음</div>
-    </div>
-    <div class="problem-card">
-      <div class="problem-num">03 / 밸브 고착</div>
-      <h3 class="problem-title">DDC는 닫혔다 하지만<br>실제론 열려 있습니다.</h3>
-      <p class="problem-body">FCU 냉온수 밸브 액추에이터 고착. DDC 닫힘(0%) 명령 → 실제 30% 열림. 겨울철 냉수 지속 유입.</p>
-      <div class="problem-cost">↑ 모르고 계속 운전</div>
-    </div>
-  </div>
-</section>
-
-<!-- ─── T-ARCH란? (카테고리 + 차별점) ─── -->
-<section class="section" id="about" style="padding-top:0">
-  <div class="eyebrow reveal">What is T-ARCH</div>
-  <h2 class="sec-title reveal">T-ARCH는<br><span style="color:var(--green)">AI 시설관리 시스템</span>입니다.</h2>
-  <p class="sec-sub reveal" style="max-width:720px;">
-    직접 고치지 않습니다. 무엇을·언제·왜 봐야 하는지 짚어드립니다.<br>
-    <strong style="color:var(--white)">다른 시스템은 데이터를 믿고 분석합니다. T-ARCH는 데이터부터 의심합니다.</strong>
-  </p>
-  <div class="compare-wrap reveal">
-    <div class="compare-col old">
-      <div class="compare-header"><h3>다른 시스템</h3><span class="compare-tag old-tag">기존 방식</span></div>
-      <div class="ci"><span class="ci-ico">✕</span><span>센서 값을 정확하다고 전제하고 룰 적용</span></div>
-      <div class="ci"><span class="ci-ico">✕</span><span>임계값을 넘어야 알람 — 이미 발생한 뒤</span></div>
-      <div class="ci"><span class="ci-ico">✕</span><span>드리프트된 센서로 그대로 제어</span></div>
-      <div class="ci"><span class="ci-ico">✕</span><span>고장은 사람이 발로 뛰며 찾아냄</span></div>
-    </div>
-    <div class="compare-col tekton">
-      <div class="compare-header"><h3>T-ARCH</h3><span class="compare-tag new-tag">TEKTON</span></div>
-      <div class="ci"><span class="ci-ico">✓</span><span>센서 무결성부터 먼저 검증</span></div>
-      <div class="ci"><span class="ci-ico">✓</span><span>이상이 굳기 전에 짚어드림</span></div>
-      <div class="ci"><span class="ci-ico">✓</span><span>검증된 데이터 위에서만 분석</span></div>
-      <div class="ci"><span class="ci-ico">✓</span><span>매일 자동으로 점검 일지가 쌓임</span></div>
-    </div>
-  </div>
-</section>
-
-<!-- ─── ★당신은? 직군 3블록 ─── -->
-<section class="section" id="you" style="padding-top:0">
-  <div class="eyebrow reveal">For Who</div>
-  <h2 class="sec-title reveal">누구에게 필요한가요?</h2>
-  <p class="sec-sub reveal" style="max-width:640px;">시설관리 담당자에서 ESG 담당까지 — 같은 데이터를 각자의 시선으로 봅니다.</p>
-  <div class="you-grid">
-    <div class="you-card reveal">
-      <div class="you-icon">🔧</div>
-      <div class="you-cat">시설관리 담당자</div>
-      <div class="you-hook">발로 뛰지 않아도,<br>건물이 먼저 말합니다.</div>
-      <ul class="you-list">
-        <li>현장을 일일이 돌지 않아도 이상이 생기면 바로 통지</li>
-        <li>매일 쓰던 점검 일지가 자동으로 쌓입니다</li>
-        <li>교대 인수인계가 한 장으로 정리됩니다</li>
-      </ul>
-      <a href="https://docs.google.com/forms/d/e/1FAIpQLSdAIdRmF_CYJji3j7ohxqaTlYH-WB45FWRzHghe-UF_JeSGGg/viewform" target="_blank" class="you-btn">무료 진단 신청 →</a>
-    </div>
-    <div class="you-card reveal d1">
-      <div class="you-icon">🏢</div>
-      <div class="you-cat">건물주 / 관리단</div>
-      <div class="you-hook">관리비가 어디서 새는지,<br>숫자로 보입니다.</div>
-      <ul class="you-list">
-        <li>고장으로 새는 비용을 원 단위로 잡아냅니다</li>
-        <li>설비를 오래 쓰게 해 교체 비용을 늦춥니다</li>
-        <li>위탁 관리가 잘 되고 있는지 데이터로 확인합니다</li>
-      </ul>
-      <a href="https://docs.google.com/forms/d/e/1FAIpQLSdAIdRmF_CYJji3j7ohxqaTlYH-WB45FWRzHghe-UF_JeSGGg/viewform" target="_blank" class="you-btn">무료 진단 신청 →</a>
-    </div>
-    <div class="you-card reveal d2">
-      <div class="you-icon">🌱</div>
-      <div class="you-cat">공공기관 / ESG 담당</div>
-      <div class="you-hook">탄소중립,<br>보고할 데이터가 필요하신가요?</div>
-      <ul class="you-list">
-        <li>건물 에너지 손실을 실시간 진단</li>
-        <li>온실가스 감축량을 측정·검증(MRV)</li>
-        <li>ESG·공공 의무 대응 리포트 자동 생성</li>
-      </ul>
-      <a href="https://docs.google.com/forms/d/e/1FAIpQLSdAIdRmF_CYJji3j7ohxqaTlYH-WB45FWRzHghe-UF_JeSGGg/viewform" target="_blank" class="you-btn">무료 진단 신청 →</a>
-    </div>
-    <div class="you-card reveal d3">
-      <div class="you-icon">🛠️</div>
-      <div class="you-cat">유지보수 업체 · FM 운영사</div>
-      <div class="you-hook">출동 전에 어디가<br>문제인지 이미 압니다.</div>
-      <ul class="you-list">
-        <li>담당 건물들의 이상을 실시간으로 파악합니다</li>
-        <li>불필요한 출동이 줄고, 한 번 가면 정확히 고칩니다</li>
-        <li>어느 브랜드 BMS든 한 화면에서 관리합니다</li>
-      </ul>
-      <a href="https://docs.google.com/forms/d/e/1FAIpQLSdAIdRmF_CYJji3j7ohxqaTlYH-WB45FWRzHghe-UF_JeSGGg/viewform" target="_blank" class="you-btn">무료 진단 신청 →</a>
-    </div>
-  </div>
-</section>
-
-<!-- ─── 어떻게 작동 (4단계 + 락인 3종) ─── -->
-<section class="section" id="how" style="padding-top:0">
-  <div class="eyebrow reveal">How it works</div>
-  <h2 class="sec-title reveal">4단계 포렌식이<br><span style="color:var(--green)">매 초 데이터를 의심합니다.</span></h2>
-  <p class="sec-sub reveal">센서가 정상이라 말해도 다시 확인합니다. 사람의 발 대신 데이터를 검증합니다.</p>
-  <div class="step-grid">
-    <div class="step-card reveal"><div class="step-n">STEP 01</div><h3 class="step-title">센서 무결성 검증</h3><p class="step-desc">고착·급변·드리프트·범위 이탈을 실시간 탐지합니다.</p></div>
-    <div class="step-card reveal d1"><div class="step-n">STEP 02</div><h3 class="step-title">통신 건전성 분석</h3><p class="step-desc">RS-485 패킷 손실, 타임스탬프 불일치, 데이터 고착을 자동 감지합니다.</p></div>
-    <div class="step-card reveal d2"><div class="step-n">STEP 03</div><h3 class="step-title">에너지 이상패턴</h3><p class="step-desc">동시 냉난방, 비가동 시간 운전, 낭비 금액을 원 단위로 정량화합니다.</p></div>
-    <div class="step-card reveal d3"><div class="step-n">STEP 04</div><h3 class="step-title">제어 명령 검증</h3><p class="step-desc">DDC 명령값 vs 실측값 불일치, 인터록 위반을 자동 탐지합니다.</p></div>
-  </div>
-
-  <div class="lockin-band reveal">
-    <div class="lockin-head">
-      <div class="eyebrow" style="margin-bottom:0">Daily Value</div>
-      <h3>매일의 손과 발이 되어드립니다.</h3>
-    </div>
-    <div class="lockin-grid">
-      <div class="lockin-item">
-        <div class="lockin-icon">📋</div>
-        <div class="lockin-title">자동 점검 일지</div>
-        <div class="lockin-desc">매일 종합 등급과 점검 항목이 한 장에 자동으로 쌓입니다. PDF로 즉시 출력.</div>
-      </div>
-      <div class="lockin-item">
-        <div class="lockin-icon">🔄</div>
-        <div class="lockin-title">교대 인수인계</div>
-        <div class="lockin-desc">최근 12시간 — 새로 발생 / 지속 중 / 해소됨 3분류로 한눈에.</div>
-      </div>
-      <div class="lockin-item">
-        <div class="lockin-icon">🔔</div>
-        <div class="lockin-title">이메일 알림</div>
-        <div class="lockin-desc">긴급은 즉시, 주의는 하루 1회 묶음. 알림 폭탄 없습니다.</div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ─── 파트너십 ─── -->
-<section class="section" id="partners" style="padding-top:0">
-  <div class="eyebrow reveal">Partnership</div>
-  <h2 class="sec-title reveal">이런 분들과 함께합니다.</h2>
-  <p class="sec-sub reveal" style="max-width:640px">T-ARCH는 직접 시공하지 않습니다. 빌딩 운영 생태계의 파트너와 연결합니다.</p>
-  <div class="partner-grid">
-    <div class="partner-card reveal">
-      <div class="partner-icon">🔧</div>
-      <div class="partner-title">자동제어 시공사</div>
-      <div class="partner-desc">기존 DDC/BAS 시공 자산 위에 진단 레이어를 얹어 드립니다.</div>
-    </div>
-    <div class="partner-card reveal d1">
-      <div class="partner-icon">🛡️</div>
-      <div class="partner-title">보험사</div>
-      <div class="partner-desc">설비 손상 위험을 사전에 탐지해 손해율 관리에 기여합니다.</div>
-    </div>
-    <div class="partner-card reveal d2">
-      <div class="partner-icon">🏗️</div>
-      <div class="partner-title">건설사</div>
-      <div class="partner-desc">준공 시 BMS 검수 + 운영사 소개로 사후 품질을 확보합니다.</div>
-    </div>
-    <div class="partner-card reveal d3">
-      <div class="partner-icon">📡</div>
-      <div class="partner-title">BMS / BEMS 제조사</div>
-      <div class="partner-desc">제조사 데이터 위에 4단계 진단 레이어를 통합합니다.</div>
-    </div>
-  </div>
-  <div style="text-align:center;margin-top:36px">
-    <a href="mailto:rok@tekton.co.kr" class="btn-ghost">파트너 문의하기 →</a>
-  </div>
-</section>
-
-
-<!-- ── 특허 + 현장 섹션 ── -->
-<section class="section" style="padding-top:0; max-width:1280px; margin:0 auto;">
-  <div style="display:grid; grid-template-columns:1fr 1fr; gap:40px;">
-
-    <!-- 특허 -->
-    <div style="background:var(--black2); border:1px solid var(--border); border-radius:16px; padding:40px;">
-      <div class="eyebrow" style="margin-bottom:16px;">Patent</div>
-      <h3 style="font-size:22px; font-weight:700; margin-bottom:8px;">핵심 기술 특허 출원 중</h3>
-      <p style="font-size:14px; color:var(--gray4); line-height:1.7; margin-bottom:24px;">
-        T-ARCH의 핵심 알고리즘은 국내외 특허 DB 조사 결과 선행기술이 확인되지 않은 독자 기술입니다.
-      </p>
-      <div style="display:flex; flex-direction:column; gap:12px;">
-        <div style="background:var(--black3); border:1px solid var(--border2); border-radius:10px; padding:16px 20px;">
-          <div style="font-family:'DM Mono',monospace; font-size:10px; color:var(--green); letter-spacing:1px; margin-bottom:6px;">출원 #1 · 2026.01</div>
-          <div style="font-size:14px; font-weight:600; margin-bottom:4px;">4단계 센서 무결성 검증 알고리즘</div>
-          <div style="font-size:13px; color:var(--gray4);">DDC 센서 데이터의 고착·드리프트·통신 두절·제어 불일치를 다단계로 자동 검증하는 방법 및 시스템</div>
+    <div class="vs-grid">
+      <div class="vs-card reveal">
+        <p class="vs-label">기존 BMS · FMS</p>
+        <div class="flow">
+          <div class="flow-step"><span class="step-tag">INPUT</span>센서값 수신</div>
+          <div class="flow-arrow">&#8595;</div>
+          <div class="flow-step"><span class="step-tag">LOGIC</span>데이터를 그대로 신뢰</div>
+          <div class="flow-arrow">&#8595;</div>
+          <div class="flow-step result-believe"><span class="step-tag">OUTPUT</span>화면에 "정상" 표시</div>
         </div>
-        <div style="background:var(--black3); border:1px solid var(--border2); border-radius:10px; padding:16px 20px;">
-          <div style="font-family:'DM Mono',monospace; font-size:10px; color:var(--green); letter-spacing:1px; margin-bottom:6px;">출원 #2 · 2026.02</div>
-          <div style="font-size:14px; font-weight:600; margin-bottom:4px;">다계층 포렌식 진단 시스템</div>
-          <div style="font-size:13px; color:var(--gray4);">빌딩 자동제어 시스템의 에너지 이상패턴을 계층적으로 분석하고 낭비 금액을 정량화하는 시스템</div>
+        <p class="vs-caption">
+          센서가 멈춘 줄도 모른 채, 관리자는 정상 화면을 봅니다.
+          고장은 사고가 난 뒤에야 드러납니다.
+        </p>
+      </div>
+
+      <div class="vs-card tarch reveal">
+        <p class="vs-label">T-ARCH</p>
+        <div class="flow">
+          <div class="flow-step"><span class="step-tag">INPUT</span>센서값 수신</div>
+          <div class="flow-arrow">&#8595;</div>
+          <div class="flow-step"><span class="step-tag">VERIFY</span>데이터 무결성 검증 — 고착 · 급변 · 범위이탈</div>
+          <div class="flow-arrow">&#8595;</div>
+          <div class="flow-step result-catch"><span class="step-tag">OUTPUT</span>"가짜 정상" 적발 · 점검 권고</div>
         </div>
+        <p class="vs-caption">
+          값이 움직이지 않는 센서, 갑자기 튀는 값, 물리적으로 불가능한 범위 —
+          데이터의 거짓말부터 잡아냅니다.
+        </p>
       </div>
     </div>
 
-    <!-- 현장 -->
-    <div style="background:var(--black2); border:1px solid var(--border2); border-radius:16px; padding:40px;">
-      <div class="eyebrow" style="margin-bottom:16px;">Field Sites</div>
-      <h3 style="font-size:22px; font-weight:700; margin-bottom:8px;">현장 적용 현황</h3>
-      <p style="font-size:14px; color:var(--gray4); line-height:1.7; margin-bottom:24px;">
-        실제 현장과의 연동 협의 및 시뮬레이션 검증을 진행 중입니다.
-      </p>
-      <div style="display:flex; flex-direction:column; gap:10px;">
-        <div style="background:var(--black3); border:1px solid var(--border2); border-radius:10px; padding:14px 18px; display:flex; align-items:center; justify-content:space-between;">
-          <div>
-            <div style="font-size:14px; font-weight:600; margin-bottom:3px;">A 물류센터</div>
-            <div style="font-size:12px; color:var(--gray4);">BACnet / Niagara · DDC 33대 · 518 포인트</div>
+    <!-- 가짜 정상 체험 위젯 -->
+    <div class="demo reveal" id="fake-demo">
+      <div class="demo-head">
+        <h3>직접 해보기 — 센서를 고장 내보세요</h3>
+        <span class="hint">버튼을 누르면 센서값이 한 곳에 고정됩니다</span>
+      </div>
+      <div class="demo-body">
+        <div class="demo-cell">
+          <div class="cell-label">CH-2 냉수 출구온도</div>
+          <div class="sensor-readout"><span id="demo-reading">7.2</span><span class="unit">&#8451;</span></div>
+          <svg class="sparkline" id="demo-spark" viewBox="0 0 200 34" preserveAspectRatio="none">
+            <polyline id="demo-line" points=""></polyline>
+          </svg>
+        </div>
+        <div class="demo-cell">
+          <div class="cell-label">기존 BMS 판정</div>
+          <div class="demo-verdict">
+            <span class="verdict-badge verdict-ok" id="bms-badge">정상</span>
+            <span class="verdict-note">값을 그대로 신뢰함</span>
           </div>
-          <div style="font-family:'DM Mono',monospace; font-size:10px; color:var(--green); background:var(--green-dim); border:1px solid var(--border); padding:4px 10px; border-radius:4px; white-space:nowrap;">연동 준비 중</div>
         </div>
-        <div style="background:var(--black3); border:1px solid var(--border2); border-radius:10px; padding:14px 18px; display:flex; align-items:center; justify-content:space-between;">
-          <div>
-            <div style="font-size:14px; font-weight:600; margin-bottom:3px;">B 특용작물지원센터</div>
-            <div style="font-size:12px; color:var(--gray4);">BACnet · DDC 설치 예정 (2026.06)</div>
+        <div class="demo-cell">
+          <div class="cell-label">T-ARCH 판정</div>
+          <div class="demo-verdict">
+            <span class="verdict-badge verdict-ok" id="tarch-badge">정상</span>
+            <span class="verdict-note" id="tarch-note">데이터 무결성 검증 중</span>
           </div>
-          <div style="font-family:'DM Mono',monospace; font-size:10px; color:var(--green); background:var(--green-dim); border:1px solid var(--border); padding:4px 10px; border-radius:4px; white-space:nowrap;">연동 협의 완료</div>
-        </div>
-        <div style="background:var(--black3); border:1px solid rgba(57,255,20,0.3); border-radius:10px; padding:14px 18px; display:flex; align-items:center; justify-content:space-between;">
-          <div>
-            <div style="font-size:14px; font-weight:600; margin-bottom:3px;">C 역세권 청년주택</div>
-            <div style="font-size:12px; color:var(--gray4);">137 센서 · 10개 장비그룹</div>
-          </div>
-          <div style="font-family:'DM Mono',monospace; font-size:10px; color:var(--green); background:var(--green-dim); border:1px solid var(--border); padding:4px 10px; border-radius:4px; white-space:nowrap;">시뮬레이션 완료 ✓</div>
         </div>
       </div>
-      <p style="font-size:11px; color:var(--gray4); margin-top:16px; line-height:1.6;">
-        * 현장명은 협의에 따라 익명 표기합니다. 연동 현황은 계약 전 준비 단계입니다.
-      </p>
+      <div class="demo-controls">
+        <button class="demo-btn danger" id="break-btn" type="button">센서 고장내기 (값 고정)</button>
+        <button class="demo-btn" id="reset-btn" type="button">정상으로 되돌리기</button>
+      </div>
     </div>
-
   </div>
 </section>
 
-<!--
-  ─── 연동 방식 섹션 (보존, 미노출) ───
-  사용자 명세 2026-05-23 개편에서 페이지 흐름에서 빠짐.
-  코드는 보존 — 필요 시 이 HTML 주석(<!--, -->) 두 줄 제거하면 즉시 복원됩니다.
+<!-- ── 5. 작동 방식 3단계 + 흐름 다이어그램 ── -->
+<section class="section section-tint">
+  <div class="wrap">
+    <p class="eyebrow reveal">작동 방식</p>
+    <h2 class="sec-title reveal">진단에서 시공까지, 한 흐름으로</h2>
+    <p class="sec-lede reveal">
+      T-ARCH의 진단이 시작점입니다. 이상이 확인되면 우선순위와 견적으로 정리되고,
+      검증된 시설업체가 정확한 진단서를 들고 방문합니다.
+    </p>
 
-<div class="section-full connect-section" id="connect">
-  <div class="section-inner">
-    <div class="eyebrow reveal">Integration</div>
-    <h2 class="sec-title reveal">기존 시스템 위에서,<br><span style="color:var(--green)">선 하나 없이.</span></h2>
-    <p class="sec-sub reveal">현장 구성에 따라 3가지 방식을 지원합니다. 모든 방식에서 기존 제어 네트워크에 쓰기(Write) 권한 없이 동작합니다.</p>
-    <div class="ctabs reveal">
-      <button class="ctab active" onclick="sw('bacnet_rest',this)">BACnet / REST API</button>
-      <button class="ctab" onclick="sw('bacnet',this)">BACnet / IP</button>
-      <button class="ctab" onclick="sw('rs485',this)">RS-485 탭</button>
-    </div>
-    <div id="p-bacnet_rest" class="cpanel active reveal">
-      <div class="connect-info">
-        <div class="cbadge">⚡ 30분 이내 연동 완료</div>
-        <h3>BACnet / IP<br>REST API 연동</h3>
-        <p class="cdesc">BACnet/IP 네트워크가 구성된 현장에서 가장 빠른 방식입니다. 물리 배선 없이 아래 세 가지 중 하나만 제공하시면 됩니다.</p>
-        <ul class="csteps">
-          <li><span class="cs-n">A</span>Read-Only 계정 생성 후 IP/포트 전달</li>
-          <li><span class="cs-n">B</span>DDC 포인트 맵(Object List) 파일 제공</li>
-          <li><span class="cs-n">C</span>REST API 엔드포인트 오픈 (IP + 포트 허용)</li>
-          <li><span class="cs-n">4</span>T-ARCH 자동 탐지 → 포렌식 시작</li>
-        </ul>
+    <div class="steps">
+      <div class="step reveal">
+        <div class="step-num">01</div>
+        <h3>감지</h3>
+        <p>이미 설치된 DDC·BMS에 읽기 전용으로 연결해 설비 데이터를 수집합니다. 어떤 브랜드든, 교체나 추가 공사 없이 시작합니다.</p>
+        <span class="step-chip">READ-ONLY 연결</span>
       </div>
-      <div class="fdiag">
-        <div class="fn"><span class="ftag">DDC</span><span class="fn-txt">국산·외산 모든 제조사 · BACnet/IP 지원</span></div>
-        <div class="farr">↕</div>
-        <div class="fn"><span class="ftag">BAS 서버</span><span class="fn-txt">기존 빌딩자동제어 서버 — 무중단 유지</span></div>
-        <div class="flbl">Read-Only · REST API / 포인트 맵 제공</div>
-        <div class="fn hi"><span class="ftag">T-ARCH</span><span class="fn-txt">클라우드 포렌식 엔진 + 대시보드</span></div>
+      <div class="step reveal">
+        <div class="step-num">02</div>
+        <h3>우선순위 · 견적</h3>
+        <p>AI 진단 룰 11종이 이상을 찾아 심각도와 비용 기준으로 정리합니다. "지금 고칠 것"과 "지켜봐도 되는 것"을 구분하고, 필요한 조치는 견적으로 만듭니다.</p>
+        <span class="step-chip">점검 권장 TOP 3</span>
+      </div>
+      <div class="step reveal">
+        <div class="step-num">03</div>
+        <h3>연결 · 시공</h3>
+        <p>검증된 계장·시설업체가 어디가 왜 문제인지 적힌 진단서를 들고 방문합니다. 수리 이력은 건물의 기록으로 차곡차곡 남습니다.</p>
+        <span class="step-chip">검증된 협력망</span>
       </div>
     </div>
-    <div id="p-bacnet" class="cpanel reveal">
-      <div class="connect-info">
-        <div class="cbadge">⏱ 1시간 이내</div>
-        <h3>BACnet MS/TP<br>멀티드롭 버스 연동</h3>
-        <p class="cdesc">BACnet MS/TP 기반 현장에서 기존 버스에 직접 연결합니다. 네트워크 설정만으로 완료됩니다.</p>
-        <ul class="csteps">
-          <li><span class="cs-n">1</span>BACnet 네트워크 구성 정보 확인 (Device ID 등)</li>
-          <li><span class="cs-n">2</span>T-ARCH 서버 IP를 네트워크에 등록</li>
-          <li><span class="cs-n">3</span>Who-Is / I-Am으로 Device 자동 탐지</li>
-          <li><span class="cs-n">4</span>Object List 읽기 → 포렌식 시작</li>
-        </ul>
-      </div>
-      <div class="fdiag">
-        <div class="fn"><span class="ftag">DDC</span><span class="fn-txt">BACnet MS/TP 지원 컨트롤러 · 국산·외산 전체</span></div>
-        <div class="farr">↕</div>
-        <div class="fn"><span class="ftag">네트워크</span><span class="fn-txt">기존 BACnet 네트워크 — 무중단 유지</span></div>
-        <div class="flbl">Read-Only · BACnet MS/TP</div>
-        <div class="fn hi"><span class="ftag">T-ARCH</span><span class="fn-txt">클라우드 포렌식 엔진 + 대시보드</span></div>
-      </div>
-    </div>
-    <div id="p-rs485" class="cpanel reveal">
-      <div class="connect-info">
-        <div class="cbadge">🔧 2~4시간 (버스 중단 없음)</div>
-        <h3>RS-485<br>패시브 버스 탭</h3>
-        <p class="cdesc">구형 현장 또는 Niagara 미설치 현장에서 RS-485 멀티드롭 버스에 패시브 탭(T분기)으로 연결합니다.</p>
-        <ul class="csteps">
-          <li><span class="cs-n">1</span>RS-485 버스 A/B 단자에 패시브 탭 연결</li>
-          <li><span class="cs-n">2</span>엣지 게이트웨이(DIN-rail) 설치 + 전원</li>
-          <li><span class="cs-n">3</span>Baud rate, Slave 주소 설정</li>
-          <li><span class="cs-n">4</span>클라우드 연결 → 포렌식 시작</li>
-        </ul>
-      </div>
-      <div class="fdiag">
-        <div class="fn"><span class="ftag">DDC</span><span class="fn-txt">BACnet MS/TP · Modbus RTU</span></div>
-        <div class="farr">↕</div>
-        <div class="fn"><span class="ftag">EDGE</span><span class="fn-txt">패시브 탭 → 엣지 게이트웨이 (DIN-rail)</span></div>
-        <div class="flbl">LTE / LAN → 클라우드</div>
-        <div class="fn hi"><span class="ftag">T-ARCH</span><span class="fn-txt">클라우드 포렌식 엔진 + 대시보드</span></div>
-      </div>
-    </div>
-  </div>
-</div>
--->
 
-<!-- ─── 요금 (가격 숫자 제거 — 효과 보신 다음 정합니다) ─── -->
-<section class="section" id="pricing">
-  <div class="eyebrow reveal">Pricing</div>
-  <h2 class="sec-title reveal">고장 하나만 잡아도,<br><span style="color:var(--green)">구독료 이상을 아낍니다.</span></h2>
-  <p class="sec-sub reveal" style="max-width:680px">
-    1개월 무료 진단으로 어떤 문제가 있는지, 얼마를 아낄 수 있는지 먼저 확인하세요.
-    <strong style="color:var(--white);">비용은 효과를 보신 다음 정합니다.</strong>
-  </p>
-  <div class="plan-grid">
-    <div class="plan-card featured reveal">
-      <div class="plan-tier">단일 구독</div>
-      <div class="plan-name">건물 1동</div>
-      <ul class="plan-list">
-        <li>4단계 포렌식 진단</li>
-        <li>자동 점검 일지</li>
-        <li>교대 인수인계</li>
-        <li>이메일 알림</li>
-        <li>월간 리포트</li>
-      </ul>
-      <a href="https://docs.google.com/forms/d/e/1FAIpQLSdAIdRmF_CYJji3j7ohxqaTlYH-WB45FWRzHghe-UF_JeSGGg/viewform" target="_blank" class="plan-btn">무료 진단으로 시작 →</a>
+    <!-- 데이터 흐름 다이어그램 -->
+    <div class="flowmap-wrap reveal">
+      <p class="flowmap-title">데이터 흐름</p>
+      <p class="flowmap-sub">현장 설비의 신호가 어떻게 진단을 거쳐 시공으로 이어지는지</p>
+      <svg class="flowmap" id="flowmap" viewBox="0 0 1040 150" role="img" aria-label="현장 DDC에서 T-ARCH 엣지, 클라우드, AI 진단을 거쳐 시설업체로 이어지는 데이터 흐름">
+        <!-- 연결 경로 -->
+        <path class="fm-path" id="fm-line" d="M120 75 H250 M370 75 H500 M620 75 H750 M870 75 H920" />
+        <!-- READ-ONLY 단방향 표시 -->
+        <text class="fm-readonly" x="185" y="62" text-anchor="middle">READ-ONLY →</text>
+
+        <!-- 노드: 현장 DDC -->
+        <g>
+          <rect class="fm-box" x="20" y="48" width="100" height="54" rx="8"/>
+          <text class="fm-node-label" x="70" y="72" text-anchor="middle">현장 DDC</text>
+          <text class="fm-node-sub" x="70" y="88" text-anchor="middle">BMS · 센서</text>
+        </g>
+        <!-- 노드: T-ARCH 엣지 -->
+        <g>
+          <rect class="fm-box edge" x="250" y="48" width="120" height="54" rx="8"/>
+          <text class="fm-node-label" x="310" y="72" text-anchor="middle" fill="#E8F0E6">T-ARCH 엣지</text>
+          <text class="fm-node-sub" x="310" y="88" text-anchor="middle" fill="#76836F">현장 중계</text>
+          <text class="fm-caveat" x="310" y="122" text-anchor="middle">※ 외부망 차단 현장에 한해</text>
+        </g>
+        <!-- 노드: 클라우드 -->
+        <g>
+          <rect class="fm-box" x="500" y="48" width="120" height="54" rx="8"/>
+          <text class="fm-node-label" x="560" y="72" text-anchor="middle">클라우드</text>
+          <text class="fm-node-sub" x="560" y="88" text-anchor="middle">수집 · 저장</text>
+        </g>
+        <!-- 노드: AI 진단 -->
+        <g>
+          <rect class="fm-box" x="750" y="48" width="120" height="54" rx="8"/>
+          <text class="fm-node-label" x="810" y="72" text-anchor="middle">AI 진단</text>
+          <text class="fm-node-sub" x="810" y="88" text-anchor="middle">룰 11종</text>
+        </g>
+        <!-- 노드: 시설업체 -->
+        <g>
+          <rect class="fm-box" x="920" y="48" width="100" height="54" rx="8"/>
+          <text class="fm-node-label" x="970" y="72" text-anchor="middle">시설업체</text>
+          <text class="fm-node-sub" x="970" y="88" text-anchor="middle">견적 · 시공</text>
+        </g>
+
+        <!-- 흐르는 패킷 (JS로 reduced-motion 제어) -->
+        <circle class="fm-packet" id="pkt1" cx="120" cy="75" r="4"/>
+        <circle class="fm-packet" id="pkt2" cx="370" cy="75" r="4"/>
+        <circle class="fm-packet" id="pkt3" cx="620" cy="75" r="4"/>
+        <circle class="fm-packet" id="pkt4" cx="870" cy="75" r="4"/>
+      </svg>
+
+      <!-- 모바일 세로 흐름 (980px 이하에서 표시) -->
+      <div class="flowmap-mobile" aria-hidden="true">
+        <div class="fm-stack">
+          <div class="fm-stack-node">
+            <span class="fm-stack-idx">1</span>
+            <span><span class="fm-stack-name">현장 DDC</span><br><span class="fm-stack-sub">BMS · 센서</span></span>
+          </div>
+          <div class="fm-stack-arrow">↓<span class="ro-mini">READ-ONLY</span></div>
+          <div class="fm-stack-node edge">
+            <span class="fm-stack-idx">2</span>
+            <span><span class="fm-stack-name">T-ARCH 엣지</span><br><span class="fm-stack-sub">현장 중계</span></span>
+          </div>
+          <div class="fm-stack-cav">※ 외부망 차단 현장에 한해</div>
+          <div class="fm-stack-arrow">↓</div>
+          <div class="fm-stack-node">
+            <span class="fm-stack-idx">3</span>
+            <span><span class="fm-stack-name">클라우드</span><br><span class="fm-stack-sub">수집 · 저장</span></span>
+          </div>
+          <div class="fm-stack-arrow">↓</div>
+          <div class="fm-stack-node">
+            <span class="fm-stack-idx">4</span>
+            <span><span class="fm-stack-name">AI 진단</span><br><span class="fm-stack-sub">룰 11종</span></span>
+          </div>
+          <div class="fm-stack-arrow">↓</div>
+          <div class="fm-stack-node">
+            <span class="fm-stack-idx">5</span>
+            <span><span class="fm-stack-name">시설업체</span><br><span class="fm-stack-sub">견적 · 시공</span></span>
+          </div>
+        </div>
+      </div>
     </div>
-    <div class="plan-card reveal d1">
-      <div class="plan-tier">Enterprise</div>
-      <div class="plan-name">다현장 · 별도 협의</div>
-      <ul class="plan-list">
-        <li>다현장 통합 관제</li>
-        <li>BEMS / BMS 연동 API</li>
-        <li>커스텀 진단 룰셋</li>
-        <li>현장별 전담 지원</li>
-        <li>ESG 공시 리포트</li>
-      </ul>
-      <a href="mailto:rok@tekton.co.kr" class="plan-btn">견적 문의 →</a>
-    </div>
-    <div class="plan-card reveal d2">
-      <div class="plan-tier">옵션</div>
-      <div class="plan-name">필요한 만큼</div>
-      <ul class="plan-list">
-        <li>방문 점검 (분기/월)</li>
-        <li>기설치 전력미터 교차검증</li>
-        <li>ESG·MRV 리포트</li>
-        <li>커스텀 알림 채널</li>
-        <li>온사이트 교육</li>
-      </ul>
-      <a href="https://docs.google.com/forms/d/e/1FAIpQLSdAIdRmF_CYJji3j7ohxqaTlYH-WB45FWRzHghe-UF_JeSGGg/viewform" target="_blank" class="plan-btn">문의하기 →</a>
-    </div>
-  </div>
-  <div class="plan-foot reveal">
-    <span style="color:var(--green);font-size:16px;flex-shrink:0">💡</span>
-    <span>1개월 무료 진단으로 시작합니다. 효과를 확인한 다음 계약을 정합니다. 전력미터 교차검증은 기설치 장비 기준 — 신규 설치는 포함되지 않습니다.</span>
   </div>
 </section>
 
-<div class="cta-section" id="contact">
-  <div class="cta-eyebrow">1개월 무료 진단</div>
-  <h2 class="cta-h2">1개월 무료 진단,<br>지금 신청하세요.</h2>
-  <p class="cta-sub">DDC 포인트 맵 또는 BACnet 접근 정보만 있으면 됩니다.<br>배선 없음. 기존 시스템 무중단. 비용 없음.</p>
-  <div class="cta-btns">
-    <a href="https://docs.google.com/forms/d/e/1FAIpQLSdAIdRmF_CYJji3j7ohxqaTlYH-WB45FWRzHghe-UF_JeSGGg/viewform" target="_blank" class="btn-green">무료 진단 신청하기 →</a>
-    <a href="mailto:rok@tekton.co.kr" class="btn-ghost">rok@tekton.co.kr</a>
-  </div>
-  <p class="cta-note">기후테크 · 2026 에코스타트업 선정 | 환경부 산하 KEITI</p>
-</div>
+<!-- ── 6. 두 고객 ── -->
+<section class="section">
+  <div class="wrap">
+    <p class="eyebrow reveal">누구를 위한 플랫폼인가</p>
+    <h2 class="sec-title reveal">건물과 시설업체, 양쪽 모두의 도구</h2>
 
-<footer>
-  <div class="footer-inner">
-    <div>
-      <div class="tekton-logo-wrap" style="margin-bottom:4px;">
-        <img src="static/img/tekton_logo_white.svg" alt="TEKTON"
-             style="height: 32px; width: auto; display: block;" />
+    <div class="aud-grid">
+      <div class="aud-card reveal">
+        <p class="aud-who">건물주 · 시설관리자</p>
+        <h3>숨은 고장을<br>먼저 압니다</h3>
+        <ul class="aud-list">
+          <li><svg viewBox="0 0 16 16" fill="none"><path d="M3 8.5l3.2 3.2L13 5" stroke="#5E7B62" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>설비사고 한 건 예방이 1년 구독료보다 큽니다 — 사고 이후가 아니라 사고 이전에 쓰는 비용입니다.</li>
+          <li><svg viewBox="0 0 16 16" fill="none"><path d="M3 8.5l3.2 3.2L13 5" stroke="#5E7B62" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>매일 아침 "오늘 점검 권장 TOP 3"만 확인하면 됩니다. 47개 경보로 압도하지 않습니다.</li>
+          <li><svg viewBox="0 0 16 16" fill="none"><path d="M3 8.5l3.2 3.2L13 5" stroke="#5E7B62" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>점검 일지·교대 인수인계가 자동으로 기록됩니다. 입력 노동 없이.</li>
+        </ul>
+        <a class="btn btn-primary" href="#apply" data-open-tab="diag">무료 진단 신청</a>
       </div>
-      <p class="fdesc">빌딩 에너지 포렌식 플랫폼 T-ARCH를 개발하는 기후테크 스타트업.<br>경기 하남시 신우실로 100 현대테라타워감일 224호<br>사업자번호 720-03-03738 · 대표 최경록</p>
-      <div class="feco">🌱 기후테크 · 2026 에코스타트업 선정</div>
-    </div>
-    <div class="footer-col">
-      <h4>제품</h4>
-      <ul>
-        <li><a href="#solution">T-ARCH 소개</a></li>
-        <li><a href="#connect">연동 방식</a></li>
-        <li><a href="#pricing">요금제</a></li>
-        <li><a href="#contact">무료 PoC</a></li>
-      </ul>
-    </div>
-    <div class="footer-col">
-      <h4>연락처</h4>
-      <ul>
-        <li><a href="mailto:rok@tekton.co.kr">rok@tekton.co.kr</a></li>
-        <li><a href="tel:0236629430">02-3662-9430</a></li>
-        <li><a href="#">팩스 02-3662-9431</a></li>
-        <li><a href="#">tekton.co.kr</a></li>
-      </ul>
+
+      <div class="aud-card partner reveal">
+        <p class="aud-who">계장업체 · FM 운영사</p>
+        <h3>진단이 끝난,<br>정확한 일감</h3>
+        <ul class="aud-list">
+          <li><svg viewBox="0 0 16 16" fill="none"><path d="M3 8.5l3.2 3.2L13 5" stroke="#A9C3A8" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>어디가 왜 문제인지 진단서와 함께 의뢰가 옵니다. 출동 전에 이미 압니다.</li>
+          <li><svg viewBox="0 0 16 16" fill="none"><path d="M3 8.5l3.2 3.2L13 5" stroke="#A9C3A8" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>일회성 시공을 매달 쌓이는 관리 수익으로 — 사업 구조가 바뀝니다.</li>
+          <li><svg viewBox="0 0 16 16" fill="none"><path d="M3 8.5l3.2 3.2L13 5" stroke="#A9C3A8" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>원격 진단으로 기술자 한 명이 더 많은 건물을 맡습니다. 인력난의 실질적 해법입니다.</li>
+        </ul>
+        <a class="btn btn-on-dark" href="#apply" data-open-tab="partner">협력 파트너 등록</a>
+      </div>
     </div>
   </div>
-  <div class="footer-bottom">
-    <span>© 2026 TEKTON. All rights reserved.</span>
-    <span>T-ARCH는 TEKTON의 등록 서비스입니다.</span>
+</section>
+
+<!-- ── 7. 브랜드 무관 ── -->
+<section class="section section-tint brands">
+  <div class="wrap">
+    <p class="eyebrow reveal" style="justify-content:center">호환성</p>
+    <div class="brand-chips reveal">
+      <span class="brand-chip">지멘스</span>
+      <span class="brand-chip">하니웰</span>
+      <span class="brand-chip">존슨컨트롤즈</span>
+      <span class="brand-chip">LG</span>
+      <span class="brand-chip">삼성</span>
+      <span class="brand-chip">국내 DDC</span>
+    </div>
+    <p class="big-line reveal">
+      어떤 브랜드가 설치돼 있든, T-ARCH는 연결됩니다.<br>
+      <strong>교체 없이, 추가 공사 없이.</strong>
+    </p>
+  </div>
+</section>
+
+<!-- ── 8. ROI 계산기 ── -->
+<section class="section">
+  <div class="wrap">
+    <p class="eyebrow reveal">왜 합리적인가</p>
+    <h2 class="sec-title reveal">설비사고 한 건이면 수백만 원.<br>막으면 구독료 이상입니다.</h2>
+    <p class="sec-lede reveal">건물 규모를 움직여 보세요. 사고 한 건의 추정 비용과 1년 구독료를 비교합니다.</p>
+
+    <div class="roi reveal">
+      <div class="roi-row">
+        <label for="roi-slider">건물 규모 (연면적)</label>
+        <span class="roi-size-out" id="roi-size">10,000㎡</span>
+      </div>
+      <input type="range" class="roi-slider" id="roi-slider" min="0" max="2" step="1" value="1" aria-label="건물 규모 선택">
+      <div class="roi-bars">
+        <div class="roi-bar-group">
+          <div class="roi-bar-label"><span>설비사고 1건 추정 비용</span><span class="amt" id="roi-cost-amt">450만 원</span></div>
+          <div class="roi-bar-track"><div class="roi-bar-fill cost" id="roi-cost-bar" style="width:100%"></div></div>
+        </div>
+        <div class="roi-bar-group">
+          <div class="roi-bar-label"><span>T-ARCH 1년 구독료</span><span class="amt" id="roi-sub-amt">708만 원</span></div>
+          <div class="roi-bar-track"><div class="roi-bar-fill sub" id="roi-sub-bar" style="width:50%"></div></div>
+        </div>
+      </div>
+      <div class="roi-verdict" id="roi-verdict">사고 한 건만 막아도, 구독료의 상당 부분이 회수됩니다.</div>
+      <p class="roi-assume">※ 사고 비용은 냉동기·펌프·공조 설비의 평균 긴급수리·가동중단 손실을 보수적으로 가정한 예시입니다. 실제 금액은 현장별로 다릅니다. [확인 필요]</p>
+    </div>
+  </div>
+</section>
+
+<!-- ── 9. 가격 ── -->
+<section class="section section-tint">
+  <div class="wrap">
+    <p class="eyebrow reveal">요금</p>
+    <h2 class="sec-title reveal">건물 규모에 맞는 요금 하나로<br>진단부터 업체 연결까지</h2>
+    <p class="sec-lede reveal">사고가 난 뒤 치르는 비용이 아니라, 사고가 나기 전에 드는 비용입니다.</p>
+
+    <div class="price-grid">
+      <div class="price-card reveal">
+        <p class="tier-name">소형</p>
+        <p class="tier-target">연면적 ~5,000&#13217; · 관제 ~100pt</p>
+        <div class="tier-price"><span class="num">39만</span><span class="per">원 / 월</span></div>
+        <p class="tier-vat">VAT 별도 · 약정 없음</p>
+        <span class="free-badge">무료 진단 1개월 포함</span>
+        <ul class="tier-feats">
+          <li><svg viewBox="0 0 16 16" fill="none"><path d="M3 8.5l3.2 3.2L13 5" stroke="#5E7B62" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>AI 진단 룰 11종 상시 감시</li>
+          <li><svg viewBox="0 0 16 16" fill="none"><path d="M3 8.5l3.2 3.2L13 5" stroke="#5E7B62" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>점검 권장 TOP 3 · 자동 점검 일지</li>
+          <li><svg viewBox="0 0 16 16" fill="none"><path d="M3 8.5l3.2 3.2L13 5" stroke="#5E7B62" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>심각도별 이메일 알림</li>
+        </ul>
+        <a class="btn btn-ghost" href="#apply" data-open-tab="diag">무료 진단으로 시작</a>
+      </div>
+
+      <div class="price-card featured reveal">
+        <span class="pop-badge">가장 많이 선택</span>
+        <p class="tier-name">중형</p>
+        <p class="tier-target">연면적 ~15,000&#13217; · 관제 ~300pt</p>
+        <div class="tier-price"><span class="num">59만</span><span class="per">원 / 월</span></div>
+        <p class="tier-vat">VAT 별도 · 약정 없음</p>
+        <span class="free-badge">무료 진단 1개월 포함</span>
+        <ul class="tier-feats">
+          <li><svg viewBox="0 0 16 16" fill="none"><path d="M3 8.5l3.2 3.2L13 5" stroke="#5E7B62" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>소형의 모든 기능</li>
+          <li><svg viewBox="0 0 16 16" fill="none"><path d="M3 8.5l3.2 3.2L13 5" stroke="#5E7B62" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>교대 인수인계 자동 정리</li>
+          <li><svg viewBox="0 0 16 16" fill="none"><path d="M3 8.5l3.2 3.2L13 5" stroke="#5E7B62" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>시설업체 견적 연결</li>
+        </ul>
+        <a class="btn btn-primary" href="#apply" data-open-tab="diag">무료 진단으로 시작</a>
+      </div>
+
+      <div class="price-card reveal">
+        <p class="tier-name">대형</p>
+        <p class="tier-target">연면적 15,000&#13217;+ · 관제 300pt+</p>
+        <div class="tier-price"><span class="num">99만</span><span class="per">원~ / 월</span></div>
+        <p class="tier-vat">VAT 별도 · 규모별 맞춤</p>
+        <span class="free-badge">무료 진단 1개월 포함</span>
+        <ul class="tier-feats">
+          <li><svg viewBox="0 0 16 16" fill="none"><path d="M3 8.5l3.2 3.2L13 5" stroke="#5E7B62" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>중형의 모든 기능</li>
+          <li><svg viewBox="0 0 16 16" fill="none"><path d="M3 8.5l3.2 3.2L13 5" stroke="#5E7B62" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>다중 건물 통합 관제</li>
+          <li><svg viewBox="0 0 16 16" fill="none"><path d="M3 8.5l3.2 3.2L13 5" stroke="#5E7B62" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>현장 맞춤 진단 룰 설계</li>
+        </ul>
+        <a class="btn btn-ghost" href="#apply" data-open-tab="diag">무료 진단으로 시작</a>
+      </div>
+    </div>
+
+    <p class="price-note">모든 요금은 월 구독 · 건물 기준 최종가 · VAT 별도</p>
+  </div>
+</section>
+
+<!-- ── 10. 11개 룰 그리드 ── -->
+<section class="section">
+  <div class="wrap">
+    <p class="eyebrow reveal">진단 엔진</p>
+    <h2 class="sec-title reveal">11가지 시선으로 설비를 봅니다</h2>
+    <p class="sec-lede reveal">카드를 누르면 각 룰이 잡아내는 고장을 볼 수 있습니다. 데이터가 없으면 무리하게 단정하지 않고 건너뜁니다.</p>
+
+    <div class="rules-grid" id="rules-grid"></div>
+  </div>
+</section>
+
+<!-- ── 11. 신청 폼 ── -->
+<section class="section section-tint" id="apply">
+  <div class="wrap">
+    <p class="eyebrow reveal" style="justify-content:center">시작하기</p>
+    <h2 class="sec-title reveal" style="text-align:center">1개월 무료 진단,<br>설치 부담 없이 시작하세요</h2>
+
+    <div class="apply-box reveal">
+      <div class="tabs" role="tablist" aria-label="신청 종류 선택">
+        <button class="tab-btn" id="tab-diag" role="tab" aria-selected="true" aria-controls="panel-diag" type="button">무료 진단 신청</button>
+        <button class="tab-btn" id="tab-partner" role="tab" aria-selected="false" aria-controls="panel-partner" type="button">협력업체 등록</button>
+      </div>
+
+      <div class="tab-panel" id="panel-diag" role="tabpanel" aria-labelledby="tab-diag">
+        <form id="form-diag" novalidate>
+          <div class="f-row">
+            <div class="f-group"><label for="d-building">건물명 <span class="req">*</span></label><input id="d-building" name="building" type="text" required placeholder="예: 송도 OO 지식산업센터"></div>
+            <div class="f-group"><label for="d-size">건물 규모 <span class="req">*</span></label>
+              <select id="d-size" name="size" required>
+                <option value="">선택</option><option>연면적 5,000&#13217; 미만</option><option>연면적 5,000~15,000&#13217;</option><option>연면적 15,000&#13217; 이상</option><option>잘 모름 / 상담 필요</option>
+              </select>
+            </div>
+          </div>
+          <div class="f-row">
+            <div class="f-group"><label for="d-name">담당자 성함 <span class="req">*</span></label><input id="d-name" name="name" type="text" required placeholder="홍길동"></div>
+            <div class="f-group"><label for="d-phone">연락처 <span class="req">*</span></label><input id="d-phone" name="phone" type="tel" required placeholder="010-0000-0000"></div>
+          </div>
+          <div class="f-group"><label for="d-email">이메일</label><input id="d-email" name="email" type="email" placeholder="name@company.co.kr"></div>
+          <button class="btn btn-primary btn-lg" type="submit" style="width:100%">무료 진단 신청하기</button>
+          <p class="form-foot">제출 내용은 <a href="mailto:rok@tekton.co.kr">rok@tekton.co.kr</a>로 접수되며, 1영업일 내 연락드립니다.</p>
+        </form>
+        <div class="apply-success" id="success-diag" hidden>
+          <div class="ok-circle"><svg viewBox="0 0 24 24" width="26" height="26" fill="none"><path d="M5 12.5l4.5 4.5L19 7" stroke="#2F4337" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+          <h4>신청이 접수되었습니다</h4>
+          <p>1영업일 내 담당자가 연락드립니다.<br>이메일이 편하시면 아래 주소로 직접 보내주셔도 됩니다.</p>
+          <a class="btn btn-ghost" href="mailto:rok@tekton.co.kr?subject=%5B%EB%AC%B4%EB%A3%8C%20%EC%A7%84%EB%8B%A8%20%EC%8B%A0%EC%B2%AD%5D">rok@tekton.co.kr 로 메일 보내기</a>
+        </div>
+      </div>
+
+      <div class="tab-panel" id="panel-partner" role="tabpanel" aria-labelledby="tab-partner" hidden>
+        <form id="form-partner" novalidate>
+          <div class="f-row">
+            <div class="f-group"><label for="p-company">업체명 <span class="req">*</span></label><input id="p-company" name="company" type="text" required placeholder="예: OO계장 / OO설비"></div>
+            <div class="f-group"><label for="p-region">활동 지역 <span class="req">*</span></label><input id="p-region" name="region" type="text" required placeholder="예: 수도권 / 인천·경기"></div>
+          </div>
+          <div class="f-row">
+            <div class="f-group"><label for="p-field">전문 분야 <span class="req">*</span></label>
+              <select id="p-field" name="field" required>
+                <option value="">선택</option><option>계장 · 자동제어</option><option>기계설비</option><option>전기</option><option>소방</option><option>종합 FM</option><option>기타</option>
+              </select>
+            </div>
+            <div class="f-group"><label for="p-phone">연락처 <span class="req">*</span></label><input id="p-phone" name="phone" type="tel" required placeholder="010-0000-0000"></div>
+          </div>
+          <button class="btn btn-primary btn-lg" type="submit" style="width:100%">협력 파트너 등록하기</button>
+          <p class="form-foot">진단 기반의 정확한 일감을 받아보세요. 제출 내용은 <a href="mailto:rok@tekton.co.kr">rok@tekton.co.kr</a>로 접수됩니다.</p>
+        </form>
+        <div class="apply-success" id="success-partner" hidden>
+          <div class="ok-circle"><svg viewBox="0 0 24 24" width="26" height="26" fill="none"><path d="M5 12.5l4.5 4.5L19 7" stroke="#2F4337" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+          <h4>등록 신청이 접수되었습니다</h4>
+          <p>1영업일 내 협력 절차를 안내드립니다.<br>이메일이 편하시면 아래 주소로 직접 보내주셔도 됩니다.</p>
+          <a class="btn btn-ghost" href="mailto:rok@tekton.co.kr?subject=%5B%ED%98%91%EB%A0%A5%EC%97%85%EC%B2%B4%20%EB%93%B1%EB%A1%9D%5D">rok@tekton.co.kr 로 메일 보내기</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<!-- ── 12. 푸터 ── -->
+<footer class="footer on-dark">
+  <div class="wrap">
+    <a href="#top" class="logo-link" aria-label="TEKTON">
+      <img class="logo-img" src="tekton_logo_footer.svg" alt="TEKTON" height="24">
+    </a>
+    <div class="footer-grid">
+      <div class="info">
+        <p>개인사업자 텍톤(TEKTON) · 대표 최경록</p>
+        <p>경기 하남시 신우실로 100 현대테라타워감일 224호</p>
+        <p><a href="mailto:rok@tekton.co.kr">rok@tekton.co.kr</a></p>
+      </div>
+      <div class="footer-badges">
+        <span>기후테크 · 2026 에코스타트업 선정 — 환경부 KEITI</span>
+        <span>특허 출원 10-2026-0008585 · 10-2026-0026906</span>
+      </div>
+    </div>
+    <div class="copy">
+      <span>&copy; 2026 TEKTON. All rights reserved.</span>
+      <span>T-ARCH — AI BUILDING DIAGNOSTICS</span>
+    </div>
   </div>
 </footer>
 
-<!-- ─── 파일럿 모집 모달 ─── -->
-<div class="pilot-overlay" id="pilot-modal" role="dialog" aria-modal="true" aria-labelledby="pilot-title" aria-hidden="true">
-  <div class="pilot-modal">
-    <button class="pilot-close" id="pilot-close" type="button" aria-label="닫기">✕</button>
-    <div class="pilot-eyebrow">Pilot Recruitment</div>
-    <h3 class="pilot-title" id="pilot-title">파일럿 현장 5곳 한정 모집</h3>
-    <div class="pilot-progress">
-      <span class="pilot-dots" aria-hidden="true">
-        <span class="pilot-dot filled"></span>
-        <span class="pilot-dot"></span>
-        <span class="pilot-dot"></span>
-        <span class="pilot-dot"></span>
-        <span class="pilot-dot"></span>
-      </span>
-      <span class="pilot-progress-text">1곳 진행 중 · 4곳 모집</span>
-    </div>
-    <p class="pilot-body">지금 신청하시면 <strong>1개월 무료 진단</strong>과 맞춤 자문을 제공합니다.</p>
-    <div class="pilot-btns">
-      <a href="https://docs.google.com/forms/d/e/1FAIpQLSdAIdRmF_CYJji3j7ohxqaTlYH-WB45FWRzHghe-UF_JeSGGg/viewform" target="_blank" rel="noopener" class="pilot-btn-primary" id="pilot-cta">무료 진단 신청 →</a>
-      <button class="pilot-btn-secondary" id="pilot-later" type="button">다음에</button>
-    </div>
-  </div>
-</div>
-
 <script>
-
-// ── 연동 탭 스위처 (자동 회전 슬라이더 제거됨 — 사용자 명세: 캐러셀 금지) ──
-function sw(id,btn){
-  document.querySelectorAll('.cpanel').forEach(p=>p.classList.remove('active'));
-  document.querySelectorAll('.ctab').forEach(b=>b.classList.remove('active'));
-  document.getElementById('p-'+id).classList.add('active');
-  btn.classList.add('active');
-}
-const ro=new IntersectionObserver(e=>{e.forEach(x=>{if(x.isIntersecting)x.target.classList.add('on')})},{threshold:0.08});
-document.querySelectorAll('.reveal').forEach(el=>ro.observe(el));
-window.addEventListener('scroll',()=>{document.getElementById('nav').classList.toggle('scrolled',scrollY>40)});
-
-// ── 히어로 stat 바 카운트업 (페이지 로드 시 1회) ──
-function countUp(el, target, dur, suffix){
-  var start = performance.now();
-  function tick(now){
-    var p = Math.min(1, (now-start)/dur);
-    var v = Math.round(p*target);
-    el.textContent = v + (suffix||'');
-    if(p<1) requestAnimationFrame(tick);
-  }
-  requestAnimationFrame(tick);
-}
-setTimeout(function(){
-  document.querySelectorAll('[data-counter]').forEach(function(el){
-    var t = parseInt(el.getAttribute('data-target'), 10);
-    var s = el.getAttribute('data-suffix') || '';
-    countUp(el, t, 1100, s);
-  });
-}, 700);
-
-// ── 라이브 카드 정상률 미세 변동(시연용) — 베이스 ±0.4 ──
-function liveJitter(){
-  document.querySelectorAll('[data-live="health"]').forEach(function(el){
-    var base = parseFloat(el.getAttribute('data-base'));
-    if (isNaN(base)) return;
-    var v = (base + (Math.random()-0.5)*0.4).toFixed(1);
-    el.textContent = v + '%';
-  });
-}
-setInterval(liveJitter, 3000);
-
-// ── 파일럿 모집 모달 (세션당 1회) ──
 (function(){
-  var KEY = 'pilot_modal_dismissed';
-  if (sessionStorage.getItem(KEY)) return;
-  var overlay = document.getElementById('pilot-modal');
-  if (!overlay) return;
-  var shown = false;
-  function show(){
-    if (shown) return;
-    shown = true;
-    overlay.classList.add('show');
-    overlay.setAttribute('aria-hidden','false');
+  "use strict";
+  var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* ── 공통: 스크롤 리빌 ── */
+  var reveals = document.querySelectorAll('.reveal');
+  if (reduced || !('IntersectionObserver' in window)) {
+    reveals.forEach(function(el){ el.classList.add('in'); });
+  } else {
+    var io = new IntersectionObserver(function(es){
+      es.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
+    }, { threshold:0.12 });
+    reveals.forEach(function(el){ io.observe(el); });
   }
-  function dismiss(){
-    overlay.classList.remove('show');
-    overlay.setAttribute('aria-hidden','true');
-    sessionStorage.setItem(KEY, '1');
+
+  /* ── [마감6] 카운트업 ── */
+  function countUp(el){
+    var to = parseInt(el.getAttribute('data-to'), 10);
+    if (reduced){ el.textContent = to; return; }
+    var dur = 1100, start = null;
+    function tick(ts){
+      if(!start) start = ts;
+      var p = Math.min((ts - start)/dur, 1);
+      var eased = 1 - Math.pow(1 - p, 3);
+      el.textContent = Math.round(to * eased);
+      if(p < 1) requestAnimationFrame(tick);
+      else el.textContent = to;
+    }
+    requestAnimationFrame(tick);
   }
-  var timer = setTimeout(show, 4000);
-  function onScroll(){
-    var sh = document.documentElement.scrollHeight - window.innerHeight;
-    if (sh > 0 && (window.scrollY / sh) >= 0.4){
-      clearTimeout(timer);
-      show();
-      window.removeEventListener('scroll', onScroll);
+  var counters = document.querySelectorAll('.count');
+  if (reduced || !('IntersectionObserver' in window)){
+    counters.forEach(countUp);
+  } else {
+    var cio = new IntersectionObserver(function(es){
+      es.forEach(function(e){ if(e.isIntersecting){ countUp(e.target); cio.unobserve(e.target); } });
+    }, { threshold:0.6 });
+    counters.forEach(function(el){ cio.observe(el); });
+  }
+
+  /* ── [필수1] 히어로 목업 — CH-2 가짜정상 점등 시퀀스 ── */
+  var heroMon = document.getElementById('hero-monitor');
+  var ch2v = document.getElementById('ch2-verdict');
+  var monFoot = document.getElementById('mon-foot');
+  var heroLoop = null;
+  function runHeroSeq(){
+    if (reduced){
+      ch2v.className = 'tag tag-fault tag-verdict show';
+      ch2v.textContent = '가짜 정상 의심';
+      monFoot.classList.add('show');
+      return;
+    }
+    function cycle(){
+      // 1) 정상 상태로 리셋
+      ch2v.className = 'tag tag-ok tag-verdict';
+      ch2v.textContent = '정상';
+      monFoot.classList.remove('show');
+      // 2) 2.2초 뒤 가짜정상 적발
+      setTimeout(function(){
+        ch2v.className = 'tag tag-fault tag-verdict show';
+        ch2v.textContent = '가짜 정상 의심';
+        monFoot.classList.add('show');
+      }, 2200);
+    }
+    cycle();
+    heroLoop = setInterval(cycle, 6000);
+  }
+  // 화면에 보일 때만 작동(off-screen 정지)
+  if ('IntersectionObserver' in window){
+    var hio = new IntersectionObserver(function(es){
+      es.forEach(function(e){
+        if(e.isIntersecting && !heroLoop){ runHeroSeq(); }
+        else if(!e.isIntersecting && heroLoop){ clearInterval(heroLoop); heroLoop = null; }
+      });
+    }, { threshold:0.3 });
+    hio.observe(heroMon);
+  } else { runHeroSeq(); }
+
+  /* ── [필수2] 흐름 다이어그램 패킷 ── */
+  var flowmap = document.getElementById('flowmap');
+  var packets = ['pkt1','pkt2','pkt3','pkt4'].map(function(id){ return document.getElementById(id); });
+  // 각 구간 [시작x, 끝x] (y=75 고정)
+  var segs = [[120,250],[370,500],[620,750],[870,920]];
+  var fmRAF = null, fmStart = null;
+  function fmFrame(ts){
+    if(!fmStart) fmStart = ts;
+    var t = ((ts - fmStart)/1600) % 1; // 1.6초 주기
+    packets.forEach(function(p, i){
+      var x = segs[i][0] + (segs[i][1]-segs[i][0]) * t;
+      p.setAttribute('cx', x.toFixed(1));
+      p.setAttribute('opacity', (0.3 + 0.7*Math.sin(Math.PI*t)).toFixed(2));
+    });
+    fmRAF = requestAnimationFrame(fmFrame);
+  }
+  function startFlow(){ if(!fmRAF && !reduced) fmRAF = requestAnimationFrame(fmFrame); }
+  function stopFlow(){ if(fmRAF){ cancelAnimationFrame(fmRAF); fmRAF = null; fmStart = null; } }
+  if (reduced){
+    // 정지 상태: 패킷을 각 구간 중앙에 고정
+    packets.forEach(function(p,i){ p.setAttribute('cx', ((segs[i][0]+segs[i][1])/2).toFixed(1)); });
+  } else if ('IntersectionObserver' in window){
+    var fio = new IntersectionObserver(function(es){
+      es.forEach(function(e){ if(e.isIntersecting) startFlow(); else stopFlow(); });
+    }, { threshold:0.2 });
+    fio.observe(flowmap);
+  } else { startFlow(); }
+
+  /* ── [필수3] 가짜 정상 체험 위젯 ── */
+  var demoReading = document.getElementById('demo-reading');
+  var demoLine = document.getElementById('demo-line');
+  var bmsBadge = document.getElementById('bms-badge');
+  var tarchBadge = document.getElementById('tarch-badge');
+  var tarchNote = document.getElementById('tarch-note');
+  var breakBtn = document.getElementById('break-btn');
+  var resetBtn = document.getElementById('reset-btn');
+  var broken = false, demoRAF = null, demoT = 0;
+  var history = [];
+  for(var i=0;i<40;i++) history.push(7.2);
+
+  function pushVal(v){
+    history.push(v); if(history.length>40) history.shift();
+    // sparkline 좌표 (값 6.8~7.6 → y 30~4)
+    var pts = history.map(function(val, idx){
+      var x = (idx/(history.length-1))*200;
+      var y = 30 - ((val-6.8)/0.8)*26;
+      return x.toFixed(1)+','+Math.max(2,Math.min(32,y)).toFixed(1);
+    }).join(' ');
+    demoLine.setAttribute('points', pts);
+  }
+  function demoFrame(){
+    demoT += 0.08;
+    var v;
+    if(broken){ v = 7.2; } // 고정
+    else { v = 7.2 + Math.sin(demoT)*0.18 + (Math.random()-0.5)*0.06; }
+    demoReading.textContent = v.toFixed(1);
+    pushVal(v);
+    demoLine.setAttribute('stroke', broken ? '#C95A4C' : '#7DB98A');
+    demoRAF = requestAnimationFrame(demoFrame);
+  }
+  function setBroken(state){
+    broken = state;
+    if(state){
+      breakBtn.classList.add('active');
+      // BMS는 여전히 정상
+      bmsBadge.className = 'verdict-badge verdict-ok'; bmsBadge.textContent = '정상';
+      // T-ARCH만 적발
+      tarchBadge.className = 'verdict-badge verdict-fault'; tarchBadge.textContent = '가짜 정상 적발';
+      tarchNote.textContent = '값이 움직이지 않음 — 센서 고착 의심';
+    } else {
+      breakBtn.classList.remove('active');
+      bmsBadge.className = 'verdict-badge verdict-ok'; bmsBadge.textContent = '정상';
+      tarchBadge.className = 'verdict-badge verdict-ok'; tarchBadge.textContent = '정상';
+      tarchNote.textContent = '데이터 무결성 검증 통과';
     }
   }
-  window.addEventListener('scroll', onScroll, { passive: true });
-  document.getElementById('pilot-close').addEventListener('click', dismiss);
-  document.getElementById('pilot-later').addEventListener('click', dismiss);
-  document.getElementById('pilot-cta').addEventListener('click', function(){
-    sessionStorage.setItem(KEY, '1');
+  if(breakBtn){
+    breakBtn.addEventListener('click', function(){ setBroken(true); });
+    resetBtn.addEventListener('click', function(){ setBroken(false); });
+  }
+  // 위젯 애니메이션도 화면에 보일 때만
+  var demoEl = document.getElementById('fake-demo');
+  if (reduced){
+    // 정지 상태: 한 프레임만 그림
+    pushVal(7.2); demoReading.textContent='7.2'; setBroken(false);
+  } else if (demoEl && 'IntersectionObserver' in window){
+    var dio = new IntersectionObserver(function(es){
+      es.forEach(function(e){
+        if(e.isIntersecting && !demoRAF){ demoFrame(); }
+        else if(!e.isIntersecting && demoRAF){ cancelAnimationFrame(demoRAF); demoRAF=null; }
+      });
+    }, { threshold:0.25 });
+    dio.observe(demoEl);
+  } else if(demoEl){ demoFrame(); }
+
+  /* ── [필수4] 11개 룰 그리드 생성 ── */
+  var rules = [
+    ['01','단속 운전','펌프·팬이 짧게 켜졌다 꺼졌다를 반복. 장비 수명을 갉아먹는 신호를 잡습니다.'],
+    ['02','명령-응답 불일치','"켜라"는 명령에 장비가 실제로 반응했는지 대조. 말 안 듣는 설비를 적발합니다.'],
+    ['03','누적 가동 초과','특정 장비만 과도하게 돌아가는 편중을 감지. 고장과 낭비를 예고합니다.'],
+    ['04','온도 표류','설정값에서 서서히 벗어나는 미세한 드리프트. 사람 눈엔 안 보이는 변화를 추적합니다.'],
+    ['05','동시 냉난방','한쪽은 냉방, 한쪽은 난방으로 에너지가 상쇄되는 낭비를 잡습니다.'],
+    ['06','밸브 응답 지연','밸브 명령과 실제 동작 사이의 지연을 측정. 노후·고착 징후를 봅니다.'],
+    ['07','인터록 위반','안전 연동 조건을 어긴 운전을 감지. 사고로 이어질 조합을 막습니다.'],
+    ['08','CO농도-환기 매칭','주차장 CO 농도 대비 환기가 부족한지 검증. 안전과 낭비를 동시에 봅니다.'],
+    ['09','흡수식 효율 추세','냉동기 효율을 주별 회귀로 추적. 서서히 나빠지는 성능 저하를 조기 포착합니다.'],
+    ['10','저수조 누수·펌프 비효율','저수조 수위와 부스터펌프 거동을 교차 분석. 누수와 헛도는 펌프를 찾습니다.'],
+    ['11','압력 이상','계통 압력의 비정상을 감지. 데이터가 없으면 무리하게 단정하지 않고 건너뜁니다.']
+  ];
+  var ruleIcon = '<svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.6"/><path d="M12 7v5l3.2 2" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>';
+  var grid = document.getElementById('rules-grid');
+  if(grid){
+    rules.forEach(function(r){
+      var card = document.createElement('div');
+      card.className = 'rule-card';
+      card.setAttribute('tabindex','0');
+      card.innerHTML =
+        '<div class="rule-icon">'+ruleIcon+'</div>'+
+        '<div class="rule-num">RULE '+r[0]+'</div>'+
+        '<div class="rule-name">'+r[1]+'</div>'+
+        '<div class="rule-detail">'+r[2]+'</div>';
+      // 모바일 탭 토글
+      card.addEventListener('click', function(){ card.classList.toggle('open'); });
+      grid.appendChild(card);
+    });
+  }
+
+  /* ── [포함5] ROI 계산기 ── */
+  var roiSlider = document.getElementById('roi-slider');
+  var roiSize = document.getElementById('roi-size');
+  var roiCostAmt = document.getElementById('roi-cost-amt');
+  var roiSubAmt = document.getElementById('roi-sub-amt');
+  var roiCostBar = document.getElementById('roi-cost-bar');
+  var roiSubBar = document.getElementById('roi-sub-bar');
+  var roiVerdict = document.getElementById('roi-verdict');
+  // [소형, 중형, 대형] — 사고비용(만원), 월구독(만원), 라벨
+  var tiers = [
+    { size:'5,000㎡ 미만', cost:250, mon:39 },
+    { size:'5,000–15,000㎡', cost:450, mon:59 },
+    { size:'15,000㎡ 이상', cost:900, mon:99 }
+  ];
+  function fmtMan(v){ return v.toLocaleString('ko-KR')+'만 원'; }
+  function updateRoi(){
+    var t = tiers[parseInt(roiSlider.value,10)];
+    var yearly = t.mon*12;
+    roiSize.textContent = t.size;
+    roiCostAmt.textContent = fmtMan(t.cost);
+    roiSubAmt.textContent = fmtMan(yearly)+' (월 '+t.mon+'만)';
+    var maxv = Math.max(t.cost, yearly);
+    roiCostBar.style.width = (t.cost/maxv*100).toFixed(0)+'%';
+    roiSubBar.style.width = (yearly/maxv*100).toFixed(0)+'%';
+    if(t.cost >= yearly){
+      roiVerdict.textContent = '사고 한 건만 막아도 1년 구독료를 넘어섭니다.';
+    } else {
+      var ratio = Math.round(t.cost/yearly*100);
+      roiVerdict.textContent = '사고 한 건이면 1년 구독료의 약 '+ratio+'%가 한 번에 회수됩니다.';
+    }
+  }
+  if(roiSlider){ roiSlider.addEventListener('input', updateRoi); updateRoi(); }
+
+  /* ── 탭 + 폼 ── */
+  var tabs = {
+    diag:    { btn:document.getElementById('tab-diag'),    panel:document.getElementById('panel-diag') },
+    partner: { btn:document.getElementById('tab-partner'), panel:document.getElementById('panel-partner') }
+  };
+  function openTab(key){
+    Object.keys(tabs).forEach(function(k){
+      var active = (k===key);
+      tabs[k].btn.setAttribute('aria-selected', active?'true':'false');
+      tabs[k].panel.hidden = !active;
+    });
+  }
+  tabs.diag.btn.addEventListener('click', function(){ openTab('diag'); });
+  tabs.partner.btn.addEventListener('click', function(){ openTab('partner'); });
+  document.querySelectorAll('[data-open-tab]').forEach(function(el){
+    el.addEventListener('click', function(){ openTab(el.getAttribute('data-open-tab')); });
   });
-  overlay.addEventListener('click', function(e){
-    if (e.target === overlay) dismiss();
-  });
-  document.addEventListener('keydown', function(e){
-    if (e.key === 'Escape' && overlay.classList.contains('show')) dismiss();
-  });
-})();
-</script>
-
-<script>
-// ── 히어로 캔버스 — T-ARCH 제어 타워 / 도시 포렌식 스캔 ──
-// 구도: 허브(상단 중앙) ↑ 데이터 상승 / 도시 스카이라인(하단) / 레이더가 도시를 훑음
-(function () {
-  const cv = document.getElementById('tarch-hero-canvas');
-  if (!cv) return;
-  const ctx = cv.getContext('2d');
-
-  // 컬러 팔레트
-  const GREEN = '#4DF000';
-  const RED = '#FF3333';
-  const WHITE = '#FFFFFF';
-  const BG = '#060807';
-  const BODY = ['#0f1a0f', '#142214', '#1a2a1a']; // 건물 본체 (어두운 초록)
-
-  const DPR = Math.min(window.devicePixelRatio || 1, 2);
-  const isMobile = () => window.innerWidth <= 768;
-
-  let W = 0, H = 0;
-  let panelLeft = 0, panelW = 0, hubX = 0, hubY = 0, groundY = 0, hScale = 1;
-  let F = 0, animId = null, rt = null, hubScale = 2;
-
-  // 오프스크린 캔버스 — 정적 스카이라인 캐시(매 프레임 다시 안 그림 → 성능)
-  const off = document.createElement('canvas');
-  const offc = off.getContext('2d');
-
-  const rnd = (a, b) => a + Math.random() * (b - a);
-  const ri = (a, b) => Math.floor(rnd(a, b + 1));
-
-  // 둥근 사각형 (폴리필 포함)
-  function rr(g, x, y, w, h, r) {
-    if (g.roundRect) { g.beginPath(); g.roundRect(x, y, w, h, r); return; }
-    g.beginPath();
-    g.moveTo(x + r, y);
-    g.arcTo(x + w, y, x + w, y + h, r);
-    g.arcTo(x + w, y + h, x, y + h, r);
-    g.arcTo(x, y + h, x, y, r);
-    g.arcTo(x, y, x + w, y, r);
-    g.closePath();
-  }
-
-  // ── 건물 생성 (1회) : 5가지 타입을 불규칙하게 배치 ──
-  // A 초고층 슬림 / B 중층 오피스 / C 저층 넓은형 / D 특수형 / E 초저층
-  const SCATTER = ['B','C','A','E','B','D','C','B','A','C','B','E','D','B','C','A','B','D','C','B','E','C','B','D','B'];
-  const ALERT_IDX = [2, 7, 13, 18, 23]; // 이상 상태에 진입할 수 있는 건물(주인공)
-
-  let buildings = [];
-  let dVariant = 0;
-
-  function makeBuilding(type, idx) {
-    const b = {
-      type, idx, canAlert: ALERT_IDX.includes(idx),
-      state: 'normal', stateEnd: 0, cooldown: 0, flash: 0, aspawn: 0,
-      spawn: rnd(0, 140), tone: BODY[idx % BODY.length], gap: rnd(0.5, 0.85),
-    };
-    if (type === 'A') {                       // 초고층 슬림
-      b.w = rnd(20, 28); b.h = rnd(180, 220);
-      b.stripes = ri(2, 3); b.antenna = rnd(16, 28);
-    } else if (type === 'B') {                // 중층 오피스
-      b.w = rnd(30, 48); b.h = rnd(90, 140);
-      b.cols = ri(3, 5); b.rows = ri(5, 8);
-      b.lit = []; for (let i = 0; i < b.cols * b.rows; i++) b.lit.push(Math.random() > 0.28);
-    } else if (type === 'C') {                // 저층 넓은형(물류/공장)
-      b.w = rnd(55, 90); b.h = rnd(50, 80);
-      b.vents = ri(2, 4); b.cols = ri(4, 6); b.rows = ri(2, 3);
-      b.lit = []; for (let i = 0; i < b.cols * b.rows; i++) b.lit.push(Math.random() > 0.35);
-    } else if (type === 'D') {                // 특수형
-      b.variant = dVariant++ % 4;
-      if (b.variant === 0)      { b.w = rnd(52, 64); b.h = rnd(120, 150); } // 계단식 피라미드
-      else if (b.variant === 1) { b.w = rnd(46, 58); b.h = rnd(95, 120); }  // 돔 지붕
-      else if (b.variant === 2) { b.w = rnd(50, 62); b.h = rnd(115, 145); } // 쌍둥이 타워
-      else                      { b.w = rnd(40, 52); b.h = rnd(130, 160); } // 세트백 타워
-      b.dw = []; for (let i = 0; i < 7; i++) b.dw.push({ fx: rnd(0, 1), fy: rnd(0, 1) });
-    } else {                                  // E 초저층
-      b.w = rnd(35, 55); b.h = rnd(30, 45);
-      b.lit = [Math.random() > 0.4, Math.random() > 0.4, Math.random() > 0.4];
-    }
-    return b;
-  }
-
-  function genBuildings() {
-    buildings = []; dVariant = 0;
-    SCATTER.forEach((t, i) => buildings.push(makeBuilding(t, i)));
-  }
-
-  // 모바일은 12개로 축소
-  const activeList = () => (isMobile() ? buildings.slice(0, 12) : buildings);
-
-  // ── 레이아웃 (리사이즈마다 픽셀 좌표 재계산) ──
-  function layout() {
-    if (isMobile()) { panelLeft = W * 0.04; panelW = W * 0.92; }
-    else            { panelLeft = W * 0.45; panelW = W * 0.54; }
-    hubScale = isMobile() ? 1.3 : 2;            // 허브 2배 확대
-    hubX = panelLeft + panelW * 0.5;
-    hubY = H * (isMobile() ? 0.40 : 0.42);      // 허브: 패널 세로 중앙(40~42%)
-    groundY = H * 0.96;
-
-    const list = activeList();
-    let maxH = 1; list.forEach(b => { if (b.h > maxH) maxH = b.h; });
-    // 도시는 패널 하단부터 허브 바로 아래까지 채움 (틱마크 링 R4=66*배율 기준)
-    const hubBottom = hubY + 66 * hubScale + 14;
-    const avail = groundY - hubBottom;
-    hScale = Math.max(0.55, Math.min(1.6, avail / maxH));
-    if (isMobile()) hScale = Math.min(hScale, 1.0);
-
-    // 누적 x → 패널 폭에 맞춰 정규화(겹치며 실제 스카이라인처럼)
-    const pos = []; let cursor = 0;
-    for (let i = 0; i < list.length; i++) {
-      if (i > 0) cursor += (list[i - 1].w + list[i].w) * 0.5 * list[i].gap;
-      pos.push(cursor);
-    }
-    const first = list[0], last = list[list.length - 1];
-    const virtual = (pos[pos.length - 1]) || 1;
-    const usable = panelW - first.w * 0.5 - last.w * 0.5;
-    list.forEach((b, i) => {
-      const cx = panelLeft + first.w * 0.5 + (pos[i] / virtual) * usable;
-      const w = b.w, h = b.h * hScale;
-      b.px = { cx, w, h, x: cx - w / 2, y: groundY - h, top: groundY - h };
-    });
-
-    renderSkyline();
-  }
-
-  function resize() {
-    const parent = cv.parentElement;
-    W = parent.offsetWidth;
-    // 캔버스 높이를 뷰포트 높이로 상한 → 히어로가 화면보다 길어도 도시 하단이 안 잘림
-    H = Math.min(parent.offsetHeight, window.innerHeight);
-    cv.width = W * DPR; cv.height = H * DPR;
-    cv.style.width = W + 'px'; cv.style.height = H + 'px';
-    ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
-    off.width = W * DPR; off.height = H * DPR;
-    offc.setTransform(DPR, 0, 0, DPR, 0, 0);
-    layout();
-  }
-
-  // ── 건물 타입별 정적 렌더 (오프스크린 g에 그림) ──
-  const FILL = a => `rgba(77,240,0,${a})`;
-  const OUT = 'rgba(77,240,0,0.3)';
-
-  function bodyA(g, b) {                       // 초고층 슬림 + 안테나
-    const { x, y, w, h } = b.px;
-    g.fillStyle = b.tone; g.strokeStyle = OUT; g.lineWidth = 1;
-    rr(g, x, y, w, h, 2); g.fill(); g.stroke();
-    g.fillStyle = FILL(0.5);                   // 세로 창문 라인
-    const n = b.stripes, sw = Math.max(1.5, w / (n * 3.2));
-    for (let i = 0; i < n; i++) g.fillRect(x + (i + 0.5) * (w / n) - sw / 2, y + 4, sw, h - 8);
-    g.strokeStyle = 'rgba(77,240,0,0.5)';      // 가는 안테나 (항공등은 동적으로 깜빡)
-    g.beginPath(); g.moveTo(x + w / 2, y); g.lineTo(x + w / 2, y - b.antenna); g.stroke();
-  }
-
-  function bodyB(g, b) {                       // 중층 오피스 — 창문 그리드
-    const { x, y, w, h } = b.px;
-    g.fillStyle = b.tone; g.strokeStyle = OUT; g.lineWidth = 1;
-    rr(g, x, y, w, h, 2); g.fill(); g.stroke();
-    const pad = 4, gw = (w - pad * 2) / b.cols, gh = (h - pad * 2) / b.rows;
-    const ww = gw * 0.62, wh = gh * 0.55;
-    for (let r = 0; r < b.rows; r++) for (let c = 0; c < b.cols; c++) {
-      g.fillStyle = b.lit[r * b.cols + c] ? FILL(0.5) : FILL(0.08);
-      g.fillRect(x + pad + c * gw + (gw - ww) / 2, y + pad + r * gh + (gh - wh) / 2, ww, wh);
-    }
-  }
-
-  function bodyC(g, b) {                       // 저층 넓은형 + 지붕 환기구
-    const { x, y, w, h } = b.px;
-    g.fillStyle = b.tone; g.strokeStyle = OUT; g.lineWidth = 1;
-    for (let i = 0; i < b.vents; i++) {        // 환기구 돌출
-      const vw = w / (b.vents * 2.2), vx = x + (i + 0.5) * (w / b.vents) - vw / 2;
-      rr(g, vx, y - 5, vw, 5, 1); g.fill(); g.stroke();
-    }
-    rr(g, x, y, w, h, 2); g.fill(); g.stroke();
-    const pad = 5, gw = (w - pad * 2) / b.cols, gh = (h - pad * 2) / b.rows;
-    for (let r = 0; r < b.rows; r++) for (let c = 0; c < b.cols; c++) {
-      g.fillStyle = b.lit[r * b.cols + c] ? FILL(0.45) : FILL(0.08);
-      g.fillRect(x + pad + c * gw + 1, y + pad + r * gh + 1, gw - 2, gh - 2);
-    }
-  }
-
-  function bodyD(g, b) {                       // 특수형 4종
-    const { x, y, w, h, cx } = b.px;
-    g.fillStyle = b.tone; g.strokeStyle = OUT; g.lineWidth = 1;
-    if (b.variant === 0) {                     // 계단식 피라미드
-      const steps = 4, sh = h / steps;
-      for (let s = 0; s < steps; s++) {
-        const sw = w * (1 - s * 0.2), sx = cx - sw / 2;
-        rr(g, sx, y + s * sh, sw, sh, 1); g.fill(); g.stroke();
-      }
-    } else if (b.variant === 1) {              // 돔 지붕
-      rr(g, x, y + h * 0.28, w, h * 0.72, 2); g.fill(); g.stroke();
-      g.beginPath(); g.arc(cx, y + h * 0.28, w / 2, Math.PI, 0); g.fill(); g.stroke();
-    } else if (b.variant === 2) {              // 쌍둥이 타워
-      const tw = w * 0.42;
-      rr(g, x, y, tw, h, 2); g.fill(); g.stroke();
-      rr(g, x + w - tw, y + h * 0.06, tw, h * 0.94, 2); g.fill(); g.stroke();
-      g.fillStyle = b.tone; g.fillRect(x + tw, y + h * 0.55, w - 2 * tw, 4);
-      g.strokeRect(x + tw, y + h * 0.55, w - 2 * tw, 4);
-    } else {                                   // 세트백 타워
-      rr(g, x, y + h * 0.4, w, h * 0.6, 2); g.fill(); g.stroke();
-      rr(g, cx - w * 0.32, y, w * 0.64, h * 0.42, 2); g.fill(); g.stroke();
-    }
-    g.fillStyle = FILL(0.4);                    // 흩뿌린 창문
-    b.dw.forEach(d => g.fillRect(x + d.fx * (w - 5) + 2, y + d.fy * (h - 8) + 4, 2.5, 3));
-  }
-
-  function bodyE(g, b) {                       // 초저층
-    const { x, y, w, h } = b.px;
-    g.fillStyle = b.tone; g.strokeStyle = OUT; g.lineWidth = 1;
-    rr(g, x, y, w, h, 2); g.fill(); g.stroke();
-    const n = b.lit.length, gw = w / (n + 1);
-    for (let i = 0; i < n; i++) {
-      g.fillStyle = b.lit[i] ? FILL(0.5) : FILL(0.08);
-      g.fillRect(x + gw * (i + 1) - gw * 0.3, y + h * 0.3, gw * 0.55, h * 0.4);
-    }
-  }
-
-  function renderSkyline() {
-    offc.clearRect(0, 0, W, H);
-    // 지면 라인 + 바닥 글로우
-    const grd = offc.createLinearGradient(0, groundY - 18, 0, groundY);
-    grd.addColorStop(0, 'rgba(77,240,0,0)'); grd.addColorStop(1, 'rgba(77,240,0,0.05)');
-    offc.fillStyle = grd; offc.fillRect(panelLeft, groundY - 18, panelW, 18);
-    offc.strokeStyle = 'rgba(77,240,0,0.35)'; offc.lineWidth = 1;
-    offc.beginPath(); offc.moveTo(panelLeft, groundY + 0.5); offc.lineTo(panelLeft + panelW, groundY + 0.5); offc.stroke();
-    // 높은 건물부터(뒤) → 낮은 건물(앞) 순으로 겹쳐 그려 입체감
-    const sorted = activeList().slice().sort((a, c) => c.px.h - a.px.h);
-    sorted.forEach(b => {
-      if (b.type === 'A') bodyA(offc, b);
-      else if (b.type === 'B') bodyB(offc, b);
-      else if (b.type === 'C') bodyC(offc, b);
-      else if (b.type === 'D') bodyD(offc, b);
-      else bodyE(offc, b);
+  function bindForm(formId, successId){
+    var form = document.getElementById(formId);
+    var success = document.getElementById(successId);
+    form.addEventListener('submit', function(e){
+      e.preventDefault();
+      if(!form.checkValidity()){ form.reportValidity(); return; }
+      form.hidden = true; success.hidden = false;
+      success.scrollIntoView({ behavior: reduced?'auto':'smooth', block:'center' });
     });
   }
-
-  // ── 데이터 패킷 ──
-  const packets = [];
-  function spawnUp(b, alert) {
-    packets.push({
-      b, sx: b.px.cx, sy: b.px.top, tx: hubX, ty: hubY, t: 0,
-      speed: alert ? rnd(0.012, 0.02) : rnd(0.006, 0.01),
-      alert, size: alert ? 5 : 3, jitter: Math.random(),
-    });
-  }
-  function spawnDown(b) {                       // 진단 응답(흰색, 역방향 하강)
-    packets.push({ b, sx: hubX, sy: hubY, tx: b.px.cx, ty: b.px.top, t: 0, speed: rnd(0.02, 0.03), diag: true, size: 4 });
-  }
-
-  function drawPackets() {
-    for (let i = packets.length - 1; i >= 0; i--) {
-      const p = packets[i];
-      let sp = p.speed;
-      if (p.alert) sp *= 0.7 + 0.6 * Math.abs(Math.sin(F * 0.3 + p.jitter * 6)); // 불규칙 속도
-      p.t += sp;
-      if (p.t >= 1) { onArrive(p); packets.splice(i, 1); continue; }
-      const x = p.sx + (p.tx - p.sx) * p.t, y = p.sy + (p.ty - p.sy) * p.t;
-      const col = p.diag ? WHITE : (p.alert ? RED : GREEN);
-      const bt = Math.max(0, p.t - 0.05);
-      const bx = p.sx + (p.tx - p.sx) * bt, by = p.sy + (p.ty - p.sy) * bt;
-      ctx.globalAlpha = p.diag ? 0.5 : 0.3; ctx.strokeStyle = col; ctx.lineWidth = p.size * 0.6;
-      ctx.beginPath(); ctx.moveTo(bx, by); ctx.lineTo(x, y); ctx.stroke();
-      ctx.globalAlpha = 1;
-      if (p.alert) { ctx.fillStyle = 'rgba(255,51,51,0.2)'; ctx.beginPath(); ctx.arc(x, y, p.size * 2, 0, Math.PI * 2); ctx.fill(); }
-      ctx.fillStyle = p.diag ? 'rgba(255,255,255,0.85)' : col;
-      ctx.beginPath(); ctx.arc(x, y, p.size, 0, Math.PI * 2); ctx.fill();
-    }
-    ctx.globalAlpha = 1;
-  }
-  function onArrive(p) {
-    if (!p.diag) { if (p.alert) flashSegment(p.b); }      // 이상 패킷 허브 도달 → 세그먼트 플래시
-    else { p.b.flash = 1; p.b.state = 'normal'; p.b.cooldown = F + rnd(180, 360); } // 진단 도달 → 정상 복귀
-  }
-
-  // ── 허브 세그먼트 링(16등분) ──
-  const SEG = 16;
-  const segFlash = new Array(SEG).fill(0);
-  function segOf(b) {
-    let n = Math.atan2(b.px.top - hubY, b.px.cx - hubX) / (Math.PI * 2);
-    n = (n % 1 + 1) % 1; return Math.floor(n * SEG) % SEG;
-  }
-  function flashSegment(b) { segFlash[segOf(b)] = 1; }
-
-  // ── 이상 신호 상태머신 (1~2개 순환) ──
-  function updateAnomalies() {
-    const canList = activeList().filter(b => b.canAlert);
-    const active = canList.filter(b => b.state === 'alert' || b.state === 'diagnosing');
-    if (active.length < 1 || (active.length < 2 && Math.random() < 0.004)) {
-      const elig = canList.filter(b => b.state === 'normal' && F > b.cooldown);
-      if (elig.length) {
-        const b = elig[ri(0, elig.length - 1)];
-        b.state = 'alert'; b.stateEnd = F + rnd(240, 360); b.aspawn = 0; // 4~6초
-      }
-    }
-    canList.forEach(b => {
-      if (b.state === 'alert') {
-        if (--b.aspawn <= 0) { spawnUp(b, true); b.aspawn = ri(18, 42); }  // 빠른 빨간 패킷
-        if (F >= b.stateEnd) { b.state = 'diagnosing'; spawnDown(b); }     // 진단 응답 발사
-      }
-    });
-  }
-
-  function updateNormalPackets() {
-    activeList().forEach(b => {
-      if (b.state !== 'normal') return;
-      if (--b.spawn <= 0 && packets.length < 70) { spawnUp(b, false); b.spawn = rnd(90, 180); }
-    });
-  }
-
-  // 이상 건물 빨간 발광/테두리 + 진단 도달 플래시
-  function drawAnomaly() {
-    activeList().forEach(b => {
-      const { x, y, w, h } = b.px;
-      if (b.state === 'alert' || b.state === 'diagnosing') {
-        const pulse = 0.5 + 0.5 * Math.sin(F * 0.18 + b.idx);
-        const gg = ctx.createRadialGradient(x + w / 2, y + h / 2, 2, x + w / 2, y + h / 2, Math.max(w, h));
-        gg.addColorStop(0, `rgba(255,51,51,${0.28 + 0.15 * pulse})`); gg.addColorStop(1, 'rgba(255,51,51,0)');
-        ctx.fillStyle = gg; ctx.fillRect(x - w, y - h * 0.4, w * 3, h * 1.6);
-        ctx.strokeStyle = `rgba(255,51,51,${0.7 + 0.3 * pulse})`; ctx.lineWidth = 1.4;
-        rr(ctx, x, y, w, h, 2); ctx.stroke();
-      }
-      if (b.flash > 0) {
-        ctx.fillStyle = `rgba(255,255,255,${b.flash * 0.5})`; rr(ctx, x, y, w, h, 2); ctx.fill();
-        ctx.strokeStyle = `rgba(77,240,0,${b.flash})`; ctx.lineWidth = 1.5; rr(ctx, x, y, w, h, 2); ctx.stroke();
-        b.flash = Math.max(0, b.flash - 0.03);
-      }
-    });
-  }
-
-  // 초고층(A) 빨간 항공등 깜빡임
-  function drawAircraftLights() {
-    activeList().forEach(b => {
-      if (b.type !== 'A') return;
-      if (Math.sin(F * 0.12 + b.idx) > 0) {
-        const { x, y, w } = b.px;
-        ctx.fillStyle = RED; ctx.shadowColor = RED; ctx.shadowBlur = 6;
-        ctx.beginPath(); ctx.arc(x + w / 2, y - b.antenna, 2, 0, Math.PI * 2); ctx.fill();
-        ctx.shadowBlur = 0;
-      }
-    });
-  }
-
-  // 도시 → 허브 연결선 (희미)
-  function drawLines() {
-    ctx.strokeStyle = 'rgba(77,240,0,0.12)'; ctx.lineWidth = 0.6;
-    activeList().forEach(b => { ctx.beginPath(); ctx.moveTo(b.px.cx, b.px.top); ctx.lineTo(hubX, hubY); ctx.stroke(); });
-  }
-
-  // 레이더 스윕 (3초/1회전, 이상 건물 지날 때 빨강)
-  function drawRadar() {
-    const ang = (F / 180) * Math.PI * 2;        // 3s @60fps
-    const halfW = 0.38;
-    const R = Math.hypot(panelW * 0.6, groundY - hubY) + 40;
-    let red = false;
-    activeList().forEach(b => {
-      if (b.state !== 'alert') return;
-      const ba = Math.atan2(b.px.top - hubY, b.px.cx - hubX);
-      const d = Math.abs(((ang - ba + Math.PI) % (Math.PI * 2)) - Math.PI);
-      if (d < halfW) red = true;
-    });
-    const col = red ? '255,51,51' : '77,240,0';
-    ctx.save();
-    ctx.beginPath(); ctx.rect(panelLeft, 0, panelW, H); ctx.clip();
-    ctx.beginPath(); ctx.moveTo(hubX, hubY); ctx.arc(hubX, hubY, R, ang - halfW, ang); ctx.closePath();
-    ctx.fillStyle = `rgba(${col},0.06)`; ctx.fill();
-    const g = ctx.createLinearGradient(hubX, hubY, hubX + Math.cos(ang) * R, hubY + Math.sin(ang) * R);
-    g.addColorStop(0, `rgba(${col},0)`); g.addColorStop(1, `rgba(${col},0.5)`);
-    ctx.strokeStyle = g; ctx.lineWidth = 1.5;
-    ctx.beginPath(); ctx.moveTo(hubX, hubY); ctx.lineTo(hubX + Math.cos(ang) * R, hubY + Math.sin(ang) * R); ctx.stroke();
-    ctx.restore();
-  }
-
-  // 허브 — 4겹 구조 + 글로우 + 코어 (hubScale 배율로 전체 비례 확대)
-  function drawHub() {
-    const S = hubScale;
-    const pulse = 0.5 + 0.5 * Math.sin(F * 0.05);
-    // 글로우 헤일로
-    const halo = ctx.createRadialGradient(hubX, hubY, 6 * S, hubX, hubY, 92 * S);
-    halo.addColorStop(0, `rgba(77,240,0,${0.2 + 0.1 * pulse})`); halo.addColorStop(1, 'rgba(77,240,0,0)');
-    ctx.fillStyle = halo; ctx.beginPath(); ctx.arc(hubX, hubY, 92 * S, 0, Math.PI * 2); ctx.fill();
-
-    // 4겹: 틱마크 링 (바깥, 반시계 천천히)
-    ctx.save(); ctx.translate(hubX, hubY); ctx.rotate(-F * 0.004);
-    const R4 = 66 * S; ctx.strokeStyle = 'rgba(77,240,0,0.45)';
-    for (let i = 0; i < 48; i++) {
-      const a = i / 48 * Math.PI * 2, long = i % 4 === 0, r1 = R4 - (long ? 6 : 3) * S;
-      ctx.lineWidth = (long ? 1.2 : 0.6) * S;
-      ctx.beginPath(); ctx.moveTo(Math.cos(a) * r1, Math.sin(a) * r1); ctx.lineTo(Math.cos(a) * R4, Math.sin(a) * R4); ctx.stroke();
-    }
-    ctx.restore();
-
-    // 2겹: 세그먼트 링(16등분) — 이상 시 빨강 플래시
-    const R2 = 52 * S, gp = 0.04;
-    for (let i = 0; i < SEG; i++) {
-      const a0 = i / SEG * Math.PI * 2 + gp, a1 = (i + 1) / SEG * Math.PI * 2 - gp, fl = segFlash[i];
-      ctx.strokeStyle = fl > 0 ? `rgba(255,51,51,${0.4 + 0.6 * fl})` : 'rgba(77,240,0,0.45)';
-      ctx.lineWidth = (fl > 0 ? 4 : 2.5) * S;
-      ctx.beginPath(); ctx.arc(hubX, hubY, R2, a0, a1); ctx.stroke();
-      if (fl > 0) segFlash[i] = Math.max(0, fl - 0.025);
-    }
-
-    // 1겹: 안쪽 얇은 링 (빠른 시계방향)
-    ctx.save(); ctx.translate(hubX, hubY); ctx.rotate(F * 0.05);
-    ctx.strokeStyle = 'rgba(77,240,0,0.9)'; ctx.lineWidth = 1.5 * S; ctx.setLineDash([6 * S, 8 * S]);
-    ctx.beginPath(); ctx.arc(0, 0, 42 * S, 0, Math.PI * 2); ctx.stroke(); ctx.setLineDash([]); ctx.restore();
-
-    // 코어
-    const core = ctx.createRadialGradient(hubX, hubY, 2, hubX, hubY, 34 * S);
-    core.addColorStop(0, `rgba(77,240,0,${0.22 + 0.12 * pulse})`);
-    core.addColorStop(0.6, 'rgba(6,16,8,0.96)'); core.addColorStop(1, 'rgba(6,8,7,1)');
-    ctx.beginPath(); ctx.arc(hubX, hubY, 34 * S, 0, Math.PI * 2); ctx.fillStyle = core; ctx.fill();
-    ctx.strokeStyle = GREEN; ctx.lineWidth = 1.8 * S; ctx.stroke();
-
-    // 로고마크(□) + 텍스트 (비례 확대)
-    ctx.strokeStyle = GREEN; ctx.lineWidth = 1.4 * S; ctx.strokeRect(hubX - 5 * S, hubY - 17 * S, 10 * S, 10 * S);
-    ctx.fillStyle = GREEN; ctx.textAlign = 'center'; ctx.font = `700 ${14 * S}px sans-serif`;
-    ctx.fillText('T-ARCH', hubX, hubY + 6 * S);
-    ctx.fillStyle = 'rgba(77,240,0,0.65)'; ctx.font = `500 ${8 * S}px sans-serif`;
-    ctx.fillText('FORENSIC HUB', hubX, hubY + 18 * S);
-  }
-
-  function animate() {
-    ctx.clearRect(0, 0, W, H);
-    ctx.fillStyle = BG; ctx.fillRect(0, 0, W, H);
-    ctx.drawImage(off, 0, 0, W, H);             // 정적 스카이라인 캐시
-    if (!isMobile()) drawRadar();               // 모바일은 레이더 제거
-    drawLines();
-    drawAircraftLights();
-    updateAnomalies();
-    updateNormalPackets();
-    drawAnomaly();
-    drawPackets();
-    drawHub();
-    F++;
-    animId = requestAnimationFrame(animate);
-  }
-
-  genBuildings();
-  resize();
-  window.addEventListener('resize', () => { clearTimeout(rt); rt = setTimeout(resize, 150); });
-  document.addEventListener('visibilitychange', () => {
-    if (document.hidden) { if (animId) { cancelAnimationFrame(animId); animId = null; } }
-    else if (animId === null) animate();
-  });
-  animate();
+  bindForm('form-diag','success-diag');
+  bindForm('form-partner','success-partner');
 })();
 </script>
 </body>
