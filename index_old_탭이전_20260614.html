@@ -238,20 +238,6 @@ h2.sec-title{
 .section{ padding:96px 0; }
 .section-tint{ background:var(--paper-2); }
 
-/* ── 하이브리드 탭 (자세히 보기) ── */
-.deep{ padding:72px 0 96px; }
-.deep-head{ text-align:center; margin-bottom:36px; }
-.deep-tablist{ display:flex; flex-wrap:wrap; gap:8px; justify-content:center; margin-bottom:40px; }
-.deep-tab{ padding:12px 22px; border-radius:999px; border:1px solid var(--line); background:#FBFAF6; font-size:15px; font-weight:600; color:var(--ink-soft); cursor:pointer; transition:all .18s ease; font-family:inherit; }
-.deep-tab:hover{ border-color:var(--sage); color:var(--sage-deep); }
-.deep-tab[aria-selected="true"]{ background:var(--sage-deep); border-color:var(--sage-deep); color:#F4F6F1; }
-.deep-panel{ display:none; animation:deepFade .3s ease; }
-.deep-panel.active{ display:block; }
-@keyframes deepFade{ from{opacity:0; transform:translateY(8px);} to{opacity:1; transform:none;} }
-.deep-panel .section{ padding:0; }
-.deep-panel .section-tint{ background:transparent; }
-@media (prefers-reduced-motion:reduce){ .deep-panel{ animation:none; } }
-
 .vs-grid{ display:grid; grid-template-columns:1fr 1fr; gap:22px; margin-top:44px; }
 .vs-card{ border-radius:var(--radius); padding:30px; border:1px solid var(--line); background:#FBFAF6; }
 .vs-card.tarch{ background:var(--monitor); border-color:var(--monitor-edge); color:var(--monitor-text); }
@@ -811,23 +797,9 @@ h2.sec-title{
   </div>
 </section>
 
-<!-- ── 6. 자세히 보기 (하이브리드 탭) ── -->
-<section class="deep section-tint" id="more">
+<!-- ── 6. 두 고객 ── -->
+<section class="section">
   <div class="wrap">
-    <div class="deep-head">
-      <p class="eyebrow reveal" style="justify-content:center">자세히 보기</p>
-      <h2 class="sec-title reveal">더 알아보기</h2>
-      <p class="sec-lede reveal" style="margin:0 auto;">필요한 주제만 골라서 보세요.</p>
-    </div>
-
-    <div class="deep-tablist reveal" role="tablist" aria-label="자세히 보기 주제">
-      <button class="deep-tab" id="dt-who" role="tab" aria-selected="true" aria-controls="dp-who" type="button">누구를 위한 도구인가</button>
-      <button class="deep-tab" id="dt-cost" role="tab" aria-selected="false" aria-controls="dp-cost" type="button">비용과 요금</button>
-      <button class="deep-tab" id="dt-engine" role="tab" aria-selected="false" aria-controls="dp-engine" type="button">무엇을 진단하나</button>
-    </div>
-
-    <div class="deep-panel active" id="dp-who" role="tabpanel" aria-labelledby="dt-who">
-      <div class="wrap">
     <p class="eyebrow reveal">누구를 위한 플랫폼인가</p>
     <h2 class="sec-title reveal">건물과 시설업체, 양쪽 모두의 도구</h2>
 
@@ -855,8 +827,11 @@ h2.sec-title{
       </div>
     </div>
   </div>
-      <div style="height:48px"></div>
-      <div class="wrap">
+</section>
+
+<!-- ── 7. 브랜드 무관 ── -->
+<section class="section section-tint brands">
+  <div class="wrap">
     <p class="eyebrow reveal" style="justify-content:center">호환성</p>
     <div class="brand-chips reveal">
       <span class="brand-chip">지멘스</span>
@@ -871,10 +846,11 @@ h2.sec-title{
       <strong>교체 없이, 추가 공사 없이.</strong>
     </p>
   </div>
-    </div>
+</section>
 
-    <div class="deep-panel" id="dp-cost" role="tabpanel" aria-labelledby="dt-cost">
-      <div class="wrap">
+<!-- ── 8. ROI 계산기 ── -->
+<section class="section">
+  <div class="wrap">
     <p class="eyebrow reveal">왜 합리적인가</p>
     <h2 class="sec-title reveal">설비사고 한 건이면 수백만 원.<br>막으면 구독료 이상입니다.</h2>
     <p class="sec-lede reveal">건물 규모를 움직여 보세요. 사고 한 건의 추정 비용과 1년 구독료를 비교합니다.</p>
@@ -899,8 +875,11 @@ h2.sec-title{
       <p class="roi-assume">※ 사고 비용은 냉동기·펌프·공조 설비의 평균 긴급수리·가동중단 손실을 보수적으로 가정한 예시입니다. 실제 금액은 현장별로 다릅니다. [확인 필요]</p>
     </div>
   </div>
-      <div style="height:48px"></div>
-      <div class="wrap">
+</section>
+
+<!-- ── 9. 가격 ── -->
+<section class="section section-tint">
+  <div class="wrap">
     <p class="eyebrow reveal">요금</p>
     <h2 class="sec-title reveal">건물 규모에 맞는 요금 하나로<br>진단부터 업체 연결까지</h2>
     <p class="sec-lede reveal">사고가 난 뒤 치르는 비용이 아니라, 사고가 나기 전에 드는 비용입니다.</p>
@@ -952,17 +931,16 @@ h2.sec-title{
 
     <p class="price-note">모든 요금은 월 구독 · 건물 기준 최종가 · VAT 별도</p>
   </div>
-    </div>
+</section>
 
-    <div class="deep-panel" id="dp-engine" role="tabpanel" aria-labelledby="dt-engine">
-      <div class="wrap">
+<!-- ── 10. 11개 룰 그리드 ── -->
+<section class="section">
+  <div class="wrap">
     <p class="eyebrow reveal">진단 엔진</p>
     <h2 class="sec-title reveal">11가지 시선으로 설비를 봅니다</h2>
     <p class="sec-lede reveal">카드를 누르면 각 룰이 잡아내는 고장을 볼 수 있습니다. 데이터가 없으면 무리하게 단정하지 않고 건너뜁니다.</p>
 
     <div class="rules-grid" id="rules-grid"></div>
-  </div>
-    </div>
   </div>
 </section>
 
@@ -1073,18 +1051,6 @@ h2.sec-title{
     }, { threshold:0.12 });
     reveals.forEach(function(el){ io.observe(el); });
   }
-
-  /* ── 자세히 보기(deep) 탭 전환 ── */
-  var deepTabs = document.querySelectorAll('.deep-tab');
-  deepTabs.forEach(function(tab){
-    tab.addEventListener('click', function(){
-      var panelId = tab.getAttribute('aria-controls');
-      deepTabs.forEach(function(t){ t.setAttribute('aria-selected', t === tab ? 'true' : 'false'); });
-      document.querySelectorAll('.deep-panel').forEach(function(p){
-        p.classList.toggle('active', p.id === panelId);
-      });
-    });
-  });
 
   /* ── [마감6] 카운트업 ── */
   function countUp(el){
