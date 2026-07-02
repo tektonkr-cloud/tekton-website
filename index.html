@@ -345,14 +345,17 @@ h2.sec-title{
 .fm-stack-arrow{ align-self:flex-start; margin-left:30px; height:18px; color:var(--sage); font-size:var(--fs-2xs); display:flex; align-items:center; }
 .fm-stack-arrow .ro-mini{ font-family:var(--font-mono); font-size:var(--fs-2xs); color:var(--sage); margin-left:8px; letter-spacing:.06em; }
 .fm-node-label{ font-family:var(--font-mono); font-size:var(--fs-2xs); font-weight:600; fill:var(--ink); }
-.fm-node-sub{ font-family:var(--font-mono); font-size:var(--fs-2xs); fill:var(--ink-soft); }
+/* ⚠ flowmap SVG 내부 라벨: viewBox 고정좌표라 --fs-2xs(13)로 키우면 라벨끼리 겹침.
+   다이어그램 UI 크롬 예외로 원래 px 유지(콘텐츠 텍스트 아님). 다시 키우지 말 것. */
+.fm-node-sub{ font-family:var(--font-mono); font-size:9.5px; fill:var(--ink-soft); }
 .fm-box{ fill:#fff; stroke:var(--line); stroke-width:1.5; }
 .fm-box.edge{ fill:var(--monitor); stroke:var(--monitor-edge); }
 .fm-box.edge + text, .fm-edge-label{ fill:#E8F0E6; }
 .fm-path{ fill:none; stroke:var(--sage); stroke-width:2; }
 .fm-packet{ fill:var(--sage-deep); }
-.fm-readonly{ font-family:var(--font-mono); font-size:var(--fs-2xs); fill:var(--sage); letter-spacing:.08em; }
-.fm-caveat{ font-family:var(--font-mono); font-size:var(--fs-2xs); fill:var(--ink-soft); }
+/* ⚠ flowmap SVG 내부 라벨(위와 동일 예외): 고정좌표라 확대 시 겹침 → 원래 px 유지. 키우지 말 것. */
+.fm-readonly{ font-family:var(--font-mono); font-size:9px; fill:var(--sage); letter-spacing:.08em; }
+.fm-caveat{ font-family:var(--font-mono); font-size:9px; fill:var(--ink-soft); }
 
 /* ============================================================
    6. 두 고객
