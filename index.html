@@ -226,69 +226,7 @@ h2.sec-title{
   .hero-ctas .btn{ width:100%; }
 }
 
-/* ── 관제 모니터 목업 ── */
-.monitor{
-  background:var(--monitor);
-  border:1px solid var(--monitor-edge);
-  border-radius:var(--radius);
-  color:var(--monitor-text);
-  font-family:var(--font-mono);
-  box-shadow:var(--shadow-lg);
-  overflow:hidden;
-  position:relative;
-}
-.monitor::after{
-  content:""; position:absolute; left:0; right:0; height:90px; top:-90px;
-  background:linear-gradient(to bottom, transparent, rgba(125,185,138,.05), transparent);
-  animation:scan 7s linear infinite;
-  pointer-events:none;
-}
-@keyframes scan{ to{ top:110%; } }
-
-.mon-head{
-  display:flex; align-items:center; gap:12px; flex-wrap:wrap;
-  padding:14px 18px; border-bottom:1px solid var(--monitor-line);
-  font-size:var(--fs-2xs); letter-spacing:.06em; color:var(--monitor-dim);
-}
-.mon-head .sep{ color:var(--monitor-line); }
-.mon-head .ro{ margin-left:auto; border:1px solid var(--monitor-edge); padding:2px 8px; border-radius:4px; color:var(--ok); font-weight:600; }
-.mon-head .demo-badge{ border:1px solid var(--monitor-edge); padding:2px 8px; border-radius:4px; color:var(--monitor-dim); font-weight:600; letter-spacing:.08em; }
-
-.mon-kpis{ display:grid; grid-template-columns:repeat(3,1fr); border-bottom:1px solid var(--monitor-line); }
-.mon-kpi{ padding:16px 18px; border-right:1px solid var(--monitor-line); }
-.mon-kpi:last-child{ border-right:none; }
-.mon-kpi .k-label{ font-size:var(--fs-2xs); color:var(--monitor-dim); letter-spacing:.12em; margin-bottom:6px; }
-.mon-kpi .k-value{ font-size:var(--fs-xl); font-weight:600; color:#E8F0E6; line-height:1; }
-.mon-kpi .k-unit{ font-size:var(--fs-2xs); color:var(--monitor-dim); margin-left:4px; }
-
-.mon-table{ width:100%; border-collapse:collapse; font-size:var(--fs-2xs); }
-.mon-table th{ text-align:left; padding:10px 18px; font-weight:500; font-size:var(--fs-2xs); letter-spacing:.12em; color:var(--monitor-dim); border-bottom:1px solid var(--monitor-line); }
-.mon-table td{ padding:11px 18px; border-bottom:1px solid var(--monitor-line); vertical-align:middle; }
-.mon-table tr:last-child td{ border-bottom:none; }
-.mon-table .pt-name{ color:#E8F0E6; }
-.mon-table .pt-sub{ display:block; font-size:var(--fs-2xs); color:var(--monitor-dim); margin-top:2px; }
-.val{ font-weight:600; transition:color var(--dur-base) var(--ease-standard); }
-
-.tag{ display:inline-block; font-size:var(--fs-2xs); font-weight:600; padding:3px 9px; border-radius:4px; letter-spacing:.05em; border:1px solid; transition:opacity var(--dur-base) var(--ease-standard); }
-.tag-ok{ color:var(--ok); border-color:rgba(125,185,138,.4); background:rgba(125,185,138,.08); }
-.tag-warn{ color:var(--warn); border-color:rgba(203,154,78,.4); background:rgba(203,154,78,.08); }
-.tag-fault{ color:#E8A099; border-color:rgba(201,90,76,.55); background:rgba(201,90,76,.14); }
-.tag-pending{ opacity:0; }
-.tag-fault.show{ animation:pulse-fault 2.2s ease-in-out infinite; }
-@keyframes pulse-fault{
-  0%,100%{ box-shadow:0 0 0 0 rgba(201,90,76,0); }
-  50%{ box-shadow:0 0 0 5px rgba(201,90,76,.12); }
-}
-
-.mon-foot{
-  display:flex; align-items:center; gap:14px; flex-wrap:wrap;
-  padding:14px 18px; background:rgba(201,90,76,.06);
-  border-top:1px solid var(--monitor-line); font-size:var(--fs-2xs);
-  opacity:0; transition:opacity var(--dur-slow) var(--ease-standard);
-}
-.mon-foot.show{ opacity:1; }
-.mon-foot .prio{ color:#E8A099; font-weight:600; letter-spacing:.04em; }
-.mon-foot .desc{ color:var(--monitor-dim); }
+/* (구 관제 대시보드 목업 CSS는 히어로 재구현으로 제거 — 마크업·JS 참조 0 확인 후 정리, 2026-07-02) */
 
 /* ============================================================
    3. 신뢰 바
@@ -319,48 +257,56 @@ h2.sec-title{
 .deep-panel .section-tint{ background:transparent; }
 @media (prefers-reduced-motion:reduce){ .deep-panel{ animation:none; } }
 
-.vs-grid{ display:grid; grid-template-columns:1fr 1fr; gap:22px; margin-top:44px; }
-.vs-card{ border-radius:var(--radius); padding:30px; border:1px solid var(--line); background:#FBFAF6; }
-.vs-card.tarch{ background:var(--monitor); border-color:var(--monitor-edge); color:var(--monitor-text); }
-.vs-label{ font-family:var(--font-mono); font-size:var(--fs-2xs); font-weight:600; letter-spacing:.18em; margin-bottom:20px; }
+/* ── 대비: 기존 BMS vs T-ARCH ── */
+.vs-grid{ display:grid; grid-template-columns:1fr 1fr; gap:var(--space-24); margin-top:var(--space-48); }
+.vs-card{ border-radius:var(--radius); padding:var(--space-32); border:1px solid var(--line); background:#FBFAF6; box-shadow:var(--shadow-sm); }
+.vs-card.tarch{ background:var(--monitor); border-color:var(--monitor-edge); color:var(--monitor-text); box-shadow:var(--shadow-lg); }
+.vs-label{ font-family:var(--font-mono); font-size:var(--fs-2xs); font-weight:600; letter-spacing:.18em; margin-bottom:var(--space-20); }
 .vs-card .vs-label{ color:var(--ink-soft); }
-.vs-card.tarch .vs-label{ color:var(--ok); }
+.vs-card.tarch .vs-label{ color:var(--sage-bright); }
 
 .flow{ display:flex; flex-direction:column; gap:0; }
-.flow-step{ display:flex; align-items:center; gap:12px; font-size:var(--fs-sm); padding:11px 14px; border:1px solid var(--line); border-radius:var(--radius-sm); background:#fff; }
-.vs-card.tarch .flow-step{ background:rgba(232,240,230,.04); border-color:var(--monitor-edge); }
+.flow-step{ display:flex; align-items:center; gap:var(--space-12); font-size:var(--fs-sm); padding:var(--space-12) var(--space-16); border:1px solid var(--line); border-radius:var(--radius-sm); background:#fff; }
+.vs-card.tarch .flow-step{ background:rgba(232,240,230,.04); border-color:var(--monitor-edge); color:var(--monitor-text); }
 .flow-arrow{ align-self:center; height:22px; display:flex; align-items:center; color:var(--ink-soft); font-family:var(--font-mono); font-size:var(--fs-2xs); }
 .vs-card.tarch .flow-arrow{ color:var(--monitor-dim); }
-.flow-step .step-tag{ font-family:var(--font-mono); font-size:var(--fs-2xs); letter-spacing:.1em; color:var(--ink-soft); flex:none; width:62px; }
+.flow-step .step-tag{ font-family:var(--font-mono); font-size:var(--fs-2xs); letter-spacing:.1em; color:var(--ink-soft); flex:none; width:64px; }
 .vs-card.tarch .flow-step .step-tag{ color:var(--monitor-dim); }
-.flow-step.result-believe{ border-color:#D9CDB6; background:#F8F3E6; }
-.flow-step.result-catch{ border-color:rgba(201,90,76,.5); background:rgba(201,90,76,.1); color:#E8A099; font-weight:600; }
-.vs-caption{ margin-top:18px; font-size:var(--fs-xs); color:var(--ink-soft); }
+.flow-step.result-believe{ border-color:#D9CDB6; background:#F8F3E6; font-weight:600; }
+.flow-step.result-catch{ border-color:rgba(201,90,76,.55); background:rgba(201,90,76,.12); color:#E8A099; font-weight:600; }
+.vs-caption{ margin-top:var(--space-16); font-size:var(--fs-xs); color:var(--ink-soft); line-height:1.55; }
 .vs-card.tarch .vs-caption{ color:var(--monitor-dim); }
 
-/* 가짜 정상 체험 위젯 */
-.demo{ margin-top:30px; border:1px solid var(--monitor-edge); border-radius:var(--radius); overflow:hidden; background:var(--monitor); }
-.demo-head{ display:flex; align-items:center; gap:10px; flex-wrap:wrap; padding:16px 20px; border-bottom:1px solid var(--monitor-line); }
+/* ── "직접 해보기" — 가짜정상 체험 위젯(다크 계기판, 라이트 섹션의 초점) ── */
+.demo{ margin-top:var(--space-32); border:1px solid var(--monitor-edge); border-radius:var(--radius); overflow:hidden; background:var(--monitor); box-shadow:var(--shadow-lg); }
+.demo-head{ display:flex; align-items:center; gap:var(--space-8); flex-wrap:wrap; padding:var(--space-16) var(--space-20); border-bottom:1px solid var(--monitor-line); }
 .demo-head h3{ font-size:var(--fs-sm); color:#E8F0E6; font-weight:600; font-family:var(--font-mono); letter-spacing:.02em; }
+.demo-head .demo-tag{ font-family:var(--font-mono); font-size:var(--fs-2xs); font-weight:600; letter-spacing:.08em; color:var(--warn); border:1px solid rgba(203,154,78,.55); border-radius:4px; padding:var(--space-2) var(--space-8); }
 .demo-head .hint{ font-family:var(--font-mono); font-size:var(--fs-2xs); color:var(--monitor-dim); margin-left:auto; }
-.demo-body{ display:grid; grid-template-columns:1.1fr 1fr 1fr; gap:0; }
-.demo-cell{ padding:22px 20px; border-right:1px solid var(--monitor-line); }
+.demo-body{ display:grid; grid-template-columns:1.15fr 1fr 1fr; gap:0; }
+.demo-cell{ padding:var(--space-24) var(--space-20); border-right:1px solid var(--monitor-line); transition:background var(--dur-base) var(--ease-standard); }
 .demo-cell:last-child{ border-right:none; }
-.demo-cell .cell-label{ font-family:var(--font-mono); font-size:var(--fs-2xs); letter-spacing:.12em; color:var(--monitor-dim); margin-bottom:14px; }
+.demo-cell .cell-label{ font-family:var(--font-mono); font-size:var(--fs-2xs); letter-spacing:.12em; color:var(--monitor-dim); margin-bottom:var(--space-12); }
 .sensor-readout{ font-family:var(--font-mono); font-size:var(--fs-2xl); font-weight:600; color:#E8F0E6; letter-spacing:.02em; }
 .sensor-readout .unit{ font-size:var(--fs-sm); color:var(--monitor-dim); margin-left:3px; }
-.sparkline{ margin-top:14px; height:34px; width:100%; }
-.sparkline polyline{ fill:none; stroke:var(--ok); stroke-width:2; }
-.demo-verdict{ display:flex; flex-direction:column; gap:6px; }
-.verdict-badge{ font-family:var(--font-mono); font-size:var(--fs-2xs); font-weight:600; padding:8px 12px; border-radius:6px; border:1px solid; display:inline-flex; align-items:center; gap:8px; align-self:flex-start; }
+.sparkline{ margin-top:var(--space-16); height:44px; width:100%; }
+.sparkline polyline{ fill:none; stroke:var(--ok); stroke-width:2; transition:stroke var(--dur-base) var(--ease-standard); }
+.demo-verdict{ display:flex; flex-direction:column; gap:var(--space-8); }
+.verdict-badge{ font-family:var(--font-mono); font-size:var(--fs-2xs); font-weight:600; padding:var(--space-8) var(--space-12); border-radius:6px; border:1px solid; display:inline-flex; align-items:center; gap:var(--space-8); align-self:flex-start; }
 .verdict-ok{ color:var(--ok); border-color:rgba(125,185,138,.4); background:rgba(125,185,138,.08); }
 .verdict-fault{ color:#E8A099; border-color:rgba(201,90,76,.55); background:rgba(201,90,76,.15); }
-.verdict-note{ font-family:var(--font-mono); font-size:var(--fs-2xs); color:var(--monitor-dim); }
-.demo-controls{ display:flex; gap:10px; padding:16px 20px; border-top:1px solid var(--monitor-line); flex-wrap:wrap; }
-.demo-btn{ font-family:var(--font-mono); font-size:var(--fs-2xs); font-weight:600; padding:9px 16px; border-radius:6px; border:1px solid var(--monitor-edge); background:rgba(232,240,230,.05); color:var(--monitor-text); transition:background var(--dur-fast) var(--ease-standard); }
+.verdict-note{ font-family:var(--font-mono); font-size:var(--fs-2xs); color:var(--monitor-dim); line-height:1.5; }
+.demo-controls{ display:flex; gap:var(--space-12); padding:var(--space-16) var(--space-20); border-top:1px solid var(--monitor-line); flex-wrap:wrap; }
+.demo-btn{ font-family:var(--font-mono); font-size:var(--fs-2xs); font-weight:600; padding:var(--space-8) var(--space-16); border-radius:6px; border:1px solid var(--monitor-edge); background:rgba(232,240,230,.05); color:var(--monitor-text); transition:background var(--dur-fast) var(--ease-standard), border-color var(--dur-fast) var(--ease-standard); }
 .demo-btn:hover{ background:rgba(232,240,230,.12); }
 .demo-btn.danger{ border-color:rgba(201,90,76,.5); color:#E8A099; }
 .demo-btn.active{ background:rgba(201,90,76,.18); }
+/* 깨짐(고착) 상태 강조 — BMS는 태연히 '정상', T-ARCH만 적발 */
+#fake-demo.is-broken .tarch-cell{ background:rgba(201,90,76,.07); }
+#fake-demo.is-broken .tarch-cell .verdict-fault{ animation:demoCatch 2.2s ease-in-out infinite; }
+@keyframes demoCatch{ 0%,100%{ box-shadow:0 0 0 0 rgba(201,90,76,0); } 50%{ box-shadow:0 0 0 4px rgba(201,90,76,.16); } }
+@media (prefers-reduced-motion:reduce){ #fake-demo.is-broken .tarch-cell .verdict-fault{ animation:none; } }
+@media (max-width:640px){ .demo-head .hint{ margin-left:0; width:100%; } }
 
 /* ============================================================
    5. 작동 방식 3단계 + 데이터 흐름 다이어그램
@@ -707,24 +653,25 @@ h2.sec-title{
     <div class="demo reveal" id="fake-demo">
       <div class="demo-head">
         <h3>직접 해보기 — 센서를 고장 내보세요</h3>
+        <span class="demo-tag">예시 · Demonstration</span>
         <span class="hint">버튼을 누르면 센서값이 한 곳에 고정됩니다</span>
       </div>
       <div class="demo-body">
-        <div class="demo-cell">
+        <div class="demo-cell sensor-cell">
           <div class="cell-label">CH-2 냉수 출구온도</div>
           <div class="sensor-readout"><span id="demo-reading">7.2</span><span class="unit">&#8451;</span></div>
           <svg class="sparkline" id="demo-spark" viewBox="0 0 200 34" preserveAspectRatio="none">
             <polyline id="demo-line" points=""></polyline>
           </svg>
         </div>
-        <div class="demo-cell">
+        <div class="demo-cell bms-cell">
           <div class="cell-label">기존 BMS 판정</div>
           <div class="demo-verdict">
             <span class="verdict-badge verdict-ok" id="bms-badge">정상</span>
             <span class="verdict-note">값을 그대로 신뢰함</span>
           </div>
         </div>
-        <div class="demo-cell">
+        <div class="demo-cell tarch-cell">
           <div class="cell-label">T-ARCH 판정</div>
           <div class="demo-verdict">
             <span class="verdict-badge verdict-ok" id="tarch-badge">정상</span>
@@ -1281,6 +1228,8 @@ h2.sec-title{
   }
   function setBroken(state){
     broken = state;
+    var fd = document.getElementById('fake-demo');
+    if(fd) fd.classList.toggle('is-broken', state);
     if(state){
       breakBtn.classList.add('active');
       // BMS는 여전히 정상
