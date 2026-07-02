@@ -27,20 +27,23 @@
    Sage Green + Warm Neutrals · 의료 검진실 × 관제실
    ============================================================ */
 :root{
-  --paper:      #F6F4EE;
+  /* ── 색: 라이트(본문) 컨텍스트 ── */
+  --paper:      #F7F4EC;   /* DIRECTION §1 스냅 (구 #F6F4EE) */
   --paper-2:    #EFECE2;
   --ink:        #21261F;
   --ink-soft:   #5C6256;
   --sage:       #5E7B62;
   --sage-deep:  #2F4337;
   --sage-tint:  #E2E9DF;
-  --line:       #DCD8CB;
+  --line:       #E4DFD1;   /* DIRECTION §1 스냅 (구 #DCD8CB) */
 
-  --monitor:        #121714;
+  /* ── 색: 다크(히어로/관제) 컨텍스트 ── */
+  --monitor:        #141F19;   /* DIRECTION §1 스냅 (구 #121714) */
   --monitor-edge:   #233029;
   --monitor-line:   #1D2620;
   --monitor-text:   #C8D5C6;
   --monitor-dim:    #76836F;
+  --sage-bright:    #9DBFA4;   /* 신설 · 다크 위 강조텍스트/액센트(§1) · --ok와 별개 · 소비는 다크 히어로 단계 */
   --ok:             #7DB98A;
   --warn:           #CB9A4E;
   --fault:          #C95A4C;
@@ -51,6 +54,30 @@
 
   --font-body: "IBM Plex Sans KR", -apple-system, "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
   --font-mono: "IBM Plex Mono", "SF Mono", Consolas, monospace;
+
+  /* ── 간격 스케일 (4px 그리드) ── */
+  --space-2:  2px;   --space-4:  4px;   --space-8:  8px;   --space-12: 12px;
+  --space-16: 16px;  --space-20: 20px;  --space-24: 24px;  --space-32: 32px;
+  --space-40: 40px;  --space-48: 48px;  --space-64: 64px;  --space-80: 80px;
+  --space-96: 96px;
+  --space-section: 96px;      /* 데스크톱 섹션 세로 리듬 */
+  --space-section-sm: 68px;   /* 모바일 섹션 세로 리듬 */
+
+  /* ── 타이포 스케일 (안 B · 5060 가독성) ── */
+  --fs-2xs: 13px;  --fs-xs: 14px;   --fs-sm: 15px;   --fs-base: 18px;
+  --fs-md:  20px;  --fs-lg: 22px;   --fs-xl: 26px;   --fs-2xl: 32px;
+  --fs-3xl: 44px;
+
+  /* ── 그림자 (elevation 3단 + focus) ── */
+  --shadow-sm: 0 1px 4px rgba(33,38,31,.12);
+  --shadow-md: 0 8px 22px -12px rgba(47,67,55,.25);
+  --shadow-lg: 0 24px 60px -20px rgba(33,38,31,.35);
+  --focus-ring: 0 0 0 3px rgba(94,123,98,.15);
+
+  /* ── 모션 (duration/easing) · reduced-motion은 @media에서 무력화 ── */
+  --dur-fast: 150ms;   --dur-base: 300ms;   --dur-slow: 500ms;   --dur-reveal: 700ms;
+  --ease-standard: ease;
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 *{ margin:0; padding:0; box-sizing:border-box; }
