@@ -163,19 +163,68 @@ h2.sec-title{
 /* ============================================================
    2. 히어로
    ============================================================ */
-.hero{ padding:84px 0 64px; overflow:hidden; }
-.hero-grid{ display:grid; grid-template-columns:1fr 1.08fr; gap:56px; align-items:center; }
-.hero h1{
-  font-size:clamp(34px, 5vw, 56px);
-  font-weight:700; line-height:1.28;
-  letter-spacing:-0.025em;
-  margin:20px 0 16px;
+/* 다크 히어로 — 전체 #141F19(=var(--monitor)). 텍스트 #F2EFE7 / 보조 #AEB8AF / 모노 #6B7A6E */
+.hero{ position:relative; background:var(--monitor); color:#F2EFE7; padding:var(--space-64) 0 var(--space-96); overflow:hidden; }
+.hero-grid{ display:grid; grid-template-columns:1fr 1.02fr; gap:var(--space-48); align-items:center; }
+
+.hero-ident{ font-family:var(--font-mono); font-size:var(--fs-2xs); letter-spacing:.16em; text-transform:uppercase; color:#6B7A6E; display:flex; align-items:center; gap:var(--space-8); margin-bottom:var(--space-20); }
+.hero-ident::before{ content:""; width:10px; height:10px; background:var(--sage-bright); display:inline-block; flex:none; }
+.hero h1{ font-size:clamp(34px, 5vw, 56px); font-weight:700; line-height:1.2; letter-spacing:-0.025em; color:#F2EFE7; margin:0 0 var(--space-20); }
+.hero h1 .accent{ color:var(--sage-bright); }
+.hero-sub{ font-size:var(--fs-md); font-weight:500; line-height:1.5; color:#AEB8AF; max-width:440px; margin-bottom:var(--space-32); }
+.hero-ctas{ display:flex; gap:var(--space-12); flex-wrap:wrap; margin-bottom:var(--space-24); }
+.btn-hero-primary{ background:var(--sage-bright); color:var(--sage-deep); }
+.btn-hero-primary:hover{ background:#B4D0B9; }
+.btn-hero-ghost{ border-color:#3A4A3E; color:#F2EFE7; background:transparent; }
+.btn-hero-ghost:hover{ border-color:var(--sage-bright); color:var(--sage-bright); }
+.hero-badges{ list-style:none; display:flex; flex-wrap:wrap; gap:var(--space-8) var(--space-16); padding:0; margin:0; }
+.hero-badges li{ font-family:var(--font-mono); font-size:var(--fs-2xs); color:#AEB8AF; display:flex; align-items:center; gap:var(--space-8); }
+.hero-badges li::before{ content:""; width:6px; height:6px; border-radius:50%; background:var(--sage); display:inline-block; flex:none; }
+
+/* ── 아이소메트릭 건물 스테이지(주인공) ── */
+.hero-viz{ position:relative; }
+.hero-stage{ position:relative; transform-style:preserve-3d; transition:transform var(--dur-base) var(--ease-out); will-change:transform; }
+.iso-building{ width:100%; height:auto; display:block; overflow:visible; }
+.iso-face{ stroke:#2C3A30; stroke-width:1.2; }
+.iso-face-left{ fill:#182420; }
+.iso-face-right{ fill:#121B16; }
+.iso-face-top{ fill:#1E2C25; }
+.iso-floorline{ stroke:#2C3A30; stroke-width:1; opacity:.7; }
+.iso-floor-label{ font-family:var(--font-mono); font-size:var(--fs-2xs); fill:#6B7A6E; letter-spacing:.08em; }
+.eq-node{ fill:var(--sage); }
+.hub-node{ fill:var(--sage-bright); }
+.hub-label{ font-family:var(--font-mono); font-size:var(--fs-2xs); fill:#AEB8AF; letter-spacing:.06em; }
+.pulse-dot{ fill:var(--sage-bright); }
+.fault-node{ fill:var(--fault); }
+.fault-ring{ fill:none; stroke:var(--fault); stroke-width:1.5; animation:heroFault 2.2s ease-in-out infinite; }
+@keyframes heroFault{ 0%,100%{ opacity:.55; } 50%{ opacity:.12; } }
+.lead-line{ stroke:var(--fault); stroke-width:1.2; stroke-dasharray:3 3; fill:none; opacity:.85; }
+
+/* 예시 라벨(필수) */
+.hero-demo-badge{ position:absolute; top:0; left:0; z-index:3; font-family:var(--font-mono); font-size:var(--fs-2xs); font-weight:600; letter-spacing:.08em; color:var(--warn); border:1px solid rgba(203,154,78,.55); border-radius:4px; padding:var(--space-4) var(--space-8); background:rgba(20,31,25,.72); }
+
+/* 진단 카드 */
+.diag-card{ position:absolute; top:5%; right:-1%; z-index:2; width:min(300px,74%); background:rgba(19,28,23,.94); border:1px solid #2C3A30; border-left:3px solid var(--fault); border-radius:var(--radius-sm); padding:var(--space-16); box-shadow:var(--shadow-lg); }
+.diag-card .dc-head{ display:flex; align-items:center; gap:var(--space-8); font-family:var(--font-mono); font-size:var(--fs-2xs); color:var(--fault); font-weight:600; margin-bottom:var(--space-8); }
+.diag-card .dc-dot{ width:7px; height:7px; border-radius:50%; background:var(--fault); flex:none; }
+.diag-card .dc-title{ font-size:var(--fs-sm); font-weight:600; color:#F2EFE7; line-height:1.4; margin-bottom:var(--space-4); }
+.diag-card .dc-detail{ font-size:var(--fs-2xs); color:#AEB8AF; font-family:var(--font-mono); line-height:1.55; }
+.diag-card .dc-detail .dc-bms{ color:var(--warn); }
+
+@media (prefers-reduced-motion: reduce){
+  .hero-stage{ transition:none; transform:none !important; }
 }
-.hero h1 .accent{ color:var(--sage); }
-.hero-sub{ font-size:var(--fs-md); font-weight:600; color:var(--sage-deep); margin-bottom:14px; }
-.hero-desc{ color:var(--ink-soft); font-size:var(--fs-base); max-width:480px; margin-bottom:30px; }
-.hero-ctas{ display:flex; gap:12px; flex-wrap:wrap; }
-.hero-note{ margin-top:18px; font-family:var(--font-mono); font-size:var(--fs-2xs); color:var(--ink-soft); letter-spacing:.04em; }
+@media (max-width: 980px){
+  .hero-stage{ transform:none !important; }
+  .hero-viz{ margin-top:var(--space-32); }
+  .iso-building{ max-width:340px; margin:0 auto; }
+  .hero-demo-badge{ position:static; display:inline-block; margin-bottom:var(--space-12); }
+  .diag-card{ position:static; width:100%; right:auto; top:auto; margin-top:var(--space-16); }
+}
+@media (max-width: 640px){
+  .hero-ctas{ flex-direction:column; align-items:stretch; }
+  .hero-ctas .btn{ width:100%; }
+}
 
 /* ── 관제 모니터 목업 ── */
 .monitor{
@@ -528,94 +577,63 @@ h2.sec-title{
 <main id="top">
 
 <!-- ── 2. 히어로 ── -->
-<section class="hero">
+<section class="hero" id="hero">
   <div class="wrap hero-grid">
-    <div class="reveal">
-      <p class="eyebrow">AI 시설관리 시스템 · T-ARCH</p>
+    <div class="hero-copy reveal">
+      <p class="hero-ident">건물 데이터를 의심하는 기후테크</p>
       <h1>고장 나기 전에,<br>먼저 압니다.<br><span class="accent">가짜 정상까지.</span></h1>
-      <p class="hero-sub">AI 정밀진단이 트리거가 되는 시설관리 플랫폼</p>
-      <p class="hero-desc">
-        T-ARCH는 건물 설비 데이터를 의심하는 AI 진단 시스템입니다.
-        BMS가 "정상"이라고 말하는 순간에도 센서부터 검증해 숨은 고장을 먼저 찾고,
-        수리가 필요하면 검증된 시설업체까지 연결합니다.
-      </p>
+      <p class="hero-sub">BMS가 정상이라 말하는 순간에도 센서부터 검증합니다.</p>
       <div class="hero-ctas">
-        <a class="btn btn-primary btn-lg" href="#apply" data-open-tab="diag">무료 진단 받기</a>
-        <a class="btn btn-ghost btn-lg" href="#apply" data-open-tab="partner">협력업체로 참여하기</a>
+        <a class="btn btn-hero-primary btn-lg" href="#apply" data-open-tab="diag">무료 진단 신청</a>
+        <a class="btn btn-hero-ghost btn-lg" href="#how">작동 방식 보기</a>
       </div>
-      <p class="hero-note">READ-ONLY 연결 · 기존 BMS 운영에 영향 없음 · 추가 공사 없음</p>
+      <ul class="hero-badges">
+        <li>Read-only 연결</li>
+        <li>설비 교체 없음</li>
+        <li>공사 없음</li>
+      </ul>
     </div>
 
-    <!-- 제품 대시보드 목업 (애니메이션) -->
-    <!-- ⚠️ 정직성 고정(트랙 A) — 이 카드는 개념 예시(데모)다.
-         냉각수 27.94℃ 6센서 동일 / 냉수 ΔT=0(7.06 공급=환수)는 '판명된 오탐'이다.
-         (강구범 6/24 + BMS 7/1 확인: 냉각탑 대기상태 · 오피스텔 냉동기 수동정지 → 정상)
-         이 수치를 '실발견 사례'로 재장착 금지. 특정 건물의 라이브 진단 주장 금지.
-         실측 레퍼런스는 진단 확정 후 '실측' 라벨과 함께만 게시(트랙 A 2차). -->
-    <div class="monitor reveal" id="hero-monitor" role="img" aria-label="T-ARCH 관제 대시보드 화면 예시">
-      <div class="mon-head">
-        <span class="demo-badge">예시 화면 · Demo</span>
-        <span>T-ARCH 통합 관제</span>
-        <span class="sep">|</span>
-        <span>복합건물 예시</span>
-        <span class="sep">|</span>
-        <span>수집 5분</span>
-        <span class="ro">READ-ONLY</span>
-      </div>
-      <div class="mon-kpis">
-        <div class="mon-kpi">
-          <div class="k-label">감시 포인트</div>
-          <div class="k-value"><span class="count" data-to="312">312</span><span class="k-unit">pt</span></div>
+    <!-- ⚠️ 정직성(트랙 A) — 아래 건물·수치는 개념 예시(데모)다. 특정 건물 라이브 진단 주장 금지.
+         실측 레퍼런스는 진단 확정 후 '실측' 라벨과 함께만 게시. 예시 라벨 상시 유지. -->
+    <div class="hero-viz reveal">
+      <span class="hero-demo-badge">예시 · Demonstration</span>
+      <div class="hero-stage" id="hero-stage">
+        <svg class="iso-building" id="iso-building" viewBox="0 0 420 400" role="img"
+             aria-label="4층 건물 아이소메트릭 단면 예시. 층마다 설비 센서 노드가 있고, 3층 공조기 AHU-3에서 값 고착 이상을 표시합니다.">
+          <!-- 건물 3면 -->
+          <polygon class="iso-face iso-face-top"   points="210,164 70,84 210,4 350,84"/>
+          <polygon class="iso-face iso-face-left"  points="210,380 70,300 70,84 210,164"/>
+          <polygon class="iso-face iso-face-right" points="210,380 350,300 350,84 210,164"/>
+          <!-- 층 구분선 -->
+          <line class="iso-floorline" x1="210" y1="326" x2="70"  y2="246"/>
+          <line class="iso-floorline" x1="210" y1="272" x2="70"  y2="192"/>
+          <line class="iso-floorline" x1="210" y1="218" x2="70"  y2="138"/>
+          <line class="iso-floorline" x1="210" y1="326" x2="350" y2="246"/>
+          <line class="iso-floorline" x1="210" y1="272" x2="350" y2="192"/>
+          <line class="iso-floorline" x1="210" y1="218" x2="350" y2="138"/>
+          <!-- 층 라벨 -->
+          <text class="iso-floor-label" x="58" y="277" text-anchor="end">1F</text>
+          <text class="iso-floor-label" x="58" y="223" text-anchor="end">2F</text>
+          <text class="iso-floor-label" x="58" y="169" text-anchor="end">3F</text>
+          <text class="iso-floor-label" x="58" y="115" text-anchor="end">4F</text>
+          <!-- 설비 노드 · 데이터 펄스 (JS 생성) -->
+          <g id="eq-nodes"></g>
+          <g id="pulses"></g>
+          <!-- 검증 허브 -->
+          <circle class="hub-node" cx="210" cy="392" r="5"/>
+          <text class="hub-label" x="224" y="396">T-ARCH 검증</text>
+          <!-- 값 고착 이상(AHU-3) + 리더선 -->
+          <polyline class="lead-line" points="280,205 330,150 392,150"/>
+          <circle class="fault-ring" cx="280" cy="205" r="10"/>
+          <circle class="fault-node" cx="280" cy="205" r="5"/>
+          <text class="iso-floor-label" x="268" y="200" text-anchor="end" fill="#C95A4C">AHU-3</text>
+        </svg>
+        <div class="diag-card">
+          <div class="dc-head"><span class="dc-dot"></span>값 고착 감지</div>
+          <div class="dc-title">AHU-3 급기온도 센서</div>
+          <div class="dc-detail">6시간째 22.0&#8451; 고정 — <span class="dc-bms">BMS는 정상 표시 중</span></div>
         </div>
-        <div class="mon-kpi">
-          <div class="k-label">설비 건강도</div>
-          <div class="k-value"><span class="count" data-to="88">88</span><span class="k-unit">/100</span></div>
-        </div>
-        <div class="mon-kpi">
-          <div class="k-label">오늘 점검 권장</div>
-          <div class="k-value"><span class="count" data-to="2">2</span><span class="k-unit">건</span></div>
-        </div>
-      </div>
-      <table class="mon-table">
-        <thead>
-          <tr><th>포인트</th><th>현재값</th><th>BMS 표시</th><th>T-ARCH 판정</th></tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td class="pt-name">냉동기 CH-1<span class="pt-sub">냉수 출구온도</span></td>
-            <td class="val">7.4&#8451;</td>
-            <td><span class="tag tag-ok">정상</span></td>
-            <td><span class="tag tag-ok">정상</span></td>
-          </tr>
-          <tr>
-            <td class="pt-name">냉동기 CH-2<span class="pt-sub">냉수 출구온도</span></td>
-            <td class="val" id="ch2-val">7.2&#8451;</td>
-            <td><span class="tag tag-ok">정상</span></td>
-            <td><span class="tag tag-ok tag-verdict" id="ch2-verdict">정상</span></td>
-          </tr>
-          <tr>
-            <td class="pt-name">공조기 AHU-3<span class="pt-sub">급기온도</span></td>
-            <td class="val">23.8&#8451;</td>
-            <td><span class="tag tag-ok">정상</span></td>
-            <td><span class="tag tag-ok">정상</span></td>
-          </tr>
-          <tr>
-            <td class="pt-name">부스터펌프 P-2<span class="pt-sub">운전 상태</span></td>
-            <td class="val">가동</td>
-            <td><span class="tag tag-ok">정상</span></td>
-            <td><span class="tag tag-warn">단속운전 감지</span></td>
-          </tr>
-          <tr>
-            <td class="pt-name">배기팬 F-7<span class="pt-sub">주차장 환기</span></td>
-            <td class="val">정지</td>
-            <td><span class="tag tag-ok">정상</span></td>
-            <td><span class="tag tag-ok">정상</span></td>
-          </tr>
-        </tbody>
-      </table>
-      <div class="mon-foot" id="mon-foot">
-        <span class="prio">가짜 정상 원리</span>
-        <span class="desc">BMS가 "정상"이라 해도, 값이 멈춘 센서는 T-ARCH가 의심합니다. (위 표는 예시입니다.)</span>
       </div>
     </div>
   </div>
@@ -723,7 +741,7 @@ h2.sec-title{
 </section>
 
 <!-- ── 5. 작동 방식 3단계 + 흐름 다이어그램 ── -->
-<section class="section section-tint">
+<section class="section section-tint" id="how">
   <div class="wrap">
     <p class="eyebrow reveal">작동 방식</p>
     <h2 class="sec-title reveal">진단에서 시공까지, 한 흐름으로</h2>
@@ -1136,43 +1154,70 @@ h2.sec-title{
     counters.forEach(function(el){ cio.observe(el); });
   }
 
-  /* ── [필수1] 히어로 목업 — CH-2 가짜정상 점등 시퀀스 ── */
-  var heroMon = document.getElementById('hero-monitor');
-  var ch2v = document.getElementById('ch2-verdict');
-  var monFoot = document.getElementById('mon-foot');
-  var heroLoop = null;
-  function runHeroSeq(){
-    if (reduced){
-      ch2v.className = 'tag tag-fault tag-verdict show';
-      ch2v.textContent = '가짜 정상 의심';
-      monFoot.classList.add('show');
-      return;
+  /* ── [필수1] 히어로 — 아이소메트릭 건물: 설비 노드 · 데이터 펄스 · 패럴랙스 ── */
+  var isoSvg = document.getElementById('iso-building');
+  if (isoSvg){
+    var SVGNS = 'http://www.w3.org/2000/svg';
+    var eqG = document.getElementById('eq-nodes');
+    var pulseG = document.getElementById('pulses');
+    var HUB = { x:210, y:392 };
+    // 아이소 투영: 좌/우면 위 점 (u=0..1 깊이, 층 k=0..3, vv=층내 0..1)
+    function leftDot(u,k,vv){ return { x:210-140*u, y:380-80*u-54*(k+vv) }; }
+    function rightDot(u,k,vv){ return { x:210+140*u, y:380-80*u-54*(k+vv) }; }
+    var nodes = [], lU=[0.30,0.60,0.82], rU=[0.32,0.62,0.82];
+    for (var k=0;k<4;k++){
+      lU.forEach(function(u){ nodes.push(leftDot(u,k,0.5)); });
+      rU.forEach(function(u){ nodes.push(rightDot(u,k,0.5)); });
     }
-    function cycle(){
-      // 1) 정상 상태로 리셋
-      ch2v.className = 'tag tag-ok tag-verdict';
-      ch2v.textContent = '정상';
-      monFoot.classList.remove('show');
-      // 2) 2.2초 뒤 가짜정상 적발
-      setTimeout(function(){
-        ch2v.className = 'tag tag-fault tag-verdict show';
-        ch2v.textContent = '가짜 정상 의심';
-        monFoot.classList.add('show');
-      }, 2200);
-    }
-    cycle();
-    heroLoop = setInterval(cycle, 6000);
-  }
-  // 화면에 보일 때만 작동(off-screen 정지)
-  if ('IntersectionObserver' in window){
-    var hio = new IntersectionObserver(function(es){
-      es.forEach(function(e){
-        if(e.isIntersecting && !heroLoop){ runHeroSeq(); }
-        else if(!e.isIntersecting && heroLoop){ clearInterval(heroLoop); heroLoop = null; }
+    nodes.forEach(function(n){
+      var c = document.createElementNS(SVGNS,'circle');
+      c.setAttribute('class','eq-node');
+      c.setAttribute('cx',n.x.toFixed(1)); c.setAttribute('cy',n.y.toFixed(1)); c.setAttribute('r','3');
+      eqG.appendChild(c);
+    });
+    // 데이터 펄스: 일부 설비 노드 → 검증 허브로 흐르는 점
+    var srcIdx = [1,5,8,12,16,21];
+    var pulses = srcIdx.map(function(i,j){
+      var el = document.createElementNS(SVGNS,'circle');
+      el.setAttribute('class','pulse-dot'); el.setAttribute('r','2.6');
+      pulseG.appendChild(el);
+      return { el:el, from:nodes[i % nodes.length], phase:j/srcIdx.length };
+    });
+    var pRAF=null, pStart=null;
+    function pFrame(ts){
+      if(!pStart) pStart=ts;
+      var base=((ts-pStart)/2600);
+      pulses.forEach(function(p){
+        var t=(base+p.phase)%1;
+        var x=p.from.x+(HUB.x-p.from.x)*t, y=p.from.y+(HUB.y-p.from.y)*t;
+        p.el.setAttribute('cx',x.toFixed(1)); p.el.setAttribute('cy',y.toFixed(1));
+        p.el.setAttribute('opacity',(0.15+0.85*Math.sin(Math.PI*t)).toFixed(2));
       });
-    }, { threshold:0.3 });
-    hio.observe(heroMon);
-  } else { runHeroSeq(); }
+      pRAF=requestAnimationFrame(pFrame);
+    }
+    function startPulse(){ if(!pRAF && !reduced) pRAF=requestAnimationFrame(pFrame); }
+    function stopPulse(){ if(pRAF){ cancelAnimationFrame(pRAF); pRAF=null; pStart=null; } }
+    if (reduced){
+      // reduced-motion: 펄스를 소스 노드에 고정(움직임 0)
+      pulses.forEach(function(p){ p.el.setAttribute('cx',p.from.x.toFixed(1)); p.el.setAttribute('cy',p.from.y.toFixed(1)); p.el.setAttribute('opacity','0.5'); });
+    } else if ('IntersectionObserver' in window){
+      var pio=new IntersectionObserver(function(es){ es.forEach(function(e){ if(e.isIntersecting) startPulse(); else stopPulse(); }); }, { threshold:0.15 });
+      pio.observe(isoSvg);
+    } else { startPulse(); }
+
+    // CSS 패럴랙스: 데스크톱(fine 포인터)만, ±2.5도, transform만. reduced-motion·모바일 제외
+    var stage=document.getElementById('hero-stage');
+    var canTilt = !reduced && stage && window.matchMedia('(min-width:981px) and (pointer:fine)').matches;
+    if (canTilt){
+      var heroSec = stage.closest('.hero');
+      heroSec.addEventListener('pointermove', function(e){
+        var r=heroSec.getBoundingClientRect();
+        var px=(e.clientX-r.left)/r.width-0.5, py=(e.clientY-r.top)/r.height-0.5;
+        stage.style.transform='perspective(1000px) rotateX('+(-py*2.5).toFixed(2)+'deg) rotateY('+(px*2.5).toFixed(2)+'deg)';
+      });
+      heroSec.addEventListener('pointerleave', function(){ stage.style.transform='perspective(1000px) rotateX(0deg) rotateY(0deg)'; });
+    }
+  }
 
   /* ── [필수2] 흐름 다이어그램 패킷 ── */
   var flowmap = document.getElementById('flowmap');
