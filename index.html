@@ -20,7 +20,10 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+<!-- Pretendard 정적 서브셋 CSS — @font-face 내장 font-display:swap, 사용 weight(400·500·700·800)만 다운로드됨 -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
 /* ============================================================
    TEKTON T-ARCH — 디자인 토큰
@@ -30,8 +33,9 @@
   /* ── 색: 라이트(본문) 컨텍스트 ── */
   --paper:      #F7F4EC;   /* DIRECTION §1 스냅 (구 #F6F4EE) */
   --paper-2:    #EFECE2;
-  --ink:        #21261F;
-  --ink-soft:   #5C6256;
+  --ink:        #1C211A;   /* TOKENS v2 — 소폭 진하게 (구 #21261F) */
+  --ink-soft:   #454B41;   /* TOKENS v2 — paper 위 8.2:1 (구 #5C6256) */
+  --ink-mute:   #6B7062;   /* TOKENS v2 신설 — 캡션/힌트 전용, paper 위 4.6:1 */
   --sage:       #5E7B62;
   --sage-deep:  #2F4337;
   --sage-tint:  #E2E9DF;
@@ -52,21 +56,22 @@
   --radius-sm: 8px;
   --maxw: 1140px;
 
-  --font-body: "IBM Plex Sans KR", -apple-system, "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
-  --font-mono: "IBM Plex Mono", "SF Mono", Consolas, monospace;
+  --font-body:    "Pretendard","Pretendard Variable",-apple-system,"Apple SD Gothic Neo",sans-serif;
+  --font-display: "Pretendard","Pretendard Variable",-apple-system,sans-serif;
+  --font-mono:    "IBM Plex Mono","SF Mono",Consolas,monospace;
 
   /* ── 간격 스케일 (4px 그리드) ── */
   --space-2:  2px;   --space-4:  4px;   --space-8:  8px;   --space-12: 12px;
   --space-16: 16px;  --space-20: 20px;  --space-24: 24px;  --space-32: 32px;
   --space-40: 40px;  --space-48: 48px;  --space-64: 64px;  --space-80: 80px;
   --space-96: 96px;
-  --space-section: 96px;      /* 데스크톱 섹션 세로 리듬 */
-  --space-section-sm: 68px;   /* 모바일 섹션 세로 리듬 */
+  --space-section: 120px;     /* 데스크톱 섹션 세로 리듬 (TOKENS v2: 96→120) */
+  --space-section-sm: 80px;   /* 모바일 섹션 세로 리듬 (TOKENS v2: 68→80) */
 
-  /* ── 타이포 스케일 (안 B · 5060 가독성) ── */
-  --fs-2xs: 13px;  --fs-xs: 14px;   --fs-sm: 15px;   --fs-base: 18px;
-  --fs-md:  20px;  --fs-lg: 22px;   --fs-xl: 26px;   --fs-2xl: 32px;
-  --fs-3xl: 44px;
+  /* ── 타이포 스케일 (TOKENS v2 · 1.25 모듈러 · base 18px) ── */
+  --fs-2xs: 12px;  --fs-xs: 13px;   --fs-sm: 15px;   --fs-base: 18px;
+  --fs-md:  22px;  --fs-lg: 28px;   --fs-xl: 35px;   --fs-2xl: 44px;
+  --fs-3xl: 55px;  --fs-4xl: 69px;
 
   /* ── 그림자 (elevation 3단 + focus) ── */
   --shadow-sm: 0 1px 4px rgba(33,38,31,.12);
@@ -104,16 +109,23 @@ button{ font-family:inherit; cursor:pointer; }
 .eyebrow{
   font-family:var(--font-mono);
   font-size:var(--fs-2xs); font-weight:600;
-  letter-spacing:.22em;
-  color:var(--sage);
+  letter-spacing:.14em;
+  color:var(--sage-deep);   /* a11y: 텍스트만 9.66:1 — 마커는 sage 유지 */
   text-transform:uppercase;
   display:flex; align-items:center; gap:10px;
 }
-.eyebrow::before{ content:""; width:14px; height:14px; background:var(--sage); display:inline-block; }
+/* 노드 마커 — 8×8 sage 사각, 전 섹션 일관. 진입 시 1회 스캔(reduced-motion은 전역 규칙이 정지) */
+.eyebrow::before{ content:""; width:8px; height:8px; background:var(--sage); display:inline-block; flex:none; }
+@keyframes nodeScan{
+  0%{ box-shadow:0 0 0 0 rgba(94,123,98,.45); }
+  100%{ box-shadow:0 0 0 7px rgba(94,123,98,0); }
+}
+.eyebrow.reveal.in::before{ animation:nodeScan 900ms var(--ease-out) 1 both; }
 
 h2.sec-title{
-  font-size:clamp(26px, 4vw, 40px);
-  font-weight:700; line-height:1.35;
+  font-family:var(--font-display);
+  font-size:clamp(32px, 4.5vw, 44px);
+  font-weight:700; line-height:1.22;
   letter-spacing:-0.02em;
   margin:18px 0 14px;
 }
@@ -178,7 +190,7 @@ h2.sec-title{
 .hero-copy{ max-width:min(500px, 90%); text-align:left; }
 .hero-ident{ font-family:var(--font-mono); font-size:var(--fs-2xs); letter-spacing:.14em; color:#9DB4C0; display:flex; align-items:center; gap:var(--space-8); margin-bottom:var(--space-20); }
 .hero-ident::before{ content:""; width:10px; height:10px; background:var(--sage-bright); display:inline-block; flex:none; }
-.hero h1{ font-size:clamp(36px, 5.2vw, 60px); font-weight:700; line-height:1.14; letter-spacing:-0.025em; color:#F5F2EA; margin:0 0 var(--space-20); text-shadow:0 2px 24px rgba(8,16,22,.55); }
+.hero h1{ font-family:var(--font-display); font-size:clamp(40px, 7vw, 69px); font-weight:800; line-height:1.18; letter-spacing:-0.02em; color:#F5F2EA; margin:0 0 var(--space-20); text-shadow:0 2px 24px rgba(8,16,22,.55); }
 .hero h1 .accent{ color:var(--sage-bright); }
 .hero-sub{ font-size:var(--fs-md); font-weight:500; line-height:1.55; color:#CBD6DC; max-width:470px; margin-bottom:var(--space-32); text-shadow:0 1px 12px rgba(8,16,22,.5); }
 .hero-ctas{ display:flex; gap:var(--space-16); flex-wrap:wrap; align-items:center; }
@@ -240,7 +252,7 @@ h2.sec-title{
 /* ============================================================
    4. 차별점 (대비 + 가짜정상 체험 위젯)
    ============================================================ */
-.section{ padding:96px 0; }
+.section{ padding:var(--space-section) 0; }
 .section-tint{ background:var(--paper-2); }
 
 /* ── 하이브리드 탭 (자세히 보기) ── */
@@ -274,7 +286,7 @@ h2.sec-title{
 .vs-card.tarch .flow-step .step-tag{ color:var(--monitor-dim); }
 .flow-step.result-believe{ border-color:#D9CDB6; background:#F8F3E6; font-weight:600; }
 .flow-step.result-catch{ border-color:rgba(201,90,76,.55); background:rgba(201,90,76,.12); color:#E8A099; font-weight:600; }
-.vs-caption{ margin-top:var(--space-16); font-size:var(--fs-xs); color:var(--ink-soft); line-height:1.55; }
+.vs-caption{ margin-top:var(--space-16); font-size:var(--fs-xs); color:var(--ink-mute); line-height:1.55; }
 .vs-card.tarch .vs-caption{ color:var(--monitor-dim); }
 
 /* ── "직접 해보기" — 가짜정상 체험 위젯(다크 계기판, 라이트 섹션의 초점) ── */
@@ -287,7 +299,7 @@ h2.sec-title{
 .demo-cell{ padding:var(--space-24) var(--space-20); border-right:1px solid var(--monitor-line); transition:background var(--dur-base) var(--ease-standard); }
 .demo-cell:last-child{ border-right:none; }
 .demo-cell .cell-label{ font-family:var(--font-mono); font-size:var(--fs-2xs); letter-spacing:.12em; color:var(--monitor-dim); margin-bottom:var(--space-12); }
-.sensor-readout{ font-family:var(--font-mono); font-size:var(--fs-2xl); font-weight:600; color:#E8F0E6; letter-spacing:.02em; }
+.sensor-readout{ font-family:var(--font-mono); font-size:var(--fs-xl); font-weight:600; color:#E8F0E6; letter-spacing:.02em; }
 .sensor-readout .unit{ font-size:var(--fs-sm); color:var(--monitor-dim); margin-left:3px; }
 .sparkline{ margin-top:var(--space-16); height:44px; width:100%; }
 .sparkline polyline{ fill:none; stroke:var(--ok); stroke-width:2; transition:stroke var(--dur-base) var(--ease-standard); }
@@ -364,7 +376,7 @@ h2.sec-title{
 .aud-card.partner{ background:var(--sage-deep); border-color:var(--sage-deep); color:#EDF2EA; }
 .aud-who{ font-family:var(--font-mono); font-size:var(--fs-2xs); font-weight:600; letter-spacing:.18em; color:var(--sage); margin-bottom:16px; }
 .aud-card.partner .aud-who{ color:#A9C3A8; }
-.aud-card h3{ font-size:var(--fs-xl); font-weight:700; letter-spacing:-0.015em; margin-bottom:20px; }
+.aud-card h3{ font-size:var(--fs-lg); font-weight:700; letter-spacing:-0.015em; margin-bottom:20px; }
 .aud-list{ list-style:none; display:flex; flex-direction:column; gap:13px; margin-bottom:30px; }
 .aud-list li{ display:flex; gap:11px; font-size:var(--fs-sm); color:var(--ink-soft); align-items:flex-start; }
 .aud-card.partner .aud-list li{ color:#C5D3C3; }
@@ -412,8 +424,8 @@ h2.sec-title{
 .tier-name{ font-size:var(--fs-sm); font-weight:700; margin-bottom:4px; }
 .tier-target{ font-size:var(--fs-2xs); color:var(--ink-soft); font-family:var(--font-mono); margin-bottom:22px; }
 .tier-price{ display:flex; align-items:baseline; gap:6px; margin-bottom:4px; }
-.tier-price .num{ font-size:var(--fs-3xl); font-weight:700; letter-spacing:-0.03em; line-height:1; }
-.tier-price .per{ font-size:var(--fs-xs); color:var(--ink-soft); }
+.tier-price .num{ font-family:var(--font-mono); font-size:var(--fs-3xl); font-weight:700; letter-spacing:-0.03em; line-height:1; }
+.tier-price .per{ font-size:var(--fs-xs); color:var(--ink-mute); }
 .tier-vat{ font-family:var(--font-mono); font-size:var(--fs-2xs); color:var(--ink-soft); margin-bottom:22px; }
 .free-badge{ font-family:var(--font-mono); font-size:var(--fs-2xs); font-weight:600; color:var(--sage-deep); background:var(--sage-tint); padding:7px 12px; border-radius:5px; letter-spacing:.05em; margin-bottom:24px; display:inline-block; align-self:flex-start; }
 .tier-feats{ list-style:none; display:flex; flex-direction:column; gap:10px; margin-bottom:30px; }
@@ -450,7 +462,7 @@ h2.sec-title{
 .f-group label .req{ color:var(--fault); }
 .f-group input, .f-group select{ font-family:var(--font-body); font-size:var(--fs-sm); padding:12px 14px; border:1px solid var(--line); border-radius:var(--radius-sm); background:#fff; color:var(--ink); width:100%; }
 .f-group input:focus, .f-group select:focus{ outline:none; border-color:var(--sage); box-shadow:var(--focus-ring); }
-.form-foot{ margin-top:6px; font-family:var(--font-mono); font-size:var(--fs-2xs); color:var(--ink-soft); }
+.form-foot{ margin-top:6px; font-family:var(--font-mono); font-size:var(--fs-2xs); color:var(--ink-mute); }
 .form-foot a{ color:var(--sage-deep); text-decoration:underline; }
 .apply-success{ text-align:center; padding:26px 10px 6px; }
 .apply-success .ok-circle{ width:56px; height:56px; border-radius:50%; background:var(--sage-tint); display:flex; align-items:center; justify-content:center; margin:0 auto 18px; }
@@ -486,7 +498,7 @@ h2.sec-title{
   .flowmap-mobile{ display:block; }
 }
 @media (max-width: 640px){
-  .section{ padding:68px 0; }
+  .section{ padding:var(--space-section-sm) 0; }
   .hero{ padding:56px 0 48px; }
   .nav-ctas .btn-ghost{ display:none; }
   .btn{ padding:10px 18px; font-size:var(--fs-xs); }
