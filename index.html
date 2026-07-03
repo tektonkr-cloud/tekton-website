@@ -456,6 +456,26 @@ h2.sec-title{
 .apply-success p{ color:var(--ink-soft); font-size:var(--fs-sm); margin-bottom:22px; }
 
 /* ============================================================
+   §7 CTA 클로징 — 다크 수미상관(모니터 톤) · 지배적 CTA 하나
+   위계: 무료 진단(솔리드 大) > 협력업체(아웃라인 小 ↗)
+   ============================================================ */
+.closing{ background:var(--monitor); padding:var(--space-96) 0 var(--space-80); text-align:center; }
+.closing .eyebrow{ justify-content:center; color:var(--sage-bright); }
+.closing .eyebrow::before{ background:var(--sage-bright); }
+.closing-title{ font-family:var(--font-display); font-size:clamp(32px, 4.5vw, 44px); font-weight:800; line-height:1.22; letter-spacing:-0.02em; color:#F5F2EA; margin:18px 0 14px; }
+.closing-sub{ color:var(--monitor-text); font-size:var(--fs-base); line-height:1.65; max-width:560px; margin:0 auto; }
+.closing-ctas{ display:flex; align-items:center; justify-content:center; gap:var(--space-16); flex-wrap:wrap; margin-top:var(--space-40); }
+.closing-ctas .arr{ display:inline-block; transition:transform var(--dur-fast) var(--ease-standard); }
+.closing-ctas .btn-hero-primary:hover .arr{ transform:translateX(3px); }
+.closing-or{ font-family:var(--font-mono); font-size:var(--fs-2xs); color:var(--monitor-dim); letter-spacing:.08em; }
+.btn-closing-ghost{ border-color:rgba(200,213,198,.35); color:var(--monitor-text); background:transparent; }
+.btn-closing-ghost:hover{ border-color:var(--sage-bright); color:var(--sage-bright); }
+/* 안심 3요소 — 계기판 상태줄, 다크 구분선 위 */
+.closing-assure{ list-style:none; margin:var(--space-64) auto 0; padding:var(--space-24) var(--space-16) 0; border-top:1px solid var(--monitor-line); max-width:720px; display:flex; justify-content:center; gap:var(--space-12) var(--space-40); flex-wrap:wrap; }
+.closing-assure li{ display:flex; align-items:center; gap:8px; font-family:var(--font-mono); font-size:var(--fs-2xs); color:var(--monitor-text); letter-spacing:.05em; }
+.closing-assure li svg{ flex:none; width:15px; height:15px; }
+
+/* ============================================================
    12. 푸터
    ============================================================ */
 .footer{ background:var(--monitor); color:var(--monitor-dim); padding:60px 0 46px; font-size:var(--fs-2xs); }
@@ -517,6 +537,9 @@ h2.sec-title{
   .footer-badges{ text-align:left; }
   .rules-grid{ grid-template-columns:1fr; }
   .price-strip{ border-radius:var(--radius-sm); }
+  .closing{ padding:var(--space-64) 0; }
+  .closing-ctas{ flex-direction:column; }
+  .closing-ctas .btn{ width:100%; max-width:340px; }
 }
 </style>
 </head>
@@ -1051,6 +1074,26 @@ h2.sec-title{
         </div>
       </div>
     </div>
+  </div>
+</section>
+
+<!-- ── 7. CTA 클로징 (START) — 다크 수미상관 · 메인 랜딩 7/7 · 대표 확정 카피 ── -->
+<section class="closing" id="start">
+  <div class="wrap">
+    <p class="eyebrow reveal">START · 지금 시작하세요</p>
+    <h2 class="closing-title reveal">놓치고 있던 고장부터,<br>찾아드립니다</h2>
+    <p class="closing-sub reveal">첫 1개월은 무료입니다. 공사도, 제어도 없이 지금 건물에 연결해 무엇이 문제인지부터 확인하세요.</p>
+    <div class="closing-ctas reveal">
+      <a class="btn btn-hero-primary btn-lg" href="#apply" data-open-tab="diag">무료 진단 신청 <span class="arr" aria-hidden="true">→</span></a>
+      <span class="closing-or">또는</span>
+      <!-- TODO(탭 구현 단계): partners.html 생성 후 href="partners.html"로 교체 — 임시로 #apply 협력업체 탭 -->
+      <a class="btn btn-closing-ghost" href="#apply" data-open-tab="partner">시공 파트너신가요? 협력업체 등록 <span aria-hidden="true">↗</span></a>
+    </div>
+    <ul class="closing-assure reveal">
+      <li><svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><circle cx="8" cy="8" r="6.5" stroke="#9DBFA4" stroke-width="1.4"/><path d="M5.2 8.3l1.9 1.9L11 6.3" stroke="#9DBFA4" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>Read-only · 제어 없음</li>
+      <li><svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><circle cx="8" cy="8" r="6.5" stroke="#9DBFA4" stroke-width="1.4"/><path d="M5.2 8.3l1.9 1.9L11 6.3" stroke="#9DBFA4" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>공사·교체 없음</li>
+      <li><svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><circle cx="8" cy="8" r="6.5" stroke="#9DBFA4" stroke-width="1.4"/><path d="M5.2 8.3l1.9 1.9L11 6.3" stroke="#9DBFA4" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>첫 1개월 무료</li>
+    </ul>
   </div>
 </section>
 
