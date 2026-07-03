@@ -484,6 +484,27 @@ h2.sec-title{
 /* ============================================================
    반응형
    ============================================================ */
+/* ── §5 도입 사례 (PROOF) — 에디토리얼 세로 스택 3연 ── */
+.proof-lede{ color:var(--ink-soft); font-size:var(--fs-base); max-width:640px; }
+.case-list{ display:flex; flex-direction:column; gap:var(--space-20); margin-top:var(--space-48); }
+.case-card{ background:#FBFAF6; border:1px solid var(--line); border-left:4px solid var(--sage); border-radius:var(--radius-sm); padding:var(--space-32) var(--space-40); }
+.case-card.c-songdo{ border-left-color:#3E6B4A; }
+.case-card.c-goyang{ border-left-color:#C0913F; }
+.case-card.c-secure{ border-left-color:#5E7B62; }
+.case-top{ display:flex; align-items:baseline; gap:var(--space-8) var(--space-16); flex-wrap:wrap; margin-bottom:var(--space-20); }
+.case-name{ font-size:var(--fs-md); font-weight:700; letter-spacing:-0.01em; }
+.case-sub{ font-family:var(--font-mono); font-size:var(--fs-2xs); letter-spacing:.08em; color:var(--ink-mute); }
+.case-stat{ margin-left:auto; font-family:var(--font-mono); font-size:var(--fs-2xs); font-weight:600; letter-spacing:.06em; color:var(--sage-deep); text-align:right; }
+.case-before{ color:var(--ink-mute); font-size:var(--fs-base); line-height:1.65; max-width:640px; }
+.case-after{ color:var(--ink); font-size:var(--fs-base); font-weight:700; line-height:1.65; max-width:640px; margin-top:var(--space-8); }
+.case-arrow{ font-family:var(--font-mono); font-weight:700; color:var(--sage); margin-right:var(--space-8); }
+.case-outcome{ color:var(--ink); font-size:var(--fs-base); font-weight:500; line-height:1.65; max-width:640px; margin-top:var(--space-8); }
+.case-result{ margin-top:var(--space-16); font-family:var(--font-mono); font-size:var(--fs-2xs); font-weight:600; letter-spacing:.1em; color:var(--sage-deep); }
+@media (max-width: 640px){
+  .case-card{ padding:var(--space-24) var(--space-20); }
+  .case-stat{ margin-left:0; text-align:left; width:100%; }
+}
+
 @media (max-width: 980px){
   .vs-grid, .aud-grid{ grid-template-columns:1fr; }
   .steps{ grid-template-columns:1fr; gap:var(--space-40); }
@@ -599,10 +620,6 @@ h2.sec-title{
     <span class="trust-item">
       <svg viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6" stroke="#5E7B62" stroke-width="1.5"/><path d="M8 4.5V8l2.4 1.6" stroke="#5E7B62" stroke-width="1.5" stroke-linecap="round"/></svg>
       AI 진단 룰 <span class="trust-num count" data-to="11">11</span>종 상시 가동
-    </span>
-    <span class="trust-item">
-      <svg viewBox="0 0 16 16" fill="none"><path d="M2 14V6.5L8 2l6 4.5V14" stroke="#5E7B62" stroke-width="1.5" fill="none"/><path d="M6 14v-4h4v4" stroke="#5E7B62" stroke-width="1.5" fill="none"/></svg>
-      송도 복합건물 · 고양 복합건물 파일럿 진행 중
     </span>
   </div>
 </div>
@@ -806,6 +823,48 @@ h2.sec-title{
           </div>
         </div>
       </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── 5b. 도입 사례 (PROOF) — §5 신뢰 · 케이스 스토리 3연. ⚠ 익명화: 지역명까지만(내부 실명·군·브랜드 금지) ── -->
+<section class="section" id="proof">
+  <div class="wrap">
+    <p class="eyebrow reveal">PROOF · 도입 사례</p>
+    <h2 class="sec-title reveal" style="font-weight:800">지금도 실제 건물의<br>데이터를 수집 중입니다</h2>
+    <p class="proof-lede reveal">세 현장, 세 가지 다른 문제 — T-ARCH가 각각 어떻게 답하는지.</p>
+    <div class="case-list">
+      <article class="case-card c-songdo reveal">
+        <div class="case-top">
+          <h3 class="case-name">송도 복합건물</h3>
+          <span class="case-sub">준공 후 하자 대응 · 관리단</span>
+          <span class="case-stat">312 관제점 · 실가동</span>
+        </div>
+        <p class="case-before">이전엔 문제가 생길 때마다 이곳저곳 업체에 전화로 물어보며 대응했습니다.</p>
+        <p class="case-after">이제는 관제가 "이 문제가 있습니다 → 여기 업체에 연락하면 됩니다"까지 정리해</p>
+        <p class="case-outcome"><span class="case-arrow">→</span>더 빠른 대응으로 고장을 미루지 않고, 시간과 비용을 아낍니다.</p>
+        <p class="case-result">✓ 100% good · 0 missing</p>
+      </article>
+      <article class="case-card c-goyang reveal">
+        <div class="case-top">
+          <h3 class="case-name">고양 복합건물</h3>
+          <span class="case-sub">시공 하자 · 자산 관리</span>
+          <span class="case-stat">1,200+ 관제점 · 파일럿</span>
+        </div>
+        <p class="case-before">무엇을 어떻게 요구해야 할지 근거가 없던 시공 하자를,</p>
+        <p class="case-after">데이터로 정확히 짚어 시공사에 요구합니다.</p>
+        <p class="case-outcome"><span class="case-arrow">→</span>나아가 태양광 지원금 신청의 근거 데이터까지 모듈로 마련합니다.</p>
+      </article>
+      <article class="case-card c-secure reveal">
+        <div class="case-top">
+          <h3 class="case-name">보안 등급 시설</h3>
+          <span class="case-sub">준공 · 다중 시설</span>
+          <span class="case-stat">다중 현장 통합관제 · 제안</span>
+        </div>
+        <p class="case-before">여러 시설을 한 화면에서, 그것도 폐쇄망 안에서 관제하고 싶었습니다.</p>
+        <p class="case-after">외부 발신 없이 온프레미스로 다중 현장을 한눈에 통합관제합니다.</p>
+        <p class="case-outcome"><span class="case-arrow">→</span>Read-only 보안으로, 가장 까다로운 환경에서도.</p>
+      </article>
     </div>
   </div>
 </section>
