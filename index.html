@@ -255,19 +255,8 @@ h2.sec-title{
 .section{ padding:var(--space-section) 0; }
 .section-tint{ background:var(--paper-2); }
 
-/* ── 하이브리드 탭 (자세히 보기) ── */
-.deep{ padding:72px 0 96px; }
-.deep-head{ text-align:center; margin-bottom:36px; }
-.deep-tablist{ display:flex; flex-wrap:wrap; gap:8px; justify-content:center; margin-bottom:40px; }
-.deep-tab{ padding:12px 22px; border-radius:999px; border:1px solid var(--line); background:#FBFAF6; font-size:var(--fs-sm); font-weight:600; color:var(--ink-soft); cursor:pointer; transition:all var(--dur-fast) var(--ease-standard); font-family:inherit; }
-.deep-tab:hover{ border-color:var(--sage); color:var(--sage-deep); }
-.deep-tab[aria-selected="true"]{ background:var(--sage-deep); border-color:var(--sage-deep); color:#F4F6F1; }
-.deep-panel{ display:none; animation:deepFade var(--dur-base) var(--ease-standard); }
-.deep-panel.active{ display:block; }
-@keyframes deepFade{ from{opacity:0; transform:translateY(8px);} to{opacity:1; transform:none;} }
-.deep-panel .section{ padding:0; }
-.deep-panel .section-tint{ background:transparent; }
-@media (prefers-reduced-motion:reduce){ .deep-panel{ animation:none; } }
+/* 구 하이브리드 딥탭(.deep / .deep-tab / .deep-panel / @keyframes deepFade)은 2B에서 해체.
+   호환성은 #how 끝으로, 룰 11종은 #rules 일반 섹션으로 펼쳤다. 되살리지 말 것. */
 
 /* ── 대비: 기존 BMS vs T-ARCH ── */
 .vs-grid{ display:grid; grid-template-columns:1fr 1fr; gap:var(--space-24); margin-top:var(--space-48); }
@@ -391,9 +380,9 @@ h2.sec-title{
 /* 2열→1열 전환은 §반응형 980px 블록에서 .vs-grid와 함께 처리 */
 
 /* ============================================================
-   7. 브랜드 무관
+   7. 브랜드 무관 (호환성) — §3 작동 방식(#how) 끝에 배치
    ============================================================ */
-.brands{ text-align:center; }
+.brands{ text-align:center; margin-top:var(--space-64); }
 .brand-chips{ display:flex; gap:10px; flex-wrap:wrap; justify-content:center; margin:34px 0 22px; }
 .brand-chip{ font-family:var(--font-mono); font-size:var(--fs-2xs); font-weight:500; color:var(--ink-soft); border:1px solid var(--line); background:#FBFAF6; padding:9px 18px; border-radius:999px; letter-spacing:.03em; }
 .brands .big-line{ font-size:clamp(19px, 2.6vw, 24px); font-weight:600; letter-spacing:-0.01em; max-width:720px; margin:0 auto; }
@@ -639,8 +628,8 @@ h2.sec-title{
   </div>
 </div>
 
-<!-- ── 4. 차별점 + 가짜정상 체험 위젯 ── -->
-<section class="section">
+<!-- ── 4. 차별점 + 가짜정상 체험 위젯 (#why) ── -->
+<section class="section" id="why">
   <div class="wrap">
     <p class="eyebrow reveal">왜 T-ARCH인가</p>
     <h2 class="sec-title reveal">데이터를 의심하는 시스템</h2>
@@ -839,6 +828,24 @@ h2.sec-title{
         </div>
       </div>
     </div>
+
+    <!-- 호환성 — ①감지의 "어떤 브랜드든 읽기 전용 연결" 주장을 받는 증거 위치.
+         2B 이전: 구 딥탭 dp-compat 패널에서 마크업·스타일 그대로 이전. -->
+    <div class="brands">
+      <p class="eyebrow reveal" style="justify-content:center">호환성</p>
+      <div class="brand-chips reveal">
+        <span class="brand-chip">지멘스</span>
+        <span class="brand-chip">하니웰</span>
+        <span class="brand-chip">존슨컨트롤즈</span>
+        <span class="brand-chip">LG</span>
+        <span class="brand-chip">삼성</span>
+        <span class="brand-chip">국내 DDC</span>
+      </div>
+      <p class="big-line reveal">
+        어떤 브랜드가 설치돼 있든, T-ARCH는 연결됩니다.<br>
+        <strong>교체 없이, 추가 공사 없이.</strong>
+      </p>
+    </div>
   </div>
 </section>
 
@@ -890,6 +897,18 @@ h2.sec-title{
       <span class="who-band-ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M12 3l7 3v6c0 4.5-3 7.6-7 9-4-1.4-7-4.5-7-9V6l7-3z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M9 12l2 2 4-4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
       <p>진단으로 끝내지 않습니다. 수리가 필요하면 검증된 시공까지 책임집니다.</p>
     </div>
+  </div>
+</section>
+
+<!-- ── 5d. 진단 엔진 (#rules) — 룰 11종. 2B: 구 딥탭 dp-engine 패널을 일반 섹션으로 펼침.
+     카드 그리드는 JS(#rules-grid)가 생성하고, 개별 카드 클릭 전개는 유지(길이 통제). ── -->
+<section class="section section-tint" id="rules">
+  <div class="wrap">
+    <p class="eyebrow reveal">진단 엔진</p>
+    <h2 class="sec-title reveal">11가지 시선으로 설비를 봅니다</h2>
+    <p class="sec-lede reveal">카드를 누르면 각 룰이 잡아내는 고장을 볼 수 있습니다. 데이터가 없으면 무리하게 단정하지 않고 건너뜁니다.</p>
+
+    <div class="rules-grid" id="rules-grid"></div>
   </div>
 </section>
 
@@ -994,51 +1013,6 @@ h2.sec-title{
   </div>
 </section>
 
-<!-- ── 7. 자세히 보기 (하이브리드 탭) ── -->
-<section class="deep section-tint" id="more">
-  <div class="wrap">
-    <div class="deep-head">
-      <p class="eyebrow reveal" style="justify-content:center">자세히 보기</p>
-      <h2 class="sec-title reveal">더 알아보기</h2>
-      <p class="sec-lede reveal" style="margin:0 auto;">필요한 주제만 골라서 보세요.</p>
-    </div>
-
-    <div class="deep-tablist reveal" role="tablist" aria-label="자세히 보기 주제">
-      <button class="deep-tab" id="dt-compat" role="tab" aria-selected="true" aria-controls="dp-compat" type="button">호환성</button>
-      <button class="deep-tab" id="dt-engine" role="tab" aria-selected="false" aria-controls="dp-engine" type="button">무엇을 진단하나</button>
-    </div>
-
-    <!-- ⚠ 2B 예정: 이 호환성 패널을 §3 작동 방식 ①감지 뒤로 이전하고 딥탭 자체를 해체한다.
-         구 "누구를 위한 도구인가" 패널(.aud-* 2카드 + 협력 파트너 등록 CTA)은 §4 #who로 대체되어 제거됨. -->
-    <div class="deep-panel active" id="dp-compat" role="tabpanel" aria-labelledby="dt-compat">
-      <div class="wrap">
-    <p class="eyebrow reveal" style="justify-content:center">호환성</p>
-    <div class="brand-chips reveal">
-      <span class="brand-chip">지멘스</span>
-      <span class="brand-chip">하니웰</span>
-      <span class="brand-chip">존슨컨트롤즈</span>
-      <span class="brand-chip">LG</span>
-      <span class="brand-chip">삼성</span>
-      <span class="brand-chip">국내 DDC</span>
-    </div>
-    <p class="big-line reveal">
-      어떤 브랜드가 설치돼 있든, T-ARCH는 연결됩니다.<br>
-      <strong>교체 없이, 추가 공사 없이.</strong>
-    </p>
-  </div>
-    </div>
-
-    <div class="deep-panel" id="dp-engine" role="tabpanel" aria-labelledby="dt-engine">
-      <div class="wrap">
-    <p class="eyebrow reveal">진단 엔진</p>
-    <h2 class="sec-title reveal">11가지 시선으로 설비를 봅니다</h2>
-    <p class="sec-lede reveal">카드를 누르면 각 룰이 잡아내는 고장을 볼 수 있습니다. 데이터가 없으면 무리하게 단정하지 않고 건너뜁니다.</p>
-
-    <div class="rules-grid" id="rules-grid"></div>
-  </div>
-    </div>
-  </div>
-</section>
 
 <!-- ── 11. 신청 폼 ── -->
 <section class="section section-tint" id="apply">
@@ -1167,18 +1141,6 @@ h2.sec-title{
     }, { threshold:0.12 });
     reveals.forEach(function(el){ io.observe(el); });
   }
-
-  /* ── 자세히 보기(deep) 탭 전환 ── */
-  var deepTabs = document.querySelectorAll('.deep-tab');
-  deepTabs.forEach(function(tab){
-    tab.addEventListener('click', function(){
-      var panelId = tab.getAttribute('aria-controls');
-      deepTabs.forEach(function(t){ t.setAttribute('aria-selected', t === tab ? 'true' : 'false'); });
-      document.querySelectorAll('.deep-panel').forEach(function(p){
-        p.classList.toggle('active', p.id === panelId);
-      });
-    });
-  });
 
   /* ── [마감6] 카운트업 ── */
   function countUp(el){
