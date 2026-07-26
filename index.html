@@ -369,21 +369,26 @@ h2.sec-title{
 .fm-caveat{ font-family:var(--font-mono); font-size:9px; fill:var(--ink-soft); }
 
 /* ============================================================
-   6. 두 고객
+   6. 누구를 위한 (#who · 문서 §4) — 2×2 대상 모듈 매핑 + 책임시공 띠
+   구 "두 고객"(.aud-*) 전면 대체. 계장업체 모집 프레임은 두지 않는다 —
+   계장은 하단 책임시공 띠로만 등장(새 전략).
    ============================================================ */
-.aud-grid{ display:grid; grid-template-columns:1fr 1fr; gap:22px; margin-top:44px; }
-.aud-card{ border:1px solid var(--line); border-radius:var(--radius); background:#FBFAF6; padding:38px 34px; display:flex; flex-direction:column; }
-.aud-card.partner{ background:var(--sage-deep); border-color:var(--sage-deep); color:#EDF2EA; }
-.aud-who{ font-family:var(--font-mono); font-size:var(--fs-2xs); font-weight:600; letter-spacing:.18em; color:var(--sage); margin-bottom:16px; }
-.aud-card.partner .aud-who{ color:#A9C3A8; }
-.aud-card h3{ font-size:var(--fs-lg); font-weight:700; letter-spacing:-0.015em; margin-bottom:20px; }
-.aud-list{ list-style:none; display:flex; flex-direction:column; gap:13px; margin-bottom:30px; }
-.aud-list li{ display:flex; gap:11px; font-size:var(--fs-sm); color:var(--ink-soft); align-items:flex-start; }
-.aud-card.partner .aud-list li{ color:#C5D3C3; }
-.aud-list li svg{ flex:none; width:17px; height:17px; margin-top:4px; }
-.aud-card .btn{ margin-top:auto; align-self:flex-start; }
-.btn-on-dark{ background:#F4F6F1; color:var(--sage-deep); }
-.btn-on-dark:hover{ background:#fff; }
+.who-grid{ display:grid; grid-template-columns:1fr 1fr; gap:var(--space-24); margin-top:var(--space-48); }
+.who-card{ display:flex; flex-direction:column; background:#FBFAF6; border:1px solid var(--line); border-radius:var(--radius); padding:var(--space-32); box-shadow:var(--shadow-sm); transition:border-color var(--dur-fast) var(--ease-standard), transform var(--dur-fast) var(--ease-standard), box-shadow var(--dur-fast) var(--ease-standard); }
+.who-card:hover{ border-color:var(--sage); transform:translateY(-3px); box-shadow:var(--shadow-md); }
+.who-ic{ display:inline-flex; width:38px; height:38px; color:var(--sage); margin-bottom:var(--space-16); }
+.who-ic svg{ width:100%; height:100%; }
+.who-target{ font-family:var(--font-mono); font-size:var(--fs-2xs); font-weight:600; letter-spacing:.14em; color:var(--sage-deep); margin-bottom:var(--space-8); }
+.who-gain{ font-size:var(--fs-lg); font-weight:700; line-height:1.35; letter-spacing:-0.01em; margin-bottom:var(--space-8); }
+.who-sub{ font-size:var(--fs-sm); color:var(--ink-soft); line-height:1.6; margin-bottom:var(--space-16); }
+.who-legal{ font-family:var(--font-mono); font-size:var(--fs-2xs); color:var(--ink-soft); line-height:1.5; margin-bottom:var(--space-16); }
+.who-mods{ display:flex; flex-wrap:wrap; gap:var(--space-8); margin-top:auto; }
+.who-mod{ font-family:var(--font-mono); font-size:var(--fs-2xs); font-weight:600; color:var(--sage-deep); background:var(--sage-tint); border-radius:999px; padding:var(--space-4) var(--space-12); }
+.who-band{ display:flex; align-items:center; gap:var(--space-16); margin-top:var(--space-24); padding:var(--space-20) var(--space-24); border:1px solid var(--line); border-radius:var(--radius); background:var(--paper-2); }
+.who-band-ic{ width:30px; height:30px; color:var(--sage-deep); flex:none; }
+.who-band-ic svg{ width:100%; height:100%; }
+.who-band p{ font-size:var(--fs-sm); font-weight:600; color:var(--ink); }
+/* 2열→1열 전환은 §반응형 980px 블록에서 .vs-grid와 함께 처리 */
 
 /* ============================================================
    7. 브랜드 무관
@@ -512,7 +517,7 @@ h2.sec-title{
 }
 
 @media (max-width: 980px){
-  .vs-grid, .aud-grid{ grid-template-columns:1fr; }
+  .vs-grid, .who-grid{ grid-template-columns:1fr; }
   .steps{ grid-template-columns:1fr; gap:var(--space-40); }
   .step:not(:last-child)::after{ content:"↓"; top:auto; right:auto; left:50%; bottom:calc(-1 * var(--space-40)); width:auto; transform:translate(-50%,-30%); }
   .price-grid{ grid-template-columns:1fr; max-width:480px; margin-left:auto; margin-right:auto; }
@@ -837,6 +842,57 @@ h2.sec-title{
   </div>
 </section>
 
+<!-- ── 5c. 누구를 위한 (#who · 문서 §4) — 2×2 대상 모듈 매핑 + 책임시공 띠
+     카피는 대표 확정본. 임의 수정·창작 금지.
+     ⚠ 자산운용사 카드의 "(수치는 가정 기준 예시이며 보장이 아닙니다)" 법무 라벨은 제거 금지. ── -->
+<section class="section" id="who">
+  <div class="wrap">
+    <p class="eyebrow reveal">누구를 위한 것인가</p>
+    <h2 class="sec-title reveal">한 번 수집한 데이터가,<br>당신에게 맞는 리포트가 됩니다</h2>
+    <p class="sec-lede reveal">건물에 T-ARCH가 있으면, 목적별 모듈 리포트를 조합해 드립니다.</p>
+
+    <div class="who-grid">
+      <div class="who-card reveal">
+        <span class="who-ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M4 21V6l8-3 8 3v15" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M3 21h18M9.5 21v-4h5v4M9 9h1.5M13.5 9h1.5M9 13h1.5M13.5 13h1.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></span>
+        <p class="who-target">시설관리자 · 건물주</p>
+        <h3 class="who-gain">발로 뛰지 않아도, 건물이 먼저 말합니다</h3>
+        <p class="who-sub">BMS가 놓친 숨은 고장을 먼저 잡고, 매일 아침 "오늘 고칠 것"만 우선순위로.</p>
+        <div class="who-mods"><span class="who-mod">에너지 절감 ₩</span><span class="who-mod">설비 사고예방</span></div>
+      </div>
+
+      <div class="who-card reveal">
+        <span class="who-ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><rect x="3" y="8" width="6" height="13" stroke="currentColor" stroke-width="1.6"/><rect x="9.5" y="4" width="6" height="17" stroke="currentColor" stroke-width="1.6"/><rect x="16" y="11" width="5" height="10" stroke="currentColor" stroke-width="1.6"/></svg></span>
+        <p class="who-target">다중건물 관리업체</p>
+        <h3 class="who-gain">흩어진 여러 현장을, 한 화면에서</h3>
+        <p class="who-sub">서버 기반 통합관제로 관리하는 모든 건물을 한눈에. 어느 현장 어떤 설비가 위험한지 현장별 우선순위로.</p>
+        <div class="who-mods"><span class="who-mod">통합 관제</span><span class="who-mod">현장별 사고예방</span></div>
+      </div>
+
+      <div class="who-card reveal">
+        <span class="who-ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M4 19V5M4 19h16M8 15l3-4 3 3 4-6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+        <p class="who-target">자산운용사 · 부동산 펀드</p>
+        <h3 class="who-gain">포트폴리오 건물의 가치를, 데이터로 지킵니다</h3>
+        <p class="who-sub">운영 개선을 NOI·자산가치로 환산해 매각·대출·운용 보고에.</p>
+        <p class="who-legal">(수치는 가정 기준 예시이며 보장이 아닙니다)</p>
+        <div class="who-mods"><span class="who-mod">자산가치·NOI</span><span class="who-mod">에너지 절감 ₩</span></div>
+      </div>
+
+      <div class="who-card reveal">
+        <span class="who-ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M5 19c0-8 6-13 14-13 0 8-5 14-14 13z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M8.5 15.5c1.6-3.4 4.2-5.6 7-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></span>
+        <p class="who-target">공공 · ESG 담당</p>
+        <h3 class="who-gain">탄소중립, 보고할 데이터가 필요하신가요?</h3>
+        <p class="who-sub">에너지를 탄소로 환산해 ESG 공시·인증에 대응하고, 공공·보조금 제출 양식에 맞춘 증빙까지.</p>
+        <div class="who-mods"><span class="who-mod">탄소·ESG</span><span class="who-mod">규제 증빙</span></div>
+      </div>
+    </div>
+
+    <div class="who-band reveal">
+      <span class="who-band-ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M12 3l7 3v6c0 4.5-3 7.6-7 9-4-1.4-7-4.5-7-9V6l7-3z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M9 12l2 2 4-4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+      <p>진단으로 끝내지 않습니다. 수리가 필요하면 검증된 시공까지 책임집니다.</p>
+    </div>
+  </div>
+</section>
+
 <!-- ── 5b. 도입 사례 (PROOF) — §5 신뢰 · 케이스 스토리 3연. ⚠ 익명화: 지역명까지만(내부 실명·군·브랜드 금지) ── -->
 <section class="section" id="proof">
   <div class="wrap">
@@ -948,40 +1004,13 @@ h2.sec-title{
     </div>
 
     <div class="deep-tablist reveal" role="tablist" aria-label="자세히 보기 주제">
-      <button class="deep-tab" id="dt-who" role="tab" aria-selected="true" aria-controls="dp-who" type="button">누구를 위한 도구인가</button>
+      <button class="deep-tab" id="dt-compat" role="tab" aria-selected="true" aria-controls="dp-compat" type="button">호환성</button>
       <button class="deep-tab" id="dt-engine" role="tab" aria-selected="false" aria-controls="dp-engine" type="button">무엇을 진단하나</button>
     </div>
 
-    <div class="deep-panel active" id="dp-who" role="tabpanel" aria-labelledby="dt-who">
-      <div class="wrap">
-    <p class="eyebrow reveal">누구를 위한 플랫폼인가</p>
-    <h2 class="sec-title reveal">건물과 시설업체, 양쪽 모두의 도구</h2>
-
-    <div class="aud-grid">
-      <div class="aud-card reveal">
-        <p class="aud-who">건물주 · 시설관리자</p>
-        <h3>숨은 고장을<br>먼저 압니다</h3>
-        <ul class="aud-list">
-          <li><svg viewBox="0 0 16 16" fill="none"><path d="M3 8.5l3.2 3.2L13 5" stroke="#5E7B62" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>설비사고 한 건 예방이 1년 구독료보다 큽니다 — 사고 이후가 아니라 사고 이전에 쓰는 비용입니다.</li>
-          <li><svg viewBox="0 0 16 16" fill="none"><path d="M3 8.5l3.2 3.2L13 5" stroke="#5E7B62" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>매일 아침 "오늘 점검 권장 TOP 3"만 확인하면 됩니다. 47개 경보로 압도하지 않습니다.</li>
-          <li><svg viewBox="0 0 16 16" fill="none"><path d="M3 8.5l3.2 3.2L13 5" stroke="#5E7B62" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>점검 일지·교대 인수인계가 자동으로 기록됩니다. 입력 노동 없이.</li>
-        </ul>
-        <a class="btn btn-primary" href="#apply" data-open-tab="diag">무료 진단 신청</a>
-      </div>
-
-      <div class="aud-card partner reveal">
-        <p class="aud-who">계장업체 · FM 운영사</p>
-        <h3>진단이 끝난,<br>정확한 일감</h3>
-        <ul class="aud-list">
-          <li><svg viewBox="0 0 16 16" fill="none"><path d="M3 8.5l3.2 3.2L13 5" stroke="#A9C3A8" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>어디가 왜 문제인지 진단서와 함께 의뢰가 옵니다. 출동 전에 이미 압니다.</li>
-          <li><svg viewBox="0 0 16 16" fill="none"><path d="M3 8.5l3.2 3.2L13 5" stroke="#A9C3A8" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>일회성 시공을 매달 쌓이는 관리 수익으로 — 사업 구조가 바뀝니다.</li>
-          <li><svg viewBox="0 0 16 16" fill="none"><path d="M3 8.5l3.2 3.2L13 5" stroke="#A9C3A8" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>원격 진단으로 기술자 한 명이 더 많은 건물을 맡습니다. 인력난의 실질적 해법입니다.</li>
-        </ul>
-        <a class="btn btn-on-dark" href="#apply" data-open-tab="partner">협력 파트너 등록</a>
-      </div>
-    </div>
-  </div>
-      <div style="height:48px"></div>
+    <!-- ⚠ 2B 예정: 이 호환성 패널을 §3 작동 방식 ①감지 뒤로 이전하고 딥탭 자체를 해체한다.
+         구 "누구를 위한 도구인가" 패널(.aud-* 2카드 + 협력 파트너 등록 CTA)은 §4 #who로 대체되어 제거됨. -->
+    <div class="deep-panel active" id="dp-compat" role="tabpanel" aria-labelledby="dt-compat">
       <div class="wrap">
     <p class="eyebrow reveal" style="justify-content:center">호환성</p>
     <div class="brand-chips reveal">
