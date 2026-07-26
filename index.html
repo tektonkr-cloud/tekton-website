@@ -325,6 +325,20 @@ h2.sec-title{
 .step:not(:last-child)::after{ content:"→"; position:absolute; top:50%; right:calc(-1 * var(--space-32)); width:var(--space-32); transform:translate(-45%,-50%); text-align:center; color:var(--sage); font-family:var(--font-mono); font-weight:700; font-size:var(--fs-lg); }
 
 /* 데이터 흐름 다이어그램 */
+/* ── 실제 화면 (§3 증거) — 3단계 설명 뒤, flowmap 앞.
+   ⚠ 2936px 이미지를 1140px 컨테이너에 넣으면 39%로 축소돼 화면 안 작은 글씨는 못 읽힌다.
+      그래서 핵심 수치는 이미지 밖 HTML 텍스트(.shot-figs)로 병기한다. 지우지 말 것.
+   ⚠ 실측 화면이므로 "예시" 라벨을 붙이지 않는다(§2-7 2항). */
+.shot{ margin-top:var(--space-64); }
+.shot-title{ font-family:var(--font-mono); font-size:var(--fs-2xs); letter-spacing:.14em; color:var(--ink-soft); text-transform:uppercase; margin-bottom:var(--space-8); }
+.shot-lede{ font-size:var(--fs-xs); color:var(--ink-soft); margin-bottom:var(--space-24); }
+.shot-img{ display:block; width:100%; height:auto; border:1px solid var(--line); border-radius:var(--radius); box-shadow:var(--shadow-sm); }
+.shot-figs{ display:flex; flex-wrap:wrap; gap:var(--space-8) var(--space-32); margin-top:var(--space-20); }
+.shot-fig{ display:flex; align-items:center; gap:var(--space-8); font-family:var(--font-mono); font-size:var(--fs-2xs); font-weight:500; color:var(--ink-soft); letter-spacing:.03em; }
+.shot-fig::before{ content:""; width:6px; height:6px; border-radius:50%; background:var(--sage); flex:none; }
+.shot-fig b{ color:var(--sage-deep); font-weight:600; }
+.shot-src{ font-family:var(--font-mono); font-size:var(--fs-2xs); color:var(--ink-mute); letter-spacing:.04em; margin-top:var(--space-12); }
+
 .flowmap-wrap{ margin-top:var(--space-64); border:1px solid var(--line); border-radius:var(--radius); background:#FBFAF6; padding:var(--space-32) var(--space-32) var(--space-24); box-shadow:var(--shadow-sm); }
 .flowmap-title{ font-family:var(--font-mono); font-size:var(--fs-2xs); letter-spacing:.14em; color:var(--ink-soft); text-transform:uppercase; margin-bottom:var(--space-8); text-align:center; }
 .flowmap-sub{ text-align:center; font-size:var(--fs-xs); color:var(--ink-soft); margin-bottom:var(--space-24); }
@@ -828,6 +842,30 @@ h2.sec-title{
         </div>
       </div>
     </div>
+
+    <!-- 실제 화면 — §3의 실물 클라이맥스. 배치 순서: 추상(3단계 카드) → 구조(flowmap)
+         → 실물(이 블록) → 반론 차단(호환성). flowmap 앞으로 되돌리지 말 것(도식 2연타가 된다).
+         마스킹 완료본(실명 교체·담당자 가림·크롬 크롭).
+         ⚠ "예시" 라벨 붙이지 말 것 — 실측 실가동 화면이다(§2-7 2항).
+         ⚠ 수치 3개는 이미지 축소 시 판독 불가를 대비한 HTML 병기다. 이미지만 남기지 말 것. -->
+    <figure class="shot reveal">
+      <p class="shot-title">실제 화면</p>
+      <p class="shot-lede">데이터가 믿을 만한지 먼저 확인하고, 그다음 상태를 말합니다.</p>
+      <img class="shot-img"
+           src="static/img/product/tarch-dashboard.webp"
+           srcset="static/img/product/tarch-dashboard-1468.webp 1468w,
+                   static/img/product/tarch-dashboard.webp 2936w"
+           sizes="(max-width: 980px) 100vw, 1140px"
+           width="2936" height="1492"
+           loading="lazy" decoding="async"
+           alt="T-ARCH 관제 화면 — 데이터 신뢰도 97%, 경보 0건, 주의 2건, 관찰 10건, 정상 10건, 설비 22계통">
+      <div class="shot-figs">
+        <span class="shot-fig">데이터 신뢰도 <b>97%</b></span>
+        <span class="shot-fig">경보 <b>0</b> · 주의 <b>2</b></span>
+        <span class="shot-fig">설비 <b>22계통</b></span>
+      </div>
+      <figcaption class="shot-src">송도 복합건물 · 실가동 관제 화면</figcaption>
+    </figure>
 
     <!-- 호환성 — ①감지의 "어떤 브랜드든 읽기 전용 연결" 주장을 받는 증거 위치.
          2B 이전: 구 딥탭 dp-compat 패널에서 마크업·스타일 그대로 이전. -->
