@@ -362,42 +362,7 @@ h2.sec-title{
 .shot-fig b{ color:var(--sage-deep); font-weight:600; }
 .shot-src{ font-family:var(--font-mono); font-size:var(--fs-2xs); color:var(--ink-mute); letter-spacing:.04em; margin-top:var(--space-12); }
 
-.flowmap-wrap{ margin-top:var(--space-64); border:1px solid var(--line); border-radius:var(--radius); background:#FBFAF6; padding:var(--space-32) var(--space-32) var(--space-24); box-shadow:var(--shadow-sm); }
-.flowmap-title{ font-family:var(--font-mono); font-size:var(--fs-2xs); letter-spacing:.14em; color:var(--ink-soft); text-transform:uppercase; margin-bottom:var(--space-8); text-align:center; }
-.flowmap-sub{ text-align:center; font-size:var(--fs-xs); color:var(--ink-soft); margin-bottom:var(--space-24); }
-.flowmap{ width:100%; height:auto; display:block; }
-
-/* 모바일 세로 흐름 (기본 숨김, 모바일에서만 표시) */
-.flowmap-mobile{ display:none; }
-.fm-stack{ display:flex; flex-direction:column; gap:0; }
-.fm-stack-node{ display:flex; align-items:center; gap:var(--space-16); padding:var(--space-16); border:1px solid var(--line); border-radius:var(--radius-sm); background:#fff; }
-.fm-stack-node.edge{ background:var(--monitor); border-color:var(--monitor-edge); }
-.fm-stack-node.edge .fm-stack-name{ color:#E8F0E6; }
-.fm-stack-node.edge .fm-stack-sub{ color:var(--monitor-dim); }
-.fm-stack-idx{ flex:none; width:30px; height:30px; border-radius:50%; background:var(--sage-tint); color:var(--sage-deep); font-family:var(--font-mono); font-size:var(--fs-2xs); font-weight:600; display:flex; align-items:center; justify-content:center; }
-.fm-stack-node.edge .fm-stack-idx{ background:rgba(125,185,138,.15); color:var(--ok); }
-.fm-stack-name{ font-family:var(--font-mono); font-size:var(--fs-xs); font-weight:600; color:var(--ink); }
-.fm-stack-sub{ font-size:var(--fs-2xs); color:var(--ink-soft); }
-.fm-stack-cav{ font-family:var(--font-mono); font-size:var(--fs-2xs); color:var(--ink-soft); padding:2px 0 2px 60px; }
-.fm-stack-arrow{ align-self:flex-start; margin-left:30px; height:18px; color:var(--sage); font-size:var(--fs-2xs); display:flex; align-items:center; }
-.fm-stack-arrow .ro-mini{ font-family:var(--font-mono); font-size:var(--fs-2xs); color:var(--sage); margin-left:8px; letter-spacing:.06em; }
-.fm-node-label{ font-family:var(--font-mono); font-size:var(--fs-2xs); font-weight:600; fill:var(--ink); }
-/* ⚠ flowmap SVG 내부 라벨: viewBox 고정좌표라 --fs-2xs(13)로 키우면 라벨끼리 겹침.
-   다이어그램 UI 크롬 예외로 원래 px 유지(콘텐츠 텍스트 아님). 다시 키우지 말 것. */
-.fm-node-sub{ font-family:var(--font-mono); font-size:9.5px; fill:var(--ink-soft); }
-.fm-box{ fill:#fff; stroke:var(--line); stroke-width:1.5; }
-.fm-box.edge{ fill:var(--monitor); stroke:var(--monitor-edge); }
-.fm-box.edge + text, .fm-edge-label{ fill:#E8F0E6; }
-/* ⚠ 잠복 결함 수정: 인접 형제(+) 선택자가 첫 text만 잡아 .fm-node-sub("현장 중계")가
-   라이트 배경용 --ink-soft로 떨어졌다. 마크업의 fill="#76836F" 속성은 CSS 규칙에
-   밀려 무효(presentation attribute < CSS rule). 일반 형제(~)로 확장해 해소.
-   flowmap 자체는 단계 3에서 폐기되지만 그때까지 판독 불가로 두지 않는다. */
-.fm-box.edge ~ .fm-node-sub{ fill:var(--on-dark-body); }
-.fm-path{ fill:none; stroke:var(--sage); stroke-width:2; }
-.fm-packet{ fill:var(--sage-deep); }
-/* ⚠ flowmap SVG 내부 라벨(위와 동일 예외): 고정좌표라 확대 시 겹침 → 원래 px 유지. 키우지 말 것. */
-.fm-readonly{ font-family:var(--font-mono); font-size:9px; fill:var(--sage); letter-spacing:.08em; }
-.fm-caveat{ font-family:var(--font-mono); font-size:9px; fill:var(--ink-soft); }
+/* .flowmap-* / .fm-* — v2 단계 3에서 flowmap 폐기와 함께 제거됨. S4 표가 대체. */
 
 /* ============================================================
    6. 누구를 위한 (#who · 문서 §4) — 2×2 대상 모듈 매핑 + 책임시공 띠
@@ -557,8 +522,6 @@ h2.sec-title{
   .demo-cell{ border-right:none; border-bottom:1px solid var(--monitor-line); }
   .demo-cell:last-child{ border-bottom:none; }
   /* 흐름 다이어그램: 가로 숨기고 세로 스택 */
-  .flowmap{ display:none; }
-  .flowmap-mobile{ display:block; }
 }
 @media (max-width: 640px){
   .section{ padding:var(--space-section-sm) 0; }
@@ -727,6 +690,95 @@ h2.sec-title{
   .demo-evidence > div{ grid-template-columns:1fr; gap:var(--space-2); }
 }
 
+/* ═══════════════════════════════════════════════════════════════════
+   v2 · 단계 3 — S2 문제 / S3 실제 화면 / S4 어떻게 붙는가
+   ═══════════════════════════════════════════════════════════════════ */
+.v2-h2-55{ font-size:var(--fs-3xl); font-weight:900; line-height:1.26; letter-spacing:-.03em; color:var(--ink-0); margin:0; }
+.v2-h2-44{ font-size:var(--fs-2xl); font-weight:900; line-height:1.26; letter-spacing:-.03em; color:var(--ink-0); margin:0; }
+.v2-h2-55 .v2-line2{ color:var(--body); }
+.v2-h2-55 em{ font-style:normal; color:var(--green); }   /* 섹션 내 그린 1곳 */
+
+/* ── S2 ── */
+.v2-s2-lede{ margin:var(--space-32) 0 0; max-width:720px; font-size:19px; line-height:1.8; color:var(--body); }
+.v2-stuck{ margin:var(--space-64) 0 0; border-top:1px solid var(--ink-0); padding-top:var(--space-16); }
+.v2-stuck-head, .v2-stuck-foot{
+  display:flex; justify-content:space-between; gap:var(--space-24);
+  font-family:var(--font-mono); font-size:var(--fs-xs); color:var(--muted);
+}
+.v2-stuck-foot{ margin-top:var(--space-12); }
+.v2-stuck-bars{ display:flex; align-items:flex-end; gap:4px; height:96px; margin-top:var(--space-20); }
+.v2-stuck-bars i{
+  flex:1; height:var(--h); background:#D8D7D0;
+  transform:scaleY(0); transform-origin:bottom;
+}
+.v2-stuck-bars i.is-stuck{ background:var(--ink-0); }
+.v2-stuck.is-in i{ transform:scaleY(1); transition:transform .42s var(--ease-out); }
+/* 회색 0~9: i*0.045s · 검정 10~23: 0.62 + (i-10)*0.055s */
+.v2-stuck.is-in i:nth-child(1){transition-delay:0s}    .v2-stuck.is-in i:nth-child(2){transition-delay:.045s}
+.v2-stuck.is-in i:nth-child(3){transition-delay:.09s}  .v2-stuck.is-in i:nth-child(4){transition-delay:.135s}
+.v2-stuck.is-in i:nth-child(5){transition-delay:.18s}  .v2-stuck.is-in i:nth-child(6){transition-delay:.225s}
+.v2-stuck.is-in i:nth-child(7){transition-delay:.27s}  .v2-stuck.is-in i:nth-child(8){transition-delay:.315s}
+.v2-stuck.is-in i:nth-child(9){transition-delay:.36s}  .v2-stuck.is-in i:nth-child(10){transition-delay:.405s}
+.v2-stuck.is-in i:nth-child(11){transition-delay:.62s} .v2-stuck.is-in i:nth-child(12){transition-delay:.675s}
+.v2-stuck.is-in i:nth-child(13){transition-delay:.73s} .v2-stuck.is-in i:nth-child(14){transition-delay:.785s}
+.v2-stuck.is-in i:nth-child(15){transition-delay:.84s} .v2-stuck.is-in i:nth-child(16){transition-delay:.895s}
+.v2-stuck.is-in i:nth-child(17){transition-delay:.95s} .v2-stuck.is-in i:nth-child(18){transition-delay:1.005s}
+.v2-stuck.is-in i:nth-child(19){transition-delay:1.06s}.v2-stuck.is-in i:nth-child(20){transition-delay:1.115s}
+.v2-stuck.is-in i:nth-child(21){transition-delay:1.17s}.v2-stuck.is-in i:nth-child(22){transition-delay:1.225s}
+.v2-stuck.is-in i:nth-child(23){transition-delay:1.28s}.v2-stuck.is-in i:nth-child(24){transition-delay:1.335s}
+/* 커서 — 키프레임 0%·100%가 opacity 0이어야 끝나고 잔상이 남지 않는다 */
+.v2-caret{ display:inline-block; width:7px; height:1em; margin-left:4px; background:var(--ink-0); vertical-align:-2px; opacity:0; }
+.v2-stuck.is-in .v2-caret{ animation:v2Caret .7s step-end 3 1.5s forwards; }
+@keyframes v2Caret{ 0%,100%{ opacity:0; } 50%{ opacity:1; } }
+
+/* 접이식 데모 */
+.v2-demo-fold{ margin:var(--space-64) 0 0; border-top:1px solid var(--hair); }
+.v2-demo-fold > summary{
+  list-style:none; cursor:pointer; padding:var(--space-20) 0;
+  display:flex; align-items:baseline; gap:var(--space-16); flex-wrap:wrap;
+}
+.v2-demo-fold > summary::-webkit-details-marker{ display:none; }
+.v2-demo-fold > summary::after{ content:"+"; margin-left:auto; font-family:var(--font-mono); color:var(--muted); }
+.v2-demo-fold[open] > summary::after{ content:"−"; }
+.v2-fold-label{ font-size:var(--fs-md); font-weight:700; color:var(--ink-0); letter-spacing:-.02em; }
+.v2-fold-hint{ font-family:var(--font-mono); font-size:var(--fs-xs); color:var(--muted); }
+.v2-demo-fold .demo{ margin-bottom:var(--space-32); }
+
+/* ── S3 ── */
+.v2-s3 .v2-h2-44{ margin-top:var(--space-16); }
+.v2-shot{ margin:var(--space-64) 0 0; }
+.v2-shot-img{ display:block; width:100%; height:auto; border:1px solid var(--hair); }
+.v2-shot-figs{
+  display:flex; flex-wrap:wrap; gap:var(--space-8) var(--space-32); margin-top:var(--space-16);
+  font-family:var(--font-mono); font-size:var(--fs-xs); color:var(--muted);
+}
+.v2-shot-figs b{ color:var(--ink-0); font-weight:600; }
+.v2-shot-cap{ margin-top:var(--space-8); font-family:var(--font-mono); font-size:var(--fs-xs); color:var(--muted); }
+.v2-shot-cap b{ color:var(--ink-0); font-weight:600; }
+
+/* ── S4 ── */
+.v2-s4 .v2-h2-44{ margin-top:var(--space-16); }
+.v2-spec{ margin:var(--space-48) 0 0; }
+.v2-spec > div{
+  display:grid; grid-template-columns:220px 1fr; gap:var(--space-24);
+  padding:26px 0; border-bottom:1px solid var(--hair); align-items:baseline;
+}
+.v2-spec > div:first-child{ border-top:1px solid var(--ink-0); }
+.v2-spec dt{ font-family:var(--font-mono); font-size:var(--fs-xs); letter-spacing:.08em; color:var(--muted); }
+.v2-spec dd{ margin:0; font-size:var(--fs-base); line-height:1.7; color:var(--ink-0); }
+.v2-vendors{ margin:var(--space-32) 0 0; max-width:900px; font-size:var(--fs-sm); line-height:1.75; color:var(--body); }
+
+@media (max-width: 760px){
+  .v2-spec > div{ grid-template-columns:1fr; gap:var(--space-4); padding:20px 0; }
+  .v2-stuck-bars{ height:72px; gap:2px; }
+  .v2-stuck-head, .v2-stuck-foot{ flex-direction:column; gap:var(--space-4); }
+}
+
+@media (prefers-reduced-motion: reduce){
+  .v2-stuck-bars i{ transform:scaleY(1); }
+  .v2-caret{ display:none; }
+}
+
 @media (max-width: 900px){
   .v2-nav a:not(.v2-nav-cta){ display:none; }   /* 단계 7에서 햄버거로 대체 */
 }
@@ -847,259 +899,147 @@ h2.sec-title{
   </div>
 </div>
 
-<!-- ── 4. 차별점 + 가짜정상 체험 위젯 (#why) ── -->
-<section class="section" id="why">
+<!-- ── v2 S2 문제 (페이퍼) — 타이포 중심, 카드 금지 ──
+     h2 55px 2행. `16시간째`만 그린(섹션 내 그린 1곳).
+     ⚠ 값 고착은 개념 설명이다. 특정 건물의 라이브 진단 주장 금지. -->
+<section class="section v2-s2" id="problem">
   <div class="wrap">
-    <p class="eyebrow reveal">왜 T-ARCH인가</p>
-    <h2 class="sec-title reveal">데이터를 의심하는 시스템</h2>
-    <p class="sec-lede reveal">
-      모든 설비 진단은 "센서가 진실을 말한다"는 가정 위에 서 있습니다.
-      T-ARCH는 그 가정부터 검증합니다. 센서가 고장 나면 고장조차 "정상"으로 보이기 때문입니다.
-    </p>
+    <h2 class="v2-h2-55 reveal">27℃, 정상입니다.<br><span class="v2-line2">— 그런데 그 센서, <em>16시간째</em> 똑같은 값이면?</span></h2>
+    <p class="v2-s2-lede reveal">고착된 죽은 센서. 값은 정상범위. 기존 시스템은 못 잡습니다. 사고는 그 뒤에 옵니다.</p>
 
-    <div class="vs-grid">
-      <div class="vs-card reveal">
-        <p class="vs-label">기존 BMS · FMS</p>
-        <div class="flow">
-          <div class="flow-step"><span class="step-tag">INPUT</span>센서값 수신</div>
-          <div class="flow-arrow">&#8595;</div>
-          <div class="flow-step"><span class="step-tag">LOGIC</span>데이터를 그대로 신뢰</div>
-          <div class="flow-arrow">&#8595;</div>
-          <div class="flow-step result-believe"><span class="step-tag">OUTPUT</span>화면에 "정상" 표시</div>
-        </div>
-        <p class="vs-caption">
-          센서가 멈춘 줄도 모른 채, 관리자는 정상 화면을 봅니다.
-          고장은 사고가 난 뒤에야 드러납니다.
-        </p>
+    <!-- 값 고착 차트 — 앞 10개 정상 변동(회색), 뒤 14개 동일값(검정) -->
+    <figure class="v2-stuck" id="stuck-chart">
+      <div class="v2-stuck-head">
+        <span>CH-2 냉수 출구온도 · 최근 24회 수신</span>
+        <span>변동 0.000</span>
       </div>
+      <div class="v2-stuck-bars" role="img" aria-label="센서 수신값 24회 — 앞 10회는 정상적으로 변동하나 이후 14회가 동일한 값에 고착된 그래프">
+        <i style="--h:64%"></i><i style="--h:41%"></i><i style="--h:78%"></i><i style="--h:52%"></i><i style="--h:88%"></i>
+        <i style="--h:47%"></i><i style="--h:71%"></i><i style="--h:35%"></i><i style="--h:83%"></i><i style="--h:56%"></i>
+        <i class="is-stuck" style="--h:60%"></i><i class="is-stuck" style="--h:60%"></i><i class="is-stuck" style="--h:60%"></i>
+        <i class="is-stuck" style="--h:60%"></i><i class="is-stuck" style="--h:60%"></i><i class="is-stuck" style="--h:60%"></i>
+        <i class="is-stuck" style="--h:60%"></i><i class="is-stuck" style="--h:60%"></i><i class="is-stuck" style="--h:60%"></i>
+        <i class="is-stuck" style="--h:60%"></i><i class="is-stuck" style="--h:60%"></i><i class="is-stuck" style="--h:60%"></i>
+        <i class="is-stuck" style="--h:60%"></i><i class="is-stuck" style="--h:60%"></i>
+      </div>
+      <figcaption class="v2-stuck-foot">
+        <span>정상 변동 구간</span>
+        <span>16시간째 동일값 — 기존 시스템은 &ldquo;정상&rdquo;<span class="v2-caret" aria-hidden="true"></span></span>
+      </figcaption>
+    </figure>
 
-      <div class="vs-card tarch reveal">
-        <p class="vs-label">T-ARCH</p>
-        <div class="flow">
-          <div class="flow-step"><span class="step-tag">INPUT</span>센서값 수신</div>
-          <div class="flow-arrow">&#8595;</div>
-          <div class="flow-step"><span class="step-tag">VERIFY</span>데이터 무결성 검증 — 고착 · 급변 · 범위이탈</div>
-          <div class="flow-arrow">&#8595;</div>
-          <div class="flow-step result-catch"><span class="step-tag">OUTPUT</span>"가짜 정상" 적발 · 점검 권고</div>
+    <!-- 인터랙티브 데모 — 차트 뒤 접이식(FINAL §3 C-2 존치 판정) -->
+    <details class="v2-demo-fold reveal">
+      <summary>
+        <span class="v2-fold-label">직접 해보기 — 값이 멈추면 어떻게 판정하나</span>
+        <span class="v2-fold-hint">값 고정만으로는 확정하지 않습니다</span>
+      </summary>
+      <div class="demo" id="fake-demo">
+        <div class="demo-head">
+          <h3>센서를 멈춰 보세요</h3>
+          <span class="demo-tag">예시 · Demonstration</span>
+          <span class="hint">값 고정만으로는 확정하지 않습니다. 주변 신호가 모순될 때 적발합니다</span>
         </div>
-        <p class="vs-caption">
-          값이 움직이지 않는 센서, 갑자기 튀는 값, 물리적으로 불가능한 범위 —
-          데이터의 거짓말부터 잡아냅니다.
-        </p>
-      </div>
-    </div>
-
-    <!-- 가짜 정상 체험 위젯 -->
-    <div class="demo reveal" id="fake-demo">
-      <div class="demo-head">
-        <h3>직접 해보기 — 값이 멈추면 어떻게 판정하나</h3>
-        <span class="demo-tag">예시 · Demonstration</span>
-        <span class="hint">값 고정만으로는 확정하지 않습니다. 주변 신호가 모순될 때 적발합니다</span>
-      </div>
-      <div class="demo-body">
-        <div class="demo-cell sensor-cell">
-          <div class="cell-label">CH-2 냉수 환수온도</div>
-          <div class="sensor-readout"><span id="demo-reading">7.2</span><span class="unit">&#8451;</span></div>
-          <svg class="sparkline" id="demo-spark" viewBox="0 0 200 34" preserveAspectRatio="none">
-            <polyline id="demo-line" points=""></polyline>
-          </svg>
-        </div>
-        <div class="demo-cell bms-cell">
-          <div class="cell-label">기존 BMS 판정</div>
-          <div class="demo-verdict">
-            <span class="verdict-badge verdict-ok" id="bms-badge">정상</span>
-            <span class="verdict-note">값이 정상범위 안에 있음</span>
+        <div class="demo-body">
+          <div class="demo-cell sensor-cell">
+            <div class="cell-label">CH-2 냉수 환수온도</div>
+            <div class="sensor-readout"><span id="demo-reading">7.2</span><span class="unit">&#8451;</span></div>
+            <svg class="sparkline" id="demo-spark" viewBox="0 0 200 34" preserveAspectRatio="none">
+              <polyline id="demo-line" points=""></polyline>
+            </svg>
+          </div>
+          <div class="demo-cell bms-cell">
+            <div class="cell-label">기존 BMS 판정</div>
+            <div class="demo-verdict">
+              <span class="verdict-badge verdict-ok" id="bms-badge">정상</span>
+              <span class="verdict-note">값이 정상범위 안에 있음</span>
+            </div>
+          </div>
+          <div class="demo-cell tarch-cell">
+            <div class="cell-label">T-ARCH 판정</div>
+            <div class="demo-verdict">
+              <span class="verdict-badge verdict-ok" id="tarch-badge">정상</span>
+              <span class="verdict-note" id="tarch-note">데이터 무결성 검증 통과</span>
+            </div>
           </div>
         </div>
-        <div class="demo-cell tarch-cell">
-          <div class="cell-label">T-ARCH 판정</div>
-          <div class="demo-verdict">
-            <span class="verdict-badge verdict-ok" id="tarch-badge">정상</span>
-            <span class="verdict-note" id="tarch-note">데이터 무결성 검증 통과</span>
-          </div>
+
+        <!-- 판정 근거 4줄 — 상태에 따라 갱신. 우리 논리는 임계값이 아니라
+             교차검증 · 지속시간 · 반복횟수이고, 근거가 부족하면 판정을 보류한다. -->
+        <dl class="demo-evidence" id="demo-evidence">
+          <div><dt>값 변동</dt><dd id="ev-drift">0.18℃ 진폭 / 최근 24회</dd></div>
+          <div><dt>주변 신호</dt><dd id="ev-neighbor">냉수 공급 3.2℃ 변동 · 환수 0.21℃ 변동</dd></div>
+          <div><dt>교차검증</dt><dd id="ev-cross">밸브 열림 명령 ↔ 온도 반응 = 일치</dd></div>
+          <div><dt>반복 횟수</dt><dd id="ev-repeat">0회 / 30일</dd></div>
+        </dl>
+
+        <div class="demo-controls">
+          <button class="demo-btn" id="hold-btn" type="button">값만 고정</button>
+          <button class="demo-btn danger" id="break-btn" type="button">값 고정 + 주변 신호 모순</button>
+          <button class="demo-btn" id="reset-btn" type="button">정상으로 되돌리기</button>
         </div>
       </div>
-
-      <!-- 판정 근거 4줄 — 상태에 따라 갱신. 우리 논리는 임계값이 아니라
-           교차검증 · 지속시간 · 반복횟수이고, 근거가 부족하면 판정을 보류한다. -->
-      <dl class="demo-evidence" id="demo-evidence">
-        <div><dt>값 변동</dt><dd id="ev-drift">0.18℃ 진폭 / 최근 24회</dd></div>
-        <div><dt>주변 신호</dt><dd id="ev-neighbor">냉수 공급 3.2℃ 변동 · 환수 0.21℃ 변동</dd></div>
-        <div><dt>교차검증</dt><dd id="ev-cross">밸브 열림 명령 ↔ 온도 반응 = 일치</dd></div>
-        <div><dt>반복 횟수</dt><dd id="ev-repeat">0회 / 30일</dd></div>
-      </dl>
-
-      <div class="demo-controls">
-        <button class="demo-btn" id="hold-btn" type="button">값만 고정</button>
-        <button class="demo-btn danger" id="break-btn" type="button">값 고정 + 주변 신호 모순</button>
-        <button class="demo-btn" id="reset-btn" type="button">정상으로 되돌리기</button>
-      </div>
-    </div>
+    </details>
   </div>
 </section>
 
-<!-- ── 5. 작동 방식 3단계 + 흐름 다이어그램 ── -->
-<section class="section section-tint" id="how">
+<!-- ── v2 S3 실제 화면 (틴트) — 증거 최상단, 전폭 세로 스택 ──
+     ⚠ 2열로 좁히지 마라. 1920 폭 UI 캡처는 좁은 셀에서 판독 불가다.
+     ⚠ 실측에는 "예시" 라벨을 붙이지 않는다. 시안에만 붙인다. 섞지 마라.
+     ⚠ 수치 3개는 이미지 축소 시 판독 불가를 대비한 HTML 병기다. 이미지만 남기지 말 것.
+     tarch-quote.png는 폐기됐다(대시보드와 상반된 판정 · 고착 17건 오탐 계열 가능성).
+     진단서 개념은 S5.5 좌측 카드가 HTML로 담는다. -->
+<section class="section section-tint v2-s3" id="screens">
   <div class="wrap">
-    <p class="eyebrow reveal">작동 방식</p>
-    <h2 class="sec-title reveal">진단에서 시공까지, 한 흐름으로</h2>
-    <p class="sec-lede reveal">
-      T-ARCH의 진단이 시작점입니다. 이상이 확인되면 우선순위와 견적으로 정리되고,
-      검증된 시공업체가 정확한 진단서를 들고 방문합니다.
-    </p>
+    <p class="eyebrow reveal">실제 화면</p>
+    <h2 class="v2-h2-44 reveal">데이터가 믿을 만한지 먼저 확인하고,<br>그다음 상태를 말합니다</h2>
 
-    <div class="steps">
-      <div class="step reveal">
-        <div class="step-head">
-          <span class="step-num">01</span>
-          <span class="step-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M9 3v4M15 3v4M6 7h12v3a6 6 0 0 1-12 0V7zM12 16v5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
-        </div>
-        <h3>감지</h3>
-        <p>이미 설치된 DDC·BMS에 읽기 전용으로 연결해 설비 데이터를 수집합니다. 어떤 브랜드든, 교체나 추가 공사 없이 시작합니다.</p>
-        <span class="step-chip">READ-ONLY 연결</span>
-      </div>
-      <div class="step reveal">
-        <div class="step-head">
-          <span class="step-num">02</span>
-          <span class="step-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M4 7h9M4 12h6M4 17h3" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><path d="M16 8v8m0 0l-3-3m3 3l3-3" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
-        </div>
-        <h3>우선순위 · 견적</h3>
-        <p>AI 진단 룰 11종이 이상을 찾아 심각도와 비용 기준으로 정리합니다. "지금 고칠 것"과 "지켜봐도 되는 것"을 구분하고, 필요한 조치는 견적으로 만듭니다.</p>
-        <span class="step-chip">점검 권장 TOP 3</span>
-      </div>
-      <div class="step reveal">
-        <div class="step-head">
-          <span class="step-num">03</span>
-          <span class="step-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M15 4a4 4 0 0 0-5.2 5.2l-5.5 5.5a1.9 1.9 0 1 0 2.7 2.7l5.5-5.5A4 4 0 0 0 18 6.5l-2.3 2.3-2-.5-.5-2L15.5 4z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg></span>
-        </div>
-        <h3>연결 · 시공</h3>
-        <p>검증된 계장·시공업체가 어디가 왜 문제인지 적힌 진단서를 들고 방문합니다. 수리 이력은 건물의 기록으로 차곡차곡 남습니다.</p>
-        <span class="step-chip">검증된 협력망</span>
-      </div>
-    </div>
-
-    <!-- 데이터 흐름 다이어그램 -->
-    <div class="flowmap-wrap reveal">
-      <p class="flowmap-title">데이터 흐름</p>
-      <p class="flowmap-sub">현장 설비의 신호가 어떻게 진단을 거쳐 시공으로 이어지는지</p>
-      <svg class="flowmap" id="flowmap" viewBox="0 0 1040 150" role="img" aria-label="현장 DDC에서 T-ARCH 엣지, 클라우드, AI 진단을 거쳐 시설업체로 이어지는 데이터 흐름">
-        <!-- 연결 경로 -->
-        <path class="fm-path" id="fm-line" d="M120 75 H250 M370 75 H500 M620 75 H750 M870 75 H920" />
-        <!-- READ-ONLY 단방향 표시 -->
-        <text class="fm-readonly" x="185" y="62" text-anchor="middle">READ-ONLY →</text>
-
-        <!-- 노드: 현장 DDC -->
-        <g>
-          <rect class="fm-box" x="20" y="48" width="100" height="54" rx="8"/>
-          <text class="fm-node-label" x="70" y="72" text-anchor="middle">현장 DDC</text>
-          <text class="fm-node-sub" x="70" y="88" text-anchor="middle">BMS · 센서</text>
-        </g>
-        <!-- 노드: T-ARCH 엣지 -->
-        <g>
-          <rect class="fm-box edge" x="250" y="48" width="120" height="54" rx="8"/>
-          <text class="fm-node-label" x="310" y="72" text-anchor="middle" fill="#E8F0E6">T-ARCH 엣지</text>
-          <text class="fm-node-sub" x="310" y="88" text-anchor="middle" fill="#76836F">현장 중계</text>
-          <text class="fm-caveat" x="310" y="122" text-anchor="middle">※ 외부망 차단 현장에 한해</text>
-        </g>
-        <!-- 노드: 클라우드 -->
-        <g>
-          <rect class="fm-box" x="500" y="48" width="120" height="54" rx="8"/>
-          <text class="fm-node-label" x="560" y="72" text-anchor="middle">클라우드</text>
-          <text class="fm-node-sub" x="560" y="88" text-anchor="middle">수집 · 저장</text>
-        </g>
-        <!-- 노드: AI 진단 -->
-        <g>
-          <rect class="fm-box" x="750" y="48" width="120" height="54" rx="8"/>
-          <text class="fm-node-label" x="810" y="72" text-anchor="middle">AI 진단</text>
-          <text class="fm-node-sub" x="810" y="88" text-anchor="middle">룰 11종</text>
-        </g>
-        <!-- 노드: 시설업체 -->
-        <g>
-          <rect class="fm-box" x="920" y="48" width="100" height="54" rx="8"/>
-          <text class="fm-node-label" x="970" y="72" text-anchor="middle">시설업체</text>
-          <text class="fm-node-sub" x="970" y="88" text-anchor="middle">견적 · 시공</text>
-        </g>
-
-        <!-- 흐르는 패킷 (JS로 reduced-motion 제어) -->
-        <circle class="fm-packet" id="pkt1" cx="120" cy="75" r="4"/>
-        <circle class="fm-packet" id="pkt2" cx="370" cy="75" r="4"/>
-        <circle class="fm-packet" id="pkt3" cx="620" cy="75" r="4"/>
-        <circle class="fm-packet" id="pkt4" cx="870" cy="75" r="4"/>
-      </svg>
-
-      <!-- 모바일 세로 흐름 (980px 이하에서 표시) -->
-      <div class="flowmap-mobile" aria-hidden="true">
-        <div class="fm-stack">
-          <div class="fm-stack-node">
-            <span class="fm-stack-idx">1</span>
-            <span><span class="fm-stack-name">현장 DDC</span><br><span class="fm-stack-sub">BMS · 센서</span></span>
-          </div>
-          <div class="fm-stack-arrow">↓<span class="ro-mini">READ-ONLY</span></div>
-          <div class="fm-stack-node edge">
-            <span class="fm-stack-idx">2</span>
-            <span><span class="fm-stack-name">T-ARCH 엣지</span><br><span class="fm-stack-sub">현장 중계</span></span>
-          </div>
-          <div class="fm-stack-cav">※ 외부망 차단 현장에 한해</div>
-          <div class="fm-stack-arrow">↓</div>
-          <div class="fm-stack-node">
-            <span class="fm-stack-idx">3</span>
-            <span><span class="fm-stack-name">클라우드</span><br><span class="fm-stack-sub">수집 · 저장</span></span>
-          </div>
-          <div class="fm-stack-arrow">↓</div>
-          <div class="fm-stack-node">
-            <span class="fm-stack-idx">4</span>
-            <span><span class="fm-stack-name">AI 진단</span><br><span class="fm-stack-sub">룰 11종</span></span>
-          </div>
-          <div class="fm-stack-arrow">↓</div>
-          <div class="fm-stack-node">
-            <span class="fm-stack-idx">5</span>
-            <span><span class="fm-stack-name">시설업체</span><br><span class="fm-stack-sub">견적 · 시공</span></span>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- 실제 화면 — §3의 실물 클라이맥스. 배치 순서: 추상(3단계 카드) → 구조(flowmap)
-         → 실물(이 블록) → 반론 차단(호환성). flowmap 앞으로 되돌리지 말 것(도식 2연타가 된다).
-         마스킹 완료본(실명 교체·담당자 가림·크롬 크롭).
-         ⚠ "예시" 라벨 붙이지 말 것 — 실측 실가동 화면이다(§2-7 2항).
-         ⚠ 수치 3개는 이미지 축소 시 판독 불가를 대비한 HTML 병기다. 이미지만 남기지 말 것. -->
-    <figure class="shot reveal">
-      <p class="shot-title">실제 화면</p>
-      <p class="shot-lede">데이터가 믿을 만한지 먼저 확인하고, 그다음 상태를 말합니다.</p>
-      <img class="shot-img"
+    <figure class="v2-shot reveal">
+      <img class="v2-shot-img"
            src="static/img/product/tarch-dashboard.webp"
            srcset="static/img/product/tarch-dashboard-1468.webp 1468w,
                    static/img/product/tarch-dashboard.webp 2936w"
-           sizes="(max-width: 980px) 100vw, 1140px"
+           sizes="(max-width: 1360px) 100vw, 1280px"
            width="2936" height="1492"
            loading="lazy" decoding="async"
            alt="T-ARCH 관제 화면 — 데이터 신뢰도 97%, 경보 0건, 주의 2건, 관찰 10건, 정상 10건, 설비 22계통">
-      <div class="shot-figs">
-        <span class="shot-fig">데이터 신뢰도 <b>97%</b></span>
-        <span class="shot-fig">경보 <b>0</b> · 주의 <b>2</b></span>
-        <span class="shot-fig">설비 <b>22계통</b></span>
+      <div class="v2-shot-figs">
+        <span>데이터 신뢰도 <b>97%</b></span>
+        <span>경보 <b>0</b> · 주의 <b>2</b></span>
+        <span>설비 <b>22계통</b></span>
       </div>
-      <figcaption class="shot-src">송도 복합건물 · 실가동 관제 화면</figcaption>
+      <figcaption class="v2-shot-cap">관제 화면 · 인천 송도 지식산업센터 · 실가동</figcaption>
     </figure>
 
-    <!-- 호환성 — ①감지의 "어떤 브랜드든 읽기 전용 연결" 주장을 받는 증거 위치.
-         2B 이전: 구 딥탭 dp-compat 패널에서 마크업·스타일 그대로 이전. -->
-    <div class="brands">
-      <p class="eyebrow reveal" style="justify-content:center">호환성</p>
-      <div class="brand-chips reveal">
-        <span class="brand-chip">지멘스</span>
-        <span class="brand-chip">하니웰</span>
-        <span class="brand-chip">존슨컨트롤즈</span>
-        <span class="brand-chip">LG</span>
-        <span class="brand-chip">삼성</span>
-        <span class="brand-chip">국내 DDC</span>
-      </div>
-      <p class="big-line reveal">
-        어떤 브랜드가 설치돼 있든, T-ARCH는 연결됩니다.<br>
-        <strong>교체 없이, 추가 공사 없이.</strong>
-      </p>
-    </div>
+    <figure class="v2-shot reveal">
+      <img class="v2-shot-img"
+           src="static/img/product/twin-mock.png"
+           width="1922" height="1082"
+           loading="lazy" decoding="async"
+           alt="T-ARCH 디지털 트윈 UI 시안 — 기계실 설비를 아이소메트릭으로 배치하고 이상·판정불가 설비를 표시한 화면">
+      <figcaption class="v2-shot-cap">디지털 트윈 · <b>UI 시안</b> — 전력 축은 2026년 9월 연동 예정</figcaption>
+    </figure>
+  </div>
+</section>
+
+<!-- ── v2 S4 어떻게 붙는가 (페이퍼) — 표 형식, 카드 금지 ──
+     구 3단계 카드 그리드와 flowmap을 이 표가 대체한다(FINAL §3 C-3).
+     ⚠ 벤더는 텍스트만. 로고 이미지 금지. 제휴·인증 등 관계 함의 표현 금지. -->
+<section class="section v2-s4" id="connect">
+  <div class="wrap">
+    <p class="eyebrow reveal">어떻게 붙는가</p>
+    <h2 class="v2-h2-44 reveal">검토에 필요한 것만 적었습니다</h2>
+
+    <dl class="v2-spec reveal">
+      <div><dt>프로토콜</dt><dd>BACnet/IP · BACnet/MS-TP · Modbus</dd></div>
+      <div><dt>연동 실증</dt><dd>지멘스 · 하니웰 · 국내 DDC 등 주요 BAS 연동 실증 완료</dd></div>
+      <div><dt>폐쇄망</dt><dd>현장 수집기(엣지 게이트웨이)를 현장에 두고 로컬에서 수집합니다</dd></div>
+      <div><dt>기존 시스템 영향</dt><dd>읽기 전용입니다. 제어 명령이 없고, 통신선에 직접 접속하지 않습니다</dd></div>
+      <div><dt>운영 중단</dt><dd>무중단입니다. 운영 중인 건물에 그대로 적용합니다</dd></div>
+      <div><dt>수집 범위</dt><dd>설비 운전 데이터만 수집합니다. 영상 · 음성 · 개인정보는 수집하지 않습니다</dd></div>
+    </dl>
+
+    <p class="v2-vendors reveal">지멘스 · 하니웰 · 존슨컨트롤즈 · LG · 삼성 · 국내 DDC — 어떤 브랜드가 설치돼 있든 연결됩니다. 교체 없이, 추가 공사 없이.</p>
   </div>
 </section>
 
@@ -1421,138 +1361,8 @@ h2.sec-title{
     counters.forEach(function(el){ cio.observe(el); });
   }
 
-  /* ── [필수1] 히어로 — 사진 위 검증 에이전트 2개(Canvas): 추적·트레일·파장·AHU-3 적발 ── */
-  var heroCanvas = document.getElementById('heroCanvas');
-  if (heroCanvas && heroCanvas.getContext){
-    var hx = heroCanvas.getContext('2d');
-    var heroSec = heroCanvas.closest('.hero');
-    var diagCard = document.getElementById('heroDiag');
-    var cw=0, ch=0, dpr=Math.min(window.devicePixelRatio||1, 2);
-    // 노드·경로 좌표 = 사진 원본(1440×1828) 비율 좌표(0~1). object-fit:cover와 동일 수식으로
-    // 캔버스에 매핑 → 창 크기가 바뀌어 사진이 크롭돼도 노드가 사진의 같은 지점(유리면)에 고정.
-    var PA=1440/1828, OPX=0.5, OPY=0.70;   // 사진 종횡비 + object-position(CSS와 일치)
-    var NODES=[
-      {px:0.7014,py:0.4595,l:'SA-1'}, {px:0.6389,py:0.5470,l:'RA-2'}, {px:0.7986,py:0.5197,l:'CHW'},
-      {px:0.7361,py:0.6182,l:'VAV'},  {px:0.6597,py:0.6947,l:'EF-1'}, {px:0.8194,py:0.6565,l:'CT-1'},
-      {px:0.6250,py:0.7768,l:'PUMP'}, {px:0.8542,py:0.7659,l:'FCU'},  {px:0.7188,py:0.5798,l:'AHU-3'}
-    ];
-    var FAULT=8;
-    var PATHS=[
-      { color:'#9DBFA4', trail:'rgba(157,191,164,', start:{px:0.60,py:0.86}, seq:[4,6,1,3,8] },
-      { color:'#7FB0C8', trail:'rgba(127,176,200,', start:{px:0.87,py:0.86}, seq:[7,5,2,0,8] }
-    ];
-    // object-fit:cover 매핑 (사진 비율좌표 → 캔버스 픽셀). CSS object-position 50%/70%과 일치
-    var mDW, mDH, mOX, mOY;
-    function computeMap(){
-      if(cw/ch > PA){ mDW=cw; mDH=cw/PA; mOX=0; mOY=(ch-mDH)*OPY; }
-      else { mDH=ch; mDW=ch*PA; mOX=(cw-mDW)*OPX; mOY=0; }
-    }
-    function MX(px){ return mOX + px*mDW; }
-    function MY(py){ return mOY + py*mDH; }
-    function resize(){
-      var r=heroCanvas.getBoundingClientRect(); cw=r.width; ch=r.height;
-      heroCanvas.width=Math.round(cw*dpr); heroCanvas.height=Math.round(ch*dpr);
-      hx.setTransform(dpr,0,0,dpr,0,0); computeMap();
-    }
-    function agentPos(p, prog){
-      var pts=[p.start].concat(p.seq.map(function(i){return NODES[i];}));
-      var segN=pts.length-1, s=Math.min(prog,0.999)*segN, i=Math.floor(s), t=s-i, a=pts[i], b=pts[i+1];
-      return { x:MX(a.px+(b.px-a.px)*t), y:MY(a.py+(b.py-a.py)*t) };
-    }
-    var nodeHit, trails, start, faultAt, raf=null;
-    function reset(){ nodeHit=NODES.map(function(){return -1;}); trails=[[],[]]; start=null; faultAt=-1; if(diagCard) diagCard.classList.remove('show'); }
-    function drawNode(n, idx, now){
-      var x=MX(n.px), y=MY(n.py), lit=nodeHit[idx]>=0;
-      if(lit){ var age=(now-nodeHit[idx])/650;
-        if(age<1){ hx.beginPath(); hx.arc(x,y,4+age*16,0,6.2832); hx.strokeStyle='rgba(157,191,164,'+(0.38*(1-age))+')'; hx.lineWidth=1.1; hx.stroke(); }
-      }
-      // 유리에 박힌 느낌: 어두운 시트 링 + 작은 코어
-      hx.beginPath(); hx.arc(x,y, lit?3.4:2.4, 0,6.2832); hx.strokeStyle='rgba(8,16,22,0.4)'; hx.lineWidth=1; hx.stroke();
-      hx.beginPath(); hx.arc(x,y, lit?2.2:1.5, 0,6.2832);
-      hx.fillStyle= lit?'rgba(198,222,206,0.92)':'rgba(168,196,206,0.4)'; hx.fill();
-      if(lit){ hx.font='10px "IBM Plex Mono",monospace'; hx.fillStyle='rgba(202,220,224,0.5)'; hx.fillText(n.l, x+5, y-4); }
-    }
-    function drawTrail(tr, base){
-      for(var i=0;i<tr.length;i++){ var p=tr[i], a=i/tr.length;
-        hx.beginPath(); hx.arc(p.x,p.y, 1+a*2.4, 0,6.2832); hx.fillStyle=base+(0.05+a*0.28).toFixed(2)+')'; hx.fill(); }
-    }
-    function drawAgent(x,y,color){
-      var g=hx.createRadialGradient(x,y,0,x,y,11);
-      g.addColorStop(0,color+'ee'); g.addColorStop(0.45,color+'66'); g.addColorStop(1,color+'00');
-      hx.fillStyle=g; hx.beginPath(); hx.arc(x,y,11,0,6.2832); hx.fill();
-      hx.beginPath(); hx.arc(x,y,2.2,0,6.2832); hx.fillStyle='#fff'; hx.fill();
-    }
-    function drawFault(now){
-      var n=NODES[FAULT], x=MX(n.px), y=MY(n.py), age=(now-faultAt)/900;
-      if(age<1.4){ hx.beginPath(); hx.arc(x,y, 6+Math.min(age,1)*34, 0,6.2832); hx.strokeStyle='rgba(201,90,76,'+(0.6*Math.max(0,1-age/1.4))+')'; hx.lineWidth=2; hx.stroke(); }
-      var pulse=0.5+0.5*Math.sin(now/380);
-      hx.beginPath(); hx.arc(x,y,9,0,6.2832); hx.strokeStyle='rgba(201,90,76,'+(0.3+0.3*pulse)+')'; hx.lineWidth=1.4; hx.stroke();
-      hx.beginPath(); hx.arc(x,y,4.5,0,6.2832); hx.fillStyle='#C95A4C'; hx.fill();
-      // 리더선 → 진단카드(화면 우상단 CSS 고정 위치이므로 캔버스 화면좌표 사용)
-      hx.beginPath(); hx.moveTo(x,y); hx.lineTo(cw*0.80, ch*0.44); hx.lineTo(cw*0.822, ch*0.375);
-      hx.strokeStyle='rgba(201,90,76,0.45)'; hx.lineWidth=1; hx.setLineDash([4,4]); hx.stroke(); hx.setLineDash([]);
-    }
-    var DURATION=4200, CLIMAX=0.72;
-    function frame(now){
-      if(start===null) start=now;
-      var prog=Math.min((now-start)/DURATION,1);
-      hx.clearRect(0,0,cw,ch);
-      for(var i=0;i<NODES.length;i++) drawNode(NODES[i], i, now);
-      PATHS.forEach(function(p, ai){
-        var pos=agentPos(p, prog); var tr=trails[ai];
-        tr.push(pos); if(tr.length>18) tr.shift(); drawTrail(tr, p.trail);
-        for(var k=0;k<NODES.length;k++){ var dx=pos.x-MX(NODES[k].px), dy=pos.y-MY(NODES[k].py);
-          if(dx*dx+dy*dy<300 && nodeHit[k]<0) nodeHit[k]=now; }
-        drawAgent(pos.x,pos.y,p.color);
-      });
-      if(prog>=CLIMAX && faultAt<0){ faultAt=now; nodeHit[FAULT]=now; if(diagCard) diagCard.classList.add('show'); }
-      if(faultAt>=0) drawFault(now);
-      raf=requestAnimationFrame(frame);
-    }
-    function drawStatic(){   // reduced-motion: 최종 적발 프레임으로 정적 완결
-      resize(); hx.clearRect(0,0,cw,ch); nodeHit=NODES.map(function(){return 0;});
-      for(var i=0;i<NODES.length;i++) drawNode(NODES[i], i, 1700);
-      drawAgent(MX(0.695),MY(0.60),'#9DBFA4'); drawAgent(MX(0.745),MY(0.60),'#7FB0C8');
-      faultAt=600; drawFault(1000);
-      if(diagCard) diagCard.classList.add('show');
-    }
-    function startFX(){ if(!raf){ resize(); reset(); raf=requestAnimationFrame(frame); } }
-    function stopFX(){ if(raf){ cancelAnimationFrame(raf); raf=null; } }
-    window.addEventListener('resize', function(){ if(reduced) drawStatic(); else if(raf){ resize(); } });
-    if(reduced){ drawStatic(); }
-    else if('IntersectionObserver' in window){
-      var hoio=new IntersectionObserver(function(es){ es.forEach(function(e){ if(e.isIntersecting) startFX(); else stopFX(); }); }, { threshold:0.2 });
-      hoio.observe(heroSec);
-    } else { startFX(); }
-  }
-
-  /* ── [필수2] 흐름 다이어그램 패킷 ── */
-  var flowmap = document.getElementById('flowmap');
-  var packets = ['pkt1','pkt2','pkt3','pkt4'].map(function(id){ return document.getElementById(id); });
-  // 각 구간 [시작x, 끝x] (y=75 고정)
-  var segs = [[120,250],[370,500],[620,750],[870,920]];
-  var fmRAF = null, fmStart = null;
-  function fmFrame(ts){
-    if(!fmStart) fmStart = ts;
-    var t = ((ts - fmStart)/1600) % 1; // 1.6초 주기
-    packets.forEach(function(p, i){
-      var x = segs[i][0] + (segs[i][1]-segs[i][0]) * t;
-      p.setAttribute('cx', x.toFixed(1));
-      p.setAttribute('opacity', (0.3 + 0.7*Math.sin(Math.PI*t)).toFixed(2));
-    });
-    fmRAF = requestAnimationFrame(fmFrame);
-  }
-  function startFlow(){ if(!fmRAF && !reduced) fmRAF = requestAnimationFrame(fmFrame); }
-  function stopFlow(){ if(fmRAF){ cancelAnimationFrame(fmRAF); fmRAF = null; fmStart = null; } }
-  if (reduced){
-    // 정지 상태: 패킷을 각 구간 중앙에 고정
-    packets.forEach(function(p,i){ p.setAttribute('cx', ((segs[i][0]+segs[i][1])/2).toFixed(1)); });
-  } else if ('IntersectionObserver' in window){
-    var fio = new IntersectionObserver(function(es){
-      es.forEach(function(e){ if(e.isIntersecting) startFlow(); else stopFlow(); });
-    }, { threshold:0.2 });
-    fio.observe(flowmap);
-  } else { startFlow(); }
+  /* [필수1] 히어로 Canvas · [필수2] flowmap 패킷 — v2 단계 3에서 폐기.
+     히어로는 로그 스트립으로, 데이터 흐름 도식은 S4 표로 대체됐다. */
 
   /* ── [필수3] 가짜 정상 체험 위젯 ── */
   var demoReading = document.getElementById('demo-reading');
@@ -1755,6 +1565,20 @@ h2.sec-title{
   if (hero) {
     if (reduced) { hero.classList.add('is-in'); }
     else { requestAnimationFrame(function(){ requestAnimationFrame(function(){ hero.classList.add('is-in'); }); }); }
+  }
+
+  /* S2 값 고착 차트 — 진입 시 1회. 바 stagger·커서 타이밍은 CSS가 갖는다 */
+  var stuck = document.getElementById('stuck-chart');
+  if (stuck) {
+    if (reduced || !('IntersectionObserver' in window)) { stuck.classList.add('is-in'); }
+    else {
+      var sio = new IntersectionObserver(function(es){
+        es.forEach(function(e){
+          if (e.isIntersecting) { e.target.classList.add('is-in'); sio.unobserve(e.target); }
+        });
+      }, { threshold: 0.35 });
+      sio.observe(stuck);
+    }
   }
 })();
 </script>
