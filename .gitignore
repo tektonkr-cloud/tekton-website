@@ -1,3 +1,6 @@
 .DS_Store
 index.html.bak-*
 static/img/seq/raw/
+
+# 미공개 지시서(FINAL·MASTER-BRIEF 등) + 마스킹 전 실측 원본. 공개 금지.
+design_handoff/
