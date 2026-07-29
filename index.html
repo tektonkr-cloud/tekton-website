@@ -154,7 +154,6 @@ h2.sec-title{
   letter-spacing:-0.02em;
   margin:18px 0 14px;
 }
-.sec-lede{ color:var(--ink-soft); font-size:var(--fs-base); max-width:640px; }
 
 .reveal{ opacity:0; transform:translateY(18px); transition:opacity var(--dur-reveal) var(--ease-standard), transform var(--dur-reveal) var(--ease-standard); }
 .reveal.in{ opacity:1; transform:none; }
@@ -284,23 +283,16 @@ h2.sec-title{
    호환성은 #how 끝으로, 룰 11종은 #rules 일반 섹션으로 펼쳤다. 되살리지 말 것. */
 
 /* ── 대비: 기존 BMS vs T-ARCH ── */
-.vs-grid{ display:grid; grid-template-columns:1fr 1fr; gap:var(--space-24); margin-top:var(--space-48); }
-.vs-card{ border-radius:var(--radius); padding:var(--space-32); border:1px solid var(--line); background:#FBFAF6; box-shadow:var(--shadow-sm); }
 .vs-card.tarch{ background:var(--monitor); border-color:var(--monitor-edge); color:var(--monitor-text); box-shadow:var(--shadow-lg); }
-.vs-label{ font-family:var(--font-mono); font-size:var(--fs-2xs); font-weight:600; letter-spacing:.18em; margin-bottom:var(--space-20); }
-.vs-card .vs-label{ color:var(--ink-soft); }
 .vs-card.tarch .vs-label{ color:var(--sage-bright); }
 
 .flow{ display:flex; flex-direction:column; gap:0; }
-.flow-step{ display:flex; align-items:center; gap:var(--space-12); font-size:var(--fs-sm); padding:var(--space-12) var(--space-16); border:1px solid var(--line); border-radius:var(--radius-sm); background:#fff; }
 .vs-card.tarch .flow-step{ background:rgba(232,240,230,.04); border-color:var(--monitor-edge); color:var(--monitor-text); }
-.flow-arrow{ align-self:center; height:22px; display:flex; align-items:center; color:var(--ink-soft); font-family:var(--font-mono); font-size:var(--fs-2xs); }
 .vs-card.tarch .flow-arrow{ color:var(--monitor-dim); }
 .flow-step .step-tag{ font-family:var(--font-mono); font-size:var(--fs-2xs); letter-spacing:.1em; color:var(--ink-soft); flex:none; width:64px; }
 .vs-card.tarch .flow-step .step-tag{ color:var(--monitor-dim); }
 .flow-step.result-believe{ border-color:#D9CDB6; background:#F8F3E6; font-weight:600; }
 .flow-step.result-catch{ border-color:rgba(201,90,76,.55); background:rgba(201,90,76,.12); color:#E8A099; font-weight:600; }
-.vs-caption{ margin-top:var(--space-16); font-size:var(--fs-xs); color:var(--ink-mute); line-height:1.55; }
 .vs-card.tarch .vs-caption{ color:var(--monitor-dim); }
 
 /* ── "직접 해보기" — 가짜정상 체험 위젯(다크 계기판, 라이트 섹션의 초점) ── */
@@ -337,32 +329,13 @@ h2.sec-title{
 /* ============================================================
    5. 작동 방식 3단계 + 데이터 흐름 다이어그램
    ============================================================ */
-.steps{ display:grid; grid-template-columns:repeat(3,1fr); gap:var(--space-32); margin-top:var(--space-48); }
-.step{ position:relative; display:flex; flex-direction:column; background:#FBFAF6; border:1px solid var(--line); border-radius:var(--radius); padding:var(--space-24); box-shadow:var(--shadow-sm); }
-.step-head{ display:flex; align-items:center; justify-content:space-between; margin-bottom:var(--space-16); }
-.step-num{ width:44px; height:44px; border-radius:50%; background:var(--sage-deep); color:#F4F6F1; font-family:var(--font-mono); font-weight:600; font-size:var(--fs-sm); display:flex; align-items:center; justify-content:center; }
-.step-icon{ width:28px; height:28px; color:var(--sage); flex:none; }
-.step-icon svg{ width:100%; height:100%; }
-.step h3{ font-size:var(--fs-md); font-weight:700; margin-bottom:var(--space-8); letter-spacing:-0.01em; }
-.step p{ font-size:var(--fs-sm); color:var(--ink-soft); line-height:1.6; }
-.step-chip{ display:inline-block; align-self:flex-start; margin-top:var(--space-16); font-family:var(--font-mono); font-size:var(--fs-2xs); font-weight:600; letter-spacing:.1em; color:var(--sage-deep); background:var(--sage-tint); padding:var(--space-4) var(--space-12); border-radius:4px; }
 /* 순차 흐름 화살표(카드 사이) */
-.step:not(:last-child)::after{ content:"→"; position:absolute; top:50%; right:calc(-1 * var(--space-32)); width:var(--space-32); transform:translate(-45%,-50%); text-align:center; color:var(--sage); font-family:var(--font-mono); font-weight:700; font-size:var(--fs-lg); }
 
 /* 데이터 흐름 다이어그램 */
 /* ── 실제 화면 (§3 증거) — 3단계 설명 뒤, flowmap 앞.
    ⚠ 2936px 이미지를 1140px 컨테이너에 넣으면 39%로 축소돼 화면 안 작은 글씨는 못 읽힌다.
       그래서 핵심 수치는 이미지 밖 HTML 텍스트(.shot-figs)로 병기한다. 지우지 말 것.
    ⚠ 실측 화면이므로 "예시" 라벨을 붙이지 않는다(§2-7 2항). */
-.shot{ margin-top:var(--space-64); }
-.shot-title{ font-family:var(--font-mono); font-size:var(--fs-2xs); letter-spacing:.14em; color:var(--ink-soft); text-transform:uppercase; margin-bottom:var(--space-8); }
-.shot-lede{ font-size:var(--fs-xs); color:var(--ink-soft); margin-bottom:var(--space-24); }
-.shot-img{ display:block; width:100%; height:auto; border:1px solid var(--line); border-radius:var(--radius); box-shadow:var(--shadow-sm); }
-.shot-figs{ display:flex; flex-wrap:wrap; gap:var(--space-8) var(--space-32); margin-top:var(--space-20); }
-.shot-fig{ display:flex; align-items:center; gap:var(--space-8); font-family:var(--font-mono); font-size:var(--fs-2xs); font-weight:500; color:var(--ink-soft); letter-spacing:.03em; }
-.shot-fig::before{ content:""; width:6px; height:6px; border-radius:50%; background:var(--sage); flex:none; }
-.shot-fig b{ color:var(--sage-deep); font-weight:600; }
-.shot-src{ font-family:var(--font-mono); font-size:var(--fs-2xs); color:var(--ink-mute); letter-spacing:.04em; margin-top:var(--space-12); }
 
 /* .flowmap-* / .fm-* — v2 단계 3에서 flowmap 폐기와 함께 제거됨. S4 표가 대체. */
 
@@ -371,29 +344,11 @@ h2.sec-title{
    구 "두 고객"(.aud-*) 전면 대체. 계장업체 모집 프레임은 두지 않는다 —
    계장은 하단 책임시공 띠로만 등장(새 전략).
    ============================================================ */
-.who-grid{ display:grid; grid-template-columns:1fr 1fr; gap:var(--space-24); margin-top:var(--space-48); }
-.who-card{ display:flex; flex-direction:column; background:#FBFAF6; border:1px solid var(--line); border-radius:var(--radius); padding:var(--space-32); box-shadow:var(--shadow-sm); transition:border-color var(--dur-fast) var(--ease-standard), transform var(--dur-fast) var(--ease-standard), box-shadow var(--dur-fast) var(--ease-standard); }
-.who-card:hover{ border-color:var(--sage); transform:translateY(-3px); box-shadow:var(--shadow-md); }
-.who-ic{ display:inline-flex; width:38px; height:38px; color:var(--sage); margin-bottom:var(--space-16); }
-.who-ic svg{ width:100%; height:100%; }
-.who-target{ font-family:var(--font-mono); font-size:var(--fs-2xs); font-weight:600; letter-spacing:.14em; color:var(--sage-deep); margin-bottom:var(--space-8); }
-.who-gain{ font-size:var(--fs-lg); font-weight:700; line-height:1.35; letter-spacing:-0.01em; margin-bottom:var(--space-8); }
-.who-sub{ font-size:var(--fs-sm); color:var(--ink-soft); line-height:1.6; margin-bottom:var(--space-16); }
-.who-legal{ font-family:var(--font-mono); font-size:var(--fs-2xs); color:var(--ink-soft); line-height:1.5; margin-bottom:var(--space-16); }
-.who-mods{ display:flex; flex-wrap:wrap; gap:var(--space-8); margin-top:auto; }
-.who-mod{ font-family:var(--font-mono); font-size:var(--fs-2xs); font-weight:600; color:var(--sage-deep); background:var(--sage-tint); border-radius:999px; padding:var(--space-4) var(--space-12); }
-.who-band{ display:flex; align-items:center; gap:var(--space-16); margin-top:var(--space-24); padding:var(--space-20) var(--space-24); border:1px solid var(--line); border-radius:var(--radius); background:var(--paper-2); }
-.who-band-ic{ width:30px; height:30px; color:var(--sage-deep); flex:none; }
-.who-band-ic svg{ width:100%; height:100%; }
-.who-band p{ font-size:var(--fs-sm); font-weight:600; color:var(--ink); }
 /* 2열→1열 전환은 §반응형 980px 블록에서 .vs-grid와 함께 처리 */
 
 /* ============================================================
    7. 브랜드 무관 (호환성) — §3 작동 방식(#how) 끝에 배치
    ============================================================ */
-.brands{ text-align:center; margin-top:var(--space-64); }
-.brand-chips{ display:flex; gap:10px; flex-wrap:wrap; justify-content:center; margin:34px 0 22px; }
-.brand-chip{ font-family:var(--font-mono); font-size:var(--fs-2xs); font-weight:500; color:var(--ink-soft); border:1px solid var(--line); background:#FBFAF6; padding:9px 18px; border-radius:999px; letter-spacing:.03em; }
 .brands .big-line{ font-size:clamp(19px, 2.6vw, 24px); font-weight:600; letter-spacing:-0.01em; max-width:720px; margin:0 auto; }
 .brands .big-line strong{ color:var(--sage); }
 
@@ -407,21 +362,11 @@ h2.sec-title{
 /* 추천 앵커 — 2px 보더는 이 카드만 예외. 배경은 다른 카드와 동일(흰색) */
 .price-card.featured{ border:2px solid var(--sage-deep); box-shadow:var(--shadow-md); }
 .pop-badge{ position:absolute; top:-13px; left:30px; font-family:var(--font-mono); font-size:var(--fs-2xs); font-weight:600; letter-spacing:.12em; background:var(--sage-deep); color:#F4F6F1; padding:5px 12px; border-radius:4px; }
-.tier-label{ font-family:var(--font-mono); font-size:var(--fs-2xs); font-weight:600; letter-spacing:.12em; color:var(--sage-deep); margin-bottom:var(--space-12); }
-.tier-aud{ font-size:var(--fs-md); font-weight:700; letter-spacing:-0.01em; margin-bottom:4px; }
-.tier-points{ font-family:var(--font-mono); font-size:var(--fs-2xs); color:var(--ink-mute); margin-bottom:22px; }
-.tier-price{ display:flex; align-items:baseline; gap:8px; margin-bottom:4px; }
 .tier-price .num{ font-family:var(--font-mono); font-size:var(--fs-3xl); font-weight:700; letter-spacing:-0.03em; line-height:1; }
 .tier-price .num.inq{ font-family:var(--font-display); font-size:var(--fs-2xl); font-weight:800; letter-spacing:-0.02em; }
 .tier-price .per{ font-size:var(--fs-xs); color:var(--ink-mute); }
-.tier-vat{ font-family:var(--font-mono); font-size:var(--fs-2xs); color:var(--ink-soft); margin-bottom:20px; }
-.tier-div{ border-top:1px solid var(--line); margin-bottom:20px; }
-.tier-feats{ list-style:none; display:flex; flex-direction:column; gap:11px; margin-bottom:30px; }
-.tier-feats li{ display:flex; gap:9px; font-size:var(--fs-xs); color:var(--ink-soft); align-items:flex-start; line-height:1.55; }
-.tier-feats li svg{ flex:none; width:15px; height:15px; margin-top:3.5px; }
 .price-card .btn{ margin-top:auto; width:100%; }
 /* 하단 공통 띠 — 계기판 상태줄 */
-.price-strip{ margin:44px auto 0; max-width:840px; border:1px solid var(--line); border-radius:999px; background:#FBFAF6; padding:13px 28px; text-align:center; font-family:var(--font-mono); font-size:var(--fs-2xs); color:var(--ink-soft); letter-spacing:.04em; }
 
 /* ============================================================
    10. 11개 룰 그리드
@@ -486,30 +431,13 @@ h2.sec-title{
    반응형
    ============================================================ */
 /* ── §5 도입 사례 (PROOF) — 에디토리얼 세로 스택 3연 ── */
-.proof-lede{ color:var(--ink-soft); font-size:var(--fs-base); max-width:640px; }
-.case-list{ display:flex; flex-direction:column; gap:var(--space-20); margin-top:var(--space-48); }
-.case-card{ background:#FBFAF6; border:1px solid var(--line); border-left:4px solid var(--sage); border-radius:var(--radius-sm); padding:var(--space-32) var(--space-40); }
 .case-card.c-songdo{ border-left-color:#3E6B4A; }
 .case-card.c-goyang{ border-left-color:#C0913F; }
 .case-card.c-secure{ border-left-color:#5E7B62; }
-.case-top{ display:flex; align-items:baseline; gap:var(--space-8) var(--space-16); flex-wrap:wrap; margin-bottom:var(--space-20); }
-.case-name{ font-size:var(--fs-md); font-weight:700; letter-spacing:-0.01em; }
-.case-sub{ font-family:var(--font-mono); font-size:var(--fs-2xs); letter-spacing:.08em; color:var(--ink-mute); }
-.case-stat{ margin-left:auto; font-family:var(--font-mono); font-size:var(--fs-2xs); font-weight:600; letter-spacing:.06em; color:var(--sage-deep); text-align:right; }
-.case-before{ color:var(--ink-mute); font-size:var(--fs-base); line-height:1.65; max-width:640px; }
-.case-after{ color:var(--ink); font-size:var(--fs-base); font-weight:700; line-height:1.65; max-width:640px; margin-top:var(--space-8); }
-.case-arrow{ font-family:var(--font-mono); font-weight:700; color:var(--sage); margin-right:var(--space-8); }
-.case-outcome{ color:var(--ink); font-size:var(--fs-base); font-weight:500; line-height:1.65; max-width:640px; margin-top:var(--space-8); }
-.case-result{ margin-top:var(--space-16); font-family:var(--font-mono); font-size:var(--fs-2xs); font-weight:600; letter-spacing:.1em; color:var(--sage-deep); }
 @media (max-width: 640px){
-  .case-card{ padding:var(--space-24) var(--space-20); }
-  .case-stat{ margin-left:0; text-align:left; width:100%; }
 }
 
 @media (max-width: 980px){
-  .vs-grid, .who-grid{ grid-template-columns:1fr; }
-  .steps{ grid-template-columns:1fr; gap:var(--space-40); }
-  .step:not(:last-child)::after{ content:"↓"; top:auto; right:auto; left:50%; bottom:calc(-1 * var(--space-40)); width:auto; transform:translate(-50%,-30%); }
   .price-grid{ grid-template-columns:1fr; max-width:480px; margin-left:auto; margin-right:auto; }
   .demo-body{ grid-template-columns:1fr; }
   .demo-cell{ border-right:none; border-bottom:1px solid var(--monitor-line); }
@@ -527,7 +455,6 @@ h2.sec-title{
   .mon-kpi .k-value{ font-size:var(--fs-md); }
   .mon-table th:nth-child(2), .mon-table td:nth-child(2){ display:none; }
   .footer-badges{ text-align:left; }
-  .price-strip{ border-radius:var(--radius-sm); }
   .closing{ padding:var(--space-64) 0; }
   .closing-ctas{ flex-direction:column; }
   .closing-ctas .btn{ width:100%; max-width:340px; }
@@ -859,6 +786,105 @@ h2.sec-title{
 }
 @media (prefers-reduced-motion: reduce){
   .v2-node-line{ transform:scaleY(1); }
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   v2 · 단계 5 — S7 현장 / 확장 / S8 요금
+   ═══════════════════════════════════════════════════════════════════ */
+.sr-only{
+  position:absolute; width:1px; height:1px; padding:0; margin:-1px;
+  overflow:hidden; clip:rect(0 0 0 0); white-space:nowrap; border:0;
+}
+
+/* ── S7 현장 ── */
+.v2-s7-lede{ margin:var(--space-16) 0 0; font-size:var(--fs-base); line-height:1.7; color:var(--body); }
+.v2-sites{ width:100%; border-collapse:collapse; margin-top:var(--space-48); }
+.v2-sites tr{ border-bottom:1px solid var(--hair); }
+.v2-sites tr:first-child{ border-top:1px solid var(--ink-0); }
+.v2-sites th, .v2-sites td{ text-align:left; font-weight:400; padding:30px var(--space-24) 30px 0; vertical-align:baseline; }
+.v2-sites th{ font-size:var(--fs-base); font-weight:700; letter-spacing:-.02em; color:var(--ink-0); }
+.v2-sites td{ font-family:var(--font-mono); font-size:var(--fs-xs); color:var(--muted); }
+.v2-sites td:nth-child(2){ width:220px; }
+.v2-sites td:nth-child(3){ width:200px; padding-right:0; color:var(--ink-0); }
+/* 상태 도트 — 성숙도 표시. 이상·경보가 아니므로 실가동에 그린을 쓴다 */
+.v2-dot{ display:inline-block; width:8px; height:8px; margin-right:var(--space-12); vertical-align:1px; }
+.v2-dot.is-live{ background:var(--green); }
+.v2-dot.is-pilot{ background:var(--ink-0); }
+.v2-dot.is-plan{ background:#9A9A94; }
+.v2-s7-foot{
+  margin:var(--space-32) 0 0; max-width:900px;
+  font-family:var(--font-mono); font-size:14px; line-height:1.75; color:var(--muted);
+}
+
+/* ── 확장 — 실측 섹션과 시각 구분(점선). 축소하지 않는다 ── */
+.v2-s9x-lede{ margin:var(--space-24) 0 0; max-width:820px; font-size:var(--fs-base); line-height:1.8; color:var(--body); }
+.v2-x-frame{
+  margin-top:var(--space-48); padding:var(--space-48);
+  border:1px dashed #C9C8C0; background:rgba(241,240,234,.45);
+  display:grid; grid-template-columns:minmax(0,1fr) 380px; gap:var(--space-64); align-items:start;
+}
+/* 로드맵 — 수직 타임라인 */
+.v2-roadmap{ list-style:none; margin:0; padding:0; }
+.v2-roadmap li{ position:relative; display:grid; grid-template-columns:26px 1fr; gap:var(--space-16) var(--space-20); padding-bottom:var(--space-40); }
+.v2-roadmap li:last-child{ padding-bottom:0; }
+.v2-roadmap .v2-node{ background:#9A9A94; }
+.v2-roadmap li.is-live .v2-node{ background:var(--green); }   /* 실가동만 */
+.v2-roadmap .v2-node-line{ border-left:1px dashed #C9C8C0; background:none; width:0; }
+.v2-roadmap.is-in .v2-node-line{ transform:scaleY(1); transition:transform .7s var(--ease-out); }
+.v2-roadmap.is-in li:nth-child(2) .v2-node-line{ transition-delay:.25s; }
+.v2-roadmap.is-in li:nth-child(3) .v2-node-line{ transition-delay:.5s; }
+.v2-roadmap h3{ margin:0; font-size:var(--fs-md); font-weight:700; letter-spacing:-.02em; color:var(--ink-0); }
+.v2-when{
+  grid-column:2; margin-top:calc(var(--space-8) * -1);
+  font-family:var(--font-mono); font-size:var(--fs-xs); letter-spacing:.06em; color:var(--muted);
+}
+.v2-roadmap li.is-live .v2-when{ color:var(--ink-0); }
+/* 대상 표 — 타임라인과 다른 유형 */
+.v2-audience{ margin:0; border-top:1px solid var(--ink-0); }
+.v2-audience > div{ padding:var(--space-20) 0; border-bottom:1px solid var(--hair); }
+.v2-audience dt{ font-size:var(--fs-sm); font-weight:700; letter-spacing:-.02em; color:var(--ink-0); margin-bottom:var(--space-4); }
+.v2-audience dd{ margin:0; font-family:var(--font-mono); font-size:var(--fs-xs); line-height:1.6; color:var(--muted); }
+.v2-legal{ color:#8A8A84; }
+.v2-s9x-foot{
+  margin:var(--space-40) 0 0;
+  font-size:var(--fs-md); font-weight:700; letter-spacing:-.02em; color:var(--ink-0);
+}
+
+/* ── S8 요금 ── */
+.v2-s8-lede{ margin:var(--space-16) 0 0; font-size:var(--fs-base); line-height:1.7; color:var(--body); }
+.v2-tiers{ margin:var(--space-48) 0 0; }
+.v2-tiers > div{
+  display:grid; grid-template-columns:200px minmax(0,1fr) 260px; gap:var(--space-24);
+  padding:32px 0; border-bottom:1px solid var(--hair); align-items:baseline;
+}
+.v2-tiers > div:first-child{ border-top:1px solid var(--ink-0); }
+.v2-tiers dt{ font-size:var(--fs-md); font-weight:700; letter-spacing:-.02em; color:var(--ink-0); }
+.v2-badge{
+  display:inline-block; margin-left:var(--space-8); padding:3px 9px; vertical-align:2px;
+  background:var(--green-deep); color:var(--paper);
+  font-family:var(--font-mono); font-size:var(--fs-2xs); font-weight:500; letter-spacing:.06em;
+}
+.v2-tiers dd{ margin:0; }
+.v2-tier-desc{ font-size:var(--fs-sm); line-height:1.65; color:var(--body); }
+.v2-tier-price{ font-family:var(--font-mono); font-size:var(--fs-xl); color:var(--ink-0); text-align:right; }
+.v2-tier-price span{ font-size:var(--fs-xs); color:var(--muted); }
+.v2-tier-notes{ list-style:none; margin:var(--space-32) 0 0; padding:0; }
+.v2-tier-notes li{ font-family:var(--font-mono); font-size:var(--fs-xs); line-height:2; color:var(--muted); }
+
+@media (max-width: 1080px){
+  .v2-x-frame{ grid-template-columns:1fr; gap:var(--space-48); padding:var(--space-32); }
+}
+@media (max-width: 760px){
+  .v2-sites, .v2-sites tbody, .v2-sites tr, .v2-sites th, .v2-sites td{ display:block; width:auto; }
+  .v2-sites tr{ padding:var(--space-20) 0; }
+  .v2-sites th, .v2-sites td{ padding:0; }
+  .v2-sites td{ margin-top:var(--space-4); }
+  .v2-sites td:nth-child(2), .v2-sites td:nth-child(3){ width:auto; }
+  .v2-tiers > div{ grid-template-columns:1fr; gap:var(--space-8); padding:24px 0; }
+  .v2-tier-price{ text-align:left; }
+}
+@media (prefers-reduced-motion: reduce){
+  .v2-roadmap .v2-node-line{ transform:scaleY(1); }
 }
 
 @media (max-width: 900px){
@@ -1246,154 +1272,146 @@ h2.sec-title{
 </section>
 
 <!-- ── 5c. 누구를 위한 (#who · 문서 §4) — 2×2 대상 모듈 매핑 + 책임시공 띠
-     카피는 대표 확정본. 임의 수정·창작 금지.
-     ⚠ 자산운용사 카드의 "(수치는 가정 기준 예시이며 보장이 아닙니다)" 법무 라벨은 제거 금지. ── -->
-<section class="section" id="who">
+<!-- ── v2 S7 현장 (틴트) — 표 ──
+     ⚠ 고객사 실명 금지. 익명 표기만 하드코딩한다(서면 동의 미확보).
+        내부 실명 4건(design_handoff/README.md 익명 표기 대조표)은 절대 사용 금지.
+     ⚠ 성숙도는 정확히. 실가동은 송도 한 곳뿐이다. 나머지는 파일럿·제안.
+        성숙도 3단이 다 보이는 것이 의도다 — 과장 없이 단계를 그대로 적는다는 신호. -->
+<section class="section section-tint v2-s7" id="sites">
   <div class="wrap">
-    <p class="eyebrow reveal">누구를 위한 것인가</p>
-    <h2 class="sec-title reveal">한 번 수집한 데이터가,<br>당신에게 맞는 리포트가 됩니다</h2>
-    <p class="sec-lede reveal">건물에 T-ARCH가 있으면, 목적별 모듈 리포트를 조합해 드립니다.</p>
+    <p class="eyebrow reveal">현장</p>
+    <h2 class="v2-h2-44 reveal">지금 데이터를 보고 있는 건물</h2>
+    <p class="v2-s7-lede reveal">성숙도를 실가동 · 파일럿 · 제안으로 구분해 그대로 적습니다.</p>
 
-    <div class="who-grid">
-      <div class="who-card reveal">
-        <span class="who-ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M4 21V6l8-3 8 3v15" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M3 21h18M9.5 21v-4h5v4M9 9h1.5M13.5 9h1.5M9 13h1.5M13.5 13h1.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></span>
-        <p class="who-target">시설관리자 · 건물주</p>
-        <h3 class="who-gain">발로 뛰지 않아도, 건물이 먼저 말합니다</h3>
-        <p class="who-sub">BMS가 놓친 숨은 고장을 먼저 잡고, 매일 아침 "오늘 고칠 것"만 우선순위로.</p>
-        <div class="who-mods"><span class="who-mod">에너지 낭비 ₩</span><span class="who-mod">설비 사고예방</span></div>
-      </div>
+    <table class="v2-sites reveal">
+      <caption class="sr-only">현장별 규모와 성숙도</caption>
+      <tbody>
+        <tr>
+          <th scope="row">인천 송도 지식산업센터</th>
+          <td>312 관제점 · 5분 주기</td>
+          <td><span class="v2-dot is-live" aria-hidden="true"></span>실가동</td>
+        </tr>
+        <tr>
+          <th scope="row">고양 신축 오피스</th>
+          <td>주요 BAS 연동 실증</td>
+          <td><span class="v2-dot is-pilot" aria-hidden="true"></span>파일럿</td>
+        </tr>
+        <tr>
+          <th scope="row">다건물 실소유 건설사 · 수도권</th>
+          <td>1,200+ 관제점</td>
+          <td><span class="v2-dot is-pilot" aria-hidden="true"></span>파일럿</td>
+        </tr>
+        <tr>
+          <th scope="row">수도권 종합병원</th>
+          <td>무중단 적용 진행</td>
+          <td><span class="v2-dot is-pilot" aria-hidden="true"></span>파일럿</td>
+        </tr>
+        <tr>
+          <th scope="row">보안 등급 시설 · 폐쇄망 다중 현장</th>
+          <td>다중 현장 통합관제</td>
+          <td><span class="v2-dot is-plan" aria-hidden="true"></span>제안</td>
+        </tr>
+      </tbody>
+    </table>
 
-      <div class="who-card reveal">
-        <span class="who-ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><rect x="3" y="8" width="6" height="13" stroke="currentColor" stroke-width="1.6"/><rect x="9.5" y="4" width="6" height="17" stroke="currentColor" stroke-width="1.6"/><rect x="16" y="11" width="5" height="10" stroke="currentColor" stroke-width="1.6"/></svg></span>
-        <p class="who-target">다중건물 관리업체</p>
-        <h3 class="who-gain">흩어진 여러 현장을, 한 화면에서</h3>
-        <p class="who-sub">서버 기반 통합관제로 관리하는 모든 건물을 한눈에. 어느 현장 어떤 설비가 위험한지 현장별 우선순위로.</p>
-        <div class="who-mods"><span class="who-mod">통합 관제</span><span class="who-mod">현장별 사고예방</span></div>
-      </div>
-
-      <div class="who-card reveal">
-        <span class="who-ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M4 19V5M4 19h16M8 15l3-4 3 3 4-6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
-        <p class="who-target">자산운용사 · 부동산 펀드</p>
-        <h3 class="who-gain">포트폴리오 건물의 가치를, 데이터로 지킵니다</h3>
-        <p class="who-sub">운영 개선을 NOI·자산가치로 환산해 매각·대출·운용 보고에.</p>
-        <p class="who-legal">(수치는 가정 기준 예시이며 보장이 아닙니다)</p>
-        <div class="who-mods"><span class="who-mod">자산가치·NOI</span><span class="who-mod">에너지 낭비 ₩</span></div>
-      </div>
-
-      <div class="who-card reveal">
-        <span class="who-ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M5 19c0-8 6-13 14-13 0 8-5 14-14 13z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M8.5 15.5c1.6-3.4 4.2-5.6 7-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></span>
-        <p class="who-target">공공 · ESG 담당</p>
-        <h3 class="who-gain">탄소중립, 보고할 데이터가 필요하신가요?</h3>
-        <p class="who-sub">에너지를 탄소로 환산해 ESG 공시·인증에 대응하고, 공공·보조금 제출 양식에 맞춘 증빙까지.</p>
-        <div class="who-mods"><span class="who-mod">탄소·ESG</span><span class="who-mod">규제 증빙</span></div>
-      </div>
-    </div>
-
-    <div class="who-band reveal">
-      <span class="who-band-ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M12 3l7 3v6c0 4.5-3 7.6-7 9-4-1.4-7-4.5-7-9V6l7-3z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M9 12l2 2 4-4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
-      <p>진단으로 끝내지 않습니다. 수리가 필요하면 검증된 시공까지 책임집니다.</p>
-    </div>
+    <p class="v2-s7-foot reveal">설비가 설계대로 작동하는지 데이터로 확인합니다. 누가 잘못했는지 판정하지 않습니다 — 무엇이 일어났는지 기록합니다.</p>
   </div>
 </section>
 
-<!-- ── 5b. 도입 사례 (PROOF) — §5 신뢰 · 케이스 스토리 3연. ⚠ 익명화: 지역명까지만(내부 실명·군·브랜드 금지) ── -->
-<section class="section" id="proof">
+<!-- ── v2 확장 (페이퍼) ★ 신설 — S7 뒤 · S8 앞 ──
+     실적 → 확장 → 요금 순서. 증거 먼저, 야망 나중.
+     ⚠ 미래 축은 시점 표기 필수(2026년 9월 연동 / 전력 연동 후 / 확장 예정).
+        시점 없는 미래 주장 0건.
+     ⚠ 소방은 `상태 감시`만. 감지·판정·점검·진단 함의 표현은 자격 문제로 전부 금지.
+     ⚠ BEMS는 `데이터 위에 검증 계층`. 구축 · 대체 금지.
+     ⚠ 탄소는 `산정 근거`까지. 감축량 단정 금지.
+     시각은 실측 섹션과 구분(점선)하되 축소하지 않는다 — 성장 서사이고 영업 무기다. -->
+<section class="section v2-s9x" id="expand">
   <div class="wrap">
-    <p class="eyebrow reveal">PROOF · 도입 사례</p>
-    <h2 class="sec-title reveal" style="font-weight:800">지금도 실제 건물의<br>데이터를 수집 중입니다</h2>
-    <p class="proof-lede reveal">세 현장, 세 가지 다른 문제 — T-ARCH가 각각 어떻게 답하는지.</p>
-    <div class="case-list">
-      <article class="case-card c-songdo reveal">
-        <div class="case-top">
-          <h3 class="case-name">송도 복합건물</h3>
-          <span class="case-sub">준공 후 하자 대응 · 관리단</span>
-          <span class="case-stat">312 관제점 · 실가동</span>
-        </div>
-        <p class="case-before">이전엔 문제가 생길 때마다 이곳저곳 업체에 전화로 물어보며 대응했습니다.</p>
-        <p class="case-after">이제는 관제가 "이 문제가 있습니다 → 여기 업체에 연락하면 됩니다"까지 정리해</p>
-        <p class="case-outcome"><span class="case-arrow">→</span>더 빠른 대응으로 고장을 미루지 않고, 시간과 비용을 아낍니다.</p>
-        <p class="case-result">✓ 100% good · 0 missing</p>
-      </article>
-      <article class="case-card c-goyang reveal">
-        <div class="case-top">
-          <h3 class="case-name">고양 복합건물</h3>
-          <span class="case-sub">설비 성능 확인 · 자산 관리</span>
-          <span class="case-stat">1,200+ 관제점 · 파일럿</span>
-        </div>
-        <p class="case-before">설비가 설계대로 작동하는지 확인할 근거가 없던 상황에서,</p>
-        <p class="case-after">데이터로 무엇이 일어났는지 기록합니다.</p>
-        <p class="case-outcome"><span class="case-arrow">→</span>나아가 태양광 지원금 신청의 근거 데이터까지 모듈로 마련합니다.</p>
-      </article>
-      <article class="case-card c-secure reveal">
-        <div class="case-top">
-          <h3 class="case-name">보안 등급 시설</h3>
-          <span class="case-sub">준공 · 다중 시설</span>
-          <span class="case-stat">다중 현장 통합관제 · 제안</span>
-        </div>
-        <p class="case-before">여러 시설을 한 화면에서, 그것도 폐쇄망 안에서 관제하고 싶었습니다.</p>
-        <p class="case-after">외부 발신 없이 온프레미스로 다중 현장을 한눈에 통합관제합니다.</p>
-        <p class="case-outcome"><span class="case-arrow">→</span>Read-only 보안으로, 가장 까다로운 환경에서도.</p>
-      </article>
+    <p class="eyebrow reveal">확장</p>
+    <h2 class="v2-h2-44 reveal">계량기가 거짓말하면, 절감도 거짓이 됩니다</h2>
+    <p class="v2-s9x-lede reveal">에너지 관리는 대개 계량기가 맞다고 가정하고 시작합니다. 고착된 계량기, 틀린 변성기, 계측 대상 불일치 — 그 위에 쌓은 보고서는 무의미합니다. T-ARCH는 설비에서 그랬듯, 숫자가 맞는지부터 검증합니다.</p>
+
+    <div class="v2-x-frame">
+      <!-- 로드맵 4단 — 수직 타임라인. S7 표와 유형이 겹치지 않아야 한다 -->
+      <ol class="v2-roadmap" id="roadmap">
+        <li class="is-live">
+          <span class="v2-node" aria-hidden="true"></span>
+          <span class="v2-node-line" aria-hidden="true"></span>
+          <h3>설비 진단 · 가짜 정상 적발</h3>
+          <span class="v2-when">실가동</span>
+        </li>
+        <li>
+          <span class="v2-node" aria-hidden="true"></span>
+          <span class="v2-node-line" aria-hidden="true"></span>
+          <h3>전력 · 원격검침 교차검증</h3>
+          <span class="v2-when">2026년 9월 연동</span>
+        </li>
+        <li>
+          <span class="v2-node" aria-hidden="true"></span>
+          <span class="v2-node-line" aria-hidden="true"></span>
+          <h3>탄소 산정 · ZEB 인증 근거 데이터</h3>
+          <span class="v2-when">전력 연동 후</span>
+        </li>
+        <li>
+          <span class="v2-node" aria-hidden="true"></span>
+          <h3>소방설비 상태 감시</h3>
+          <span class="v2-when">확장 예정</span>
+        </li>
+      </ol>
+
+      <!-- 대상 표 4행 — 타임라인과 다른 유형(2열 표) -->
+      <dl class="v2-audience">
+        <div><dt>시설관리자 · 건물주</dt><dd>에너지 낭비 · 설비 사고예방</dd></div>
+        <div><dt>다중건물 관리업체</dt><dd>통합 관제 · 현장별 사고예방</dd></div>
+        <div><dt>자산운용사 · 부동산 펀드</dt><dd>자산가치 · NOI <span class="v2-legal">(가정 기준 예시)</span></dd></div>
+        <div><dt>공공 · ESG</dt><dd>규제 증빙 · 탄소 산정 근거 <span class="v2-legal">(9월 연동)</span></dd></div>
+      </dl>
     </div>
+
+    <p class="v2-s9x-foot reveal">같은 엔진이 읽는 신호가 늘어납니다. 검증하는 방식은 그대로입니다.</p>
   </div>
 </section>
 
 <!-- ── 6. 요금 (PRICING) — 3티어 · 가치지표 = 관제점 수 · 대표 확정 카피(절감액 단정 금지 · VAT 별도) ── -->
-<section class="section" id="pricing">
+<!-- ── v2 S8 요금 (틴트) — 4티어 표 ──
+     ⚠ 절감액 · % 수치 금지. "예방 보험" 프레임까지만.
+     ⚠ 하단 Mono 4줄 — 설치비는 반드시 마지막 줄. -->
+<section class="section section-tint v2-s8" id="pricing">
   <div class="wrap">
-    <p class="eyebrow reveal">PRICING · 요금</p>
-    <h2 class="sec-title reveal" style="font-weight:800">고장 하나만 잡아도,<br>구독료 이상을 아낍니다</h2>
-    <p class="sec-lede reveal">T-ARCH는 설비 사고를 미리 막는 예방 보험입니다. 건물 규모에 맞는 요금으로 시작하세요.</p>
+    <p class="eyebrow reveal">요금</p>
+    <h2 class="v2-h2-44 reveal">고장 하나만 잡아도,<br>구독료 이상을 아낍니다</h2>
+    <p class="v2-s8-lede reveal">사고가 난 뒤의 수리비가 아니라, 사고 전에 찾아내는 비용입니다.</p>
 
-    <div class="price-grid">
-      <article class="price-card reveal">
-        <p class="tier-label">기본 · BASIC</p>
-        <p class="tier-aud">중소형 건물 1동</p>
-        <p class="tier-points">~300 관제점</p>
-        <div class="tier-price"><span class="num">59</span><span class="per">만원 / 월</span></div>
-        <p class="tier-vat">VAT 별도</p>
-        <div class="tier-div" role="presentation"></div>
-        <ul class="tier-feats">
-          <li><svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8.5l3.2 3.2L13 5" stroke="#5E7B62" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>핵심 설비 감시 · 가짜 정상 적발</li>
-          <li><svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8.5l3.2 3.2L13 5" stroke="#5E7B62" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>리포트 2종 (에너지 낭비 발견 · 설비 사고예방)</li>
-          <li><svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8.5l3.2 3.2L13 5" stroke="#5E7B62" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>매일 아침 우선순위 정리</li>
-        </ul>
-        <a class="btn btn-ghost" href="#apply" data-open-tab="diag">무료 진단으로 시작</a>
-      </article>
+    <dl class="v2-tiers reveal">
+      <div>
+        <dt>소형</dt>
+        <dd class="v2-tier-desc">중소형 건물 1동</dd>
+        <dd class="v2-tier-price">59만원 <span>/ 월</span></dd>
+      </div>
+      <div>
+        <dt>중형 <span class="v2-badge">추천</span></dt>
+        <dd class="v2-tier-desc">중대형 건물 · 리포트 전체 · 검증된 시공업체 연결</dd>
+        <dd class="v2-tier-price">89만원 <span>/ 월</span></dd>
+      </div>
+      <div>
+        <dt>대형</dt>
+        <dd class="v2-tier-desc">250 관제점 이상 · 전담 관리자 배정</dd>
+        <dd class="v2-tier-price">119만원 <span>/ 월</span></dd>
+      </div>
+      <div>
+        <dt>엔터프라이즈</dt>
+        <dd class="v2-tier-desc">다건물 포트폴리오 · 폐쇄망 대응</dd>
+        <dd class="v2-tier-price">별도 협의</dd>
+      </div>
+    </dl>
 
-      <article class="price-card featured reveal">
-        <span class="pop-badge">RECOMMENDED</span>
-        <p class="tier-label">표준 · STANDARD</p>
-        <p class="tier-aud">중대형 건물</p>
-        <p class="tier-points">~1,000 관제점</p>
-        <div class="tier-price"><span class="num">89</span><span class="per">만원 / 월</span></div>
-        <p class="tier-vat">VAT 별도</p>
-        <div class="tier-div" role="presentation"></div>
-        <ul class="tier-feats">
-          <li><svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8.5l3.2 3.2L13 5" stroke="#5E7B62" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>기본 포함 + 전체 진단</li>
-          <li><svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8.5l3.2 3.2L13 5" stroke="#5E7B62" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>리포트 전체 (NOI · 규제증빙) + 탄소 산정 근거 데이터 (2026년 9월 연동)</li>
-          <li><svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8.5l3.2 3.2L13 5" stroke="#5E7B62" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>검증된 시공업체 연결</li>
-        </ul>
-        <a class="btn btn-primary" href="#apply" data-open-tab="diag">무료 진단으로 시작</a>
-      </article>
-
-      <article class="price-card reveal">
-        <p class="tier-label">대형 · 다중건물</p>
-        <p class="tier-aud">대형 / 여러 건물</p>
-        <p class="tier-points">관제점 무제한</p>
-        <div class="tier-price"><span class="num inq">문의</span></div>
-        <p class="tier-vat">규모별 맞춤 견적</p>
-        <div class="tier-div" role="presentation"></div>
-        <ul class="tier-feats">
-          <li><svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8.5l3.2 3.2L13 5" stroke="#5E7B62" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>표준 포함 + 다중건물 통합관제</li>
-          <li><svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8.5l3.2 3.2L13 5" stroke="#5E7B62" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>전담 관리자 배정</li>
-          <li><svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8.5l3.2 3.2L13 5" stroke="#5E7B62" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>포트폴리오 리포트 · 맞춤 대응</li>
-        </ul>
-        <a class="btn btn-ghost" href="mailto:rok@tekton.co.kr?subject=%5B%EB%8F%84%EC%9E%85%20%EB%AC%B8%EC%9D%98%5D">도입 문의</a>
-      </article>
-    </div>
-
-    <p class="price-strip reveal">모든 요금제 · 첫 1개월 무료 진단 · Read-only 연결(공사·제어 없음) · 언제든 상위 요금제로</p>
+    <ul class="v2-tier-notes reveal">
+      <li>파트너(계장 · 자동제어 · 시공사) 조건은 별도 협의합니다.</li>
+      <li>다건물 포트폴리오는 건물당 별도 협의합니다.</li>
+      <li>모든 요금제 · 첫 1개월 무료 진단 · 읽기 전용 연결(공사 · 제어 없음)</li>
+      <li>설치비 180~250만원 (일회성, 구독과 분리)</li>
+    </ul>
   </div>
 </section>
 
@@ -1451,7 +1469,7 @@ h2.sec-title{
             <div class="f-group"><label for="p-phone">연락처 <span class="req">*</span></label><input id="p-phone" name="phone" type="tel" required placeholder="010-0000-0000"></div>
           </div>
           <button class="btn btn-primary btn-lg" type="submit" style="width:100%">협력 파트너 등록하기</button>
-          <p class="form-foot">진단 기반의 정확한 일감을 받아보세요. 제출 내용은 <a href="mailto:rok@tekton.co.kr">rok@tekton.co.kr</a>로 접수됩니다.</p>
+          <p class="form-foot">진단서에 적힌 근거를 그대로 보고 견적을 내실 수 있습니다. 제출 내용은 <a href="mailto:rok@tekton.co.kr">rok@tekton.co.kr</a>로 접수됩니다.</p>
         </form>
         <div class="apply-success" id="success-partner" hidden>
           <div class="ok-circle"><svg viewBox="0 0 24 24" width="26" height="26" fill="none"><path d="M5 12.5l4.5 4.5L19 7" stroke="#2F4337" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
@@ -1731,7 +1749,7 @@ h2.sec-title{
 
   /* 진입 시 1회 — 타이밍은 전부 CSS가 갖고, 여기서는 클래스만 붙인다.
      [차트] 바 stagger + 커서  [타임라인] 노드 사이 수직선 위→아래 */
-  [['stuck-chart', 0.35], ['fix-timeline', 0.25]].forEach(function(pair){
+  [['stuck-chart', 0.35], ['fix-timeline', 0.25], ['roadmap', 0.25]].forEach(function(pair){
     var el = document.getElementById(pair[0]);
     if (!el) return;
     if (reduced || !('IntersectionObserver' in window)) { el.classList.add('is-in'); return; }
