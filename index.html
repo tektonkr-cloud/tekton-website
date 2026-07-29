@@ -93,6 +93,8 @@
   --fs-md:  22px;  --fs-lg: 28px;   --fs-xl: 35px;   --fs-2xl: 44px;
   --fs-3xl: 55px;  --fs-4xl: 69px;
   --fs-hero: clamp(40px, 5.6vw, 76px);   /* 신설 — h1 전용. 3단 위계 밖 */
+  /* eyebrow 전용 — 5060 가독성(CLAUDE.md §5)으로 12→14px 상향. 전 섹션 공통 */
+  --fs-eyebrow: 14px;
 
   /* ── 그림자: v2는 그림자 금지. 포커스 링만 유지(접근성) ── */
   --shadow-sm: none;
@@ -129,14 +131,14 @@ button{ font-family:inherit; cursor:pointer; }
 
 .eyebrow{
   font-family:var(--font-mono);
-  font-size:var(--fs-2xs); font-weight:600;
+  font-size:var(--fs-eyebrow); font-weight:600;
   letter-spacing:.14em;
   color:var(--sage-deep);   /* a11y: 텍스트만 9.66:1 — 마커는 sage 유지 */
   text-transform:uppercase;
   display:flex; align-items:center; gap:10px;
 }
 /* 노드 마커 — 8×8 sage 사각, 전 섹션 일관. 진입 시 1회 스캔(reduced-motion은 전역 규칙이 정지) */
-.eyebrow::before{ content:""; width:8px; height:8px; background:var(--sage); display:inline-block; flex:none; }
+.eyebrow::before{ content:""; width:9px; height:9px; background:var(--sage); display:inline-block; flex:none; }
 @keyframes nodeScan{
   0%{ box-shadow:0 0 0 0 rgba(94,123,98,.45); }
   100%{ box-shadow:0 0 0 7px rgba(94,123,98,0); }
@@ -386,6 +388,11 @@ h2.sec-title{
 .fm-box{ fill:#fff; stroke:var(--line); stroke-width:1.5; }
 .fm-box.edge{ fill:var(--monitor); stroke:var(--monitor-edge); }
 .fm-box.edge + text, .fm-edge-label{ fill:#E8F0E6; }
+/* ⚠ 잠복 결함 수정: 인접 형제(+) 선택자가 첫 text만 잡아 .fm-node-sub("현장 중계")가
+   라이트 배경용 --ink-soft로 떨어졌다. 마크업의 fill="#76836F" 속성은 CSS 규칙에
+   밀려 무효(presentation attribute < CSS rule). 일반 형제(~)로 확장해 해소.
+   flowmap 자체는 단계 3에서 폐기되지만 그때까지 판독 불가로 두지 않는다. */
+.fm-box.edge ~ .fm-node-sub{ fill:var(--on-dark-body); }
 .fm-path{ fill:none; stroke:var(--sage); stroke-width:2; }
 .fm-packet{ fill:var(--sage-deep); }
 /* ⚠ flowmap SVG 내부 라벨(위와 동일 예외): 고정좌표라 확대 시 겹침 → 원래 px 유지. 키우지 말 것. */
@@ -611,10 +618,10 @@ h2.sec-title{
   padding:132px 40px 0; display:flex; flex-direction:column; gap:36px;
 }
 .v2-eyebrow{ display:flex; align-items:center; gap:10px; margin:0; }
-.v2-eyebrow i{ width:8px; height:8px; background:var(--green); flex:none; }
+.v2-eyebrow i{ width:9px; height:9px; background:var(--green); flex:none; }
 .v2-eyebrow span{
-  font-family:var(--font-mono); font-size:var(--fs-xs); font-weight:500;
-  letter-spacing:.12em; color:rgba(250,250,248,.66);
+  font-family:var(--font-mono); font-size:var(--fs-eyebrow); font-weight:600;
+  letter-spacing:.14em; color:rgba(250,250,248,.66);
 }
 .v2-h1{
   margin:0; max-width:1000px; font-size:var(--fs-hero); font-weight:900;
@@ -658,8 +665,11 @@ h2.sec-title{
           mask-image:linear-gradient(180deg,transparent 0,#000 22%,#000 78%,transparent 100%);
 }
 .v2-log-track{ animation:v2LogScroll 24s linear infinite; }
-.v2-log-row{ display:flex; gap:16px; padding:8px 0; font-family:var(--font-mono); font-size:var(--fs-xs); color:var(--on-dark-dim); }
-.v2-log-row time{ color:rgba(250,250,248,.34); flex:none; }
+/* 대비 실측(#080808 위): 4.5:1에 alpha .47 필요, 7:1에 .60 필요.
+   레퍼런스 스펙값(.6 / .34)에서 타임스탬프가 2.91:1로 미달이라 상향하고,
+   메시지를 .78로 올려 위계는 유지한다. */
+.v2-log-row{ display:flex; gap:16px; padding:8px 0; font-family:var(--font-mono); font-size:var(--fs-xs); color:var(--on-dark-body); }
+.v2-log-row time{ color:rgba(250,250,248,.52); flex:none; }
 @keyframes v2LogScroll{ from{ transform:translateY(0); } to{ transform:translateY(-50%); } }
 
 /* ── S1 마운트 애니메이션 (1회) ── */
@@ -704,7 +714,7 @@ h2.sec-title{
 }
 .demo-evidence dt{
   font-family:var(--font-mono); font-size:var(--fs-2xs); letter-spacing:.08em;
-  color:rgba(250,250,248,.44);
+  color:rgba(250,250,248,.56);   /* .44는 4.21:1로 미달 → .56 = 6.23:1 */
 }
 .demo-evidence dd{
   margin:0; font-family:var(--font-mono); font-size:var(--fs-xs);
