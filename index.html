@@ -157,7 +157,7 @@ h2.sec-title{
 .btn{
   display:inline-flex; align-items:center; justify-content:center; gap:8px;
   font-size:var(--fs-sm); font-weight:600;
-  padding:11px 22px; border-radius:999px;
+  padding:11px 22px; border-radius:0;
   border:1.5px solid transparent;
   transition:transform var(--dur-fast) var(--ease-standard), background var(--dur-fast) var(--ease-standard), color var(--dur-fast) var(--ease-standard), border-color var(--dur-fast) var(--ease-standard);
   white-space:nowrap;
@@ -270,7 +270,7 @@ h2.sec-title{
 .demo{ margin-top:var(--space-32); border:1px solid var(--on-dark-hair); border-radius:var(--radius); overflow:hidden; background:var(--ink-0); box-shadow:var(--shadow-lg); }
 .demo-head{ display:flex; align-items:center; gap:var(--space-8); flex-wrap:wrap; padding:var(--space-16) var(--space-20); border-bottom:1px solid var(--on-dark-line); }
 .demo-head h3{ font-size:var(--fs-sm); color:#E8F0E6; font-weight:600; font-family:var(--font-mono); letter-spacing:.02em; }
-.demo-head .demo-tag{ font-family:var(--font-mono); font-size:var(--fs-2xs); font-weight:600; letter-spacing:.08em; color:var(--twin-warn); border:1px solid rgba(203,154,78,.55); border-radius:4px; padding:var(--space-2) var(--space-8); }
+.demo-head .demo-tag{ font-family:var(--font-mono); font-size:var(--fs-2xs); font-weight:600; letter-spacing:.08em; color:var(--twin-warn); border:1px solid rgba(203,154,78,.55); border-radius:0; padding:var(--space-2) var(--space-8); }
 .demo-head .hint{ font-family:var(--font-mono); font-size:var(--fs-2xs); color:var(--on-dark-dim); margin-left:auto; }
 .demo-body{ display:grid; grid-template-columns:1.15fr 1fr 1fr; gap:0; }
 .demo-cell{ padding:var(--space-24) var(--space-20); border-right:1px solid var(--on-dark-line); transition:background var(--dur-base) var(--ease-standard); }
@@ -281,12 +281,12 @@ h2.sec-title{
 .sparkline{ margin-top:var(--space-16); height:44px; width:100%; }
 .sparkline polyline{ fill:none; stroke:var(--muted); stroke-width:2; transition:stroke var(--dur-base) var(--ease-standard); }
 .demo-verdict{ display:flex; flex-direction:column; gap:var(--space-8); }
-.verdict-badge{ font-family:var(--font-mono); font-size:var(--fs-2xs); font-weight:600; padding:var(--space-8) var(--space-12); border-radius:6px; border:1px solid; display:inline-flex; align-items:center; gap:var(--space-8); align-self:flex-start; }
+.verdict-badge{ font-family:var(--font-mono); font-size:var(--fs-2xs); font-weight:600; padding:var(--space-8) var(--space-12); border-radius:0; border:1px solid; display:inline-flex; align-items:center; gap:var(--space-8); align-self:flex-start; }
 .verdict-ok{ color:var(--on-dark-soft); border-color:rgba(250,250,248,.28); background:rgba(250,250,248,.06); }
 .verdict-fault{ color:#E8A099; border-color:rgba(201,90,76,.55); background:rgba(201,90,76,.15); }
 .verdict-note{ font-family:var(--font-mono); font-size:var(--fs-2xs); color:var(--on-dark-dim); line-height:1.5; }
 .demo-controls{ display:flex; gap:var(--space-12); padding:var(--space-16) var(--space-20); border-top:1px solid var(--on-dark-line); flex-wrap:wrap; }
-.demo-btn{ font-family:var(--font-mono); font-size:var(--fs-2xs); font-weight:600; padding:var(--space-8) var(--space-16); border-radius:6px; border:1px solid var(--on-dark-hair); background:rgba(232,240,230,.05); color:var(--on-dark-body); transition:background var(--dur-fast) var(--ease-standard), border-color var(--dur-fast) var(--ease-standard); }
+.demo-btn{ font-family:var(--font-mono); font-size:var(--fs-2xs); font-weight:600; padding:var(--space-8) var(--space-16); border-radius:0; border:1px solid var(--on-dark-hair); background:rgba(232,240,230,.05); color:var(--on-dark-body); transition:background var(--dur-fast) var(--ease-standard), border-color var(--dur-fast) var(--ease-standard); }
 .demo-btn:hover{ background:rgba(232,240,230,.12); }
 .demo-btn.danger{ border-color:rgba(201,90,76,.5); color:#E8A099; }
 .demo-btn.active{ background:rgba(201,90,76,.18); }
@@ -323,11 +323,7 @@ h2.sec-title{
 
 
 
-/* ============================================================
-   8. §6 요금 (PRICING) — 3티어 · 계기판 Mono 가격 · 추천 앵커
-   가치 지표 = 건물 규모(관제점 수) 하나. 카드 순서: 라벨(Mono) →
-   대상(가치식) → 관제점(Mono 보조) → 가격 → VAT → 구분선 → 포함 → CTA
-   ============================================================ */
+/* ── 요금 — v2 S8(4티어 표)로 대체됨. 구 3티어 카드 스타일은 제거됐다. ── */
 
 
 /* 추천 앵커 — 2px 보더는 이 카드만 예외. 배경은 다른 카드와 동일(흰색) */
@@ -388,7 +384,6 @@ h2.sec-title{
 /* ============================================================
    반응형
    ============================================================ */
-/* ── §5 도입 사례 (PROOF) — 에디토리얼 세로 스택 3연 ── */
 
 
 
@@ -1416,7 +1411,6 @@ h2.sec-title{
   </div>
 </section>
 
-<!-- ── 6. 요금 (PRICING) — 3티어 · 가치지표 = 관제점 수 · 대표 확정 카피(절감액 단정 금지 · VAT 별도) ── -->
 <!-- ── v2 S8 요금 (틴트) — 4티어 표 ──
      ⚠ 절감액 · % 수치 금지. "예방 보험" 프레임까지만.
      ⚠ 하단 Mono 4줄 — 설치비는 반드시 마지막 줄. -->
@@ -1525,7 +1519,6 @@ h2.sec-title{
   </div>
 </section>
 
-<!-- ── 7. CTA 클로징 (START) — 다크 수미상관 · 메인 랜딩 7/7 · 대표 확정 카피 ── -->
 <!-- ── v2 S9 CTA (다크) — 온도 3단, 목록형 ──
      README S9: 340px/1fr/40px 3열 링크 3행. 첫 행이 주전환(그린 35px).
      ⚠ 소개서 PDF·통화 예약은 아직 자산·예약 시스템이 없어 mailto로 둔다
