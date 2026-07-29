@@ -138,7 +138,9 @@ button{ font-family:inherit; cursor:pointer; }
   display:flex; align-items:center; gap:10px;
 }
 /* 노드 마커 — 8×8 sage 사각, 전 섹션 일관. 진입 시 1회 스캔(reduced-motion은 전역 규칙이 정지) */
-.eyebrow::before{ content:""; width:9px; height:9px; background:var(--sage); display:inline-block; flex:none; }
+/* 마커는 딥 그린(README 토큰표: eyebrow 마커 = #1A3A1A). 브랜드 그린은 CTA·강조 전용.
+   다크 섹션에서는 딥 그린이 배경에 묻히므로 .v2-s5에서 브랜드 그린으로 덮는다. */
+.eyebrow::before{ content:""; width:9px; height:9px; background:var(--green-deep); display:inline-block; flex:none; }
 @keyframes nodeScan{
   0%{ box-shadow:0 0 0 0 rgba(94,123,98,.45); }
   100%{ box-shadow:0 0 0 7px rgba(94,123,98,0); }
@@ -424,15 +426,7 @@ h2.sec-title{
 /* ============================================================
    10. 11개 룰 그리드
    ============================================================ */
-.rules-grid{ display:grid; grid-template-columns:repeat(4,1fr); gap:14px; margin-top:44px; }
-.rule-card{ border:1px solid var(--line); border-radius:var(--radius-sm); background:#FBFAF6; padding:20px 18px; cursor:pointer; transition:border-color var(--dur-fast) var(--ease-standard), box-shadow var(--dur-fast) var(--ease-standard), transform var(--dur-fast) var(--ease-standard); }
-.rule-card:hover, .rule-card:focus-within{ border-color:var(--sage); box-shadow:var(--shadow-md); transform:translateY(-2px); }
-.rule-icon{ width:30px; height:30px; margin-bottom:12px; color:var(--sage); }
-.rule-icon svg{ width:100%; height:100%; }
-.rule-name{ font-size:var(--fs-xs); font-weight:700; margin-bottom:6px; letter-spacing:-0.01em; }
-.rule-detail{ font-size:var(--fs-2xs); color:var(--ink-soft); max-height:0; opacity:0; overflow:hidden; transition:max-height var(--dur-base) var(--ease-standard), opacity var(--dur-base) var(--ease-standard), margin var(--dur-base) var(--ease-standard); }
-.rule-card:hover .rule-detail, .rule-card:focus-within .rule-detail, .rule-card.open .rule-detail{ max-height:140px; opacity:1; margin-top:6px; }
-.rule-num{ font-family:var(--font-mono); font-size:var(--fs-2xs); color:var(--sage); font-weight:600; letter-spacing:.1em; }
+/* .rules-grid / .rule-* — v2 단계 4에서 룰 11종 섹션 폐기와 함께 제거됨. */
 
 /* ============================================================
    11. 신청 폼
@@ -517,7 +511,6 @@ h2.sec-title{
   .steps{ grid-template-columns:1fr; gap:var(--space-40); }
   .step:not(:last-child)::after{ content:"↓"; top:auto; right:auto; left:50%; bottom:calc(-1 * var(--space-40)); width:auto; transform:translate(-50%,-30%); }
   .price-grid{ grid-template-columns:1fr; max-width:480px; margin-left:auto; margin-right:auto; }
-  .rules-grid{ grid-template-columns:repeat(2,1fr); }
   .demo-body{ grid-template-columns:1fr; }
   .demo-cell{ border-right:none; border-bottom:1px solid var(--monitor-line); }
   .demo-cell:last-child{ border-bottom:none; }
@@ -534,7 +527,6 @@ h2.sec-title{
   .mon-kpi .k-value{ font-size:var(--fs-md); }
   .mon-table th:nth-child(2), .mon-table td:nth-child(2){ display:none; }
   .footer-badges{ text-align:left; }
-  .rules-grid{ grid-template-columns:1fr; }
   .price-strip{ border-radius:var(--radius-sm); }
   .closing{ padding:var(--space-64) 0; }
   .closing-ctas{ flex-direction:column; }
@@ -777,6 +769,96 @@ h2.sec-title{
 @media (prefers-reduced-motion: reduce){
   .v2-stuck-bars i{ transform:scaleY(1); }
   .v2-caret{ display:none; }
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   v2 · 단계 4 — S5 4중 검증 / S5.5 연결 / S6 왜 지금인가
+   ═══════════════════════════════════════════════════════════════════ */
+
+/* ── S5 (다크) ── */
+.v2-s5{ background:var(--ink-0); padding:150px 0; }
+.v2-s5 .eyebrow{ color:var(--on-dark-soft); }
+.v2-s5 .eyebrow::before{ background:var(--green); }
+.v2-h2-69{
+  margin:var(--space-16) 0 0; font-size:var(--fs-4xl); font-weight:900;
+  line-height:1.14; letter-spacing:-.03em; color:var(--paper);
+}
+.v2-steps{ list-style:none; margin:var(--space-80) 0 0; padding:0; }
+.v2-steps li{
+  display:grid; grid-template-columns:100px 1fr; gap:var(--space-32);
+  padding:var(--space-40) 0; border-top:1px solid rgba(250,250,248,.16);
+}
+.v2-steps li:last-child{ border-bottom:1px solid rgba(250,250,248,.16); }
+.v2-step-n{ font-family:var(--font-mono); font-size:var(--fs-xl); color:rgba(250,250,248,.4); line-height:1.1; }
+.v2-steps h3{ margin:0 0 var(--space-16); font-size:var(--fs-xl); font-weight:700; letter-spacing:-.03em; color:var(--paper); }
+.v2-steps p{ margin:0; max-width:720px; font-size:var(--fs-base); line-height:1.8; color:var(--on-dark-body); }
+.v2-step-note{ margin-top:var(--space-8) !important; font-size:var(--fs-sm) !important; color:var(--on-dark-dim) !important; }
+.v2-s5-close{
+  margin:var(--space-64) 0 0; max-width:900px;
+  font-size:var(--fs-lg); font-weight:700; line-height:1.6;
+  letter-spacing:-.02em; color:var(--green);   /* 섹션 내 그린 1곳 */
+}
+
+/* ── S5.5 (틴트) — 좌우 비대칭 2열 ── */
+.v2-s55-lede{ margin:var(--space-24) 0 0; max-width:760px; font-size:var(--fs-base); line-height:1.8; color:var(--body); }
+.v2-s55-grid{
+  display:grid; grid-template-columns:440px minmax(0,1fr); gap:var(--space-64);
+  margin-top:var(--space-64); align-items:start;
+}
+/* 좌 — S3 다크 진단 블록의 라이트 반전 */
+.v2-doc{ margin:0; background:#FBFAF6; border:1px solid #D8D7D0; padding:32px 30px; }
+.v2-doc-head{
+  display:flex; justify-content:space-between; align-items:baseline; gap:var(--space-16);
+  padding-bottom:var(--space-20); border-bottom:1px solid #D8D7D0;
+  font-size:var(--fs-md); font-weight:700; letter-spacing:-.02em; color:var(--ink-0);
+}
+.v2-doc-tag{ font-family:var(--font-mono); font-size:var(--fs-2xs); font-weight:500; letter-spacing:.1em; color:var(--muted); }
+.v2-doc-fields{ margin:var(--space-20) 0 0; }
+.v2-doc-fields > div{ display:grid; grid-template-columns:64px 1fr; gap:var(--space-16); padding:var(--space-12) 0; align-items:baseline; }
+.v2-doc-fields dt{ font-family:var(--font-mono); font-size:var(--fs-2xs); letter-spacing:.08em; color:var(--muted); }
+.v2-doc-fields dd{ margin:0; font-size:var(--fs-sm); line-height:1.6; color:var(--ink-0); }
+.v2-doc figcaption{
+  margin-top:var(--space-20); padding-top:var(--space-16); border-top:1px solid #D8D7D0;
+  font-family:var(--font-mono); font-size:var(--fs-2xs); color:var(--muted);
+}
+/* 우 — 노드 타임라인 3단 */
+.v2-timeline{ list-style:none; margin:0; padding:0; }
+.v2-timeline li{ position:relative; display:grid; grid-template-columns:26px 1fr; gap:var(--space-20); padding-bottom:var(--space-48); }
+.v2-timeline li:last-child{ padding-bottom:0; }
+.v2-node{ width:9px; height:9px; background:var(--ink-0); margin-top:11px; }
+.v2-timeline li.is-done .v2-node{ background:var(--green); }   /* 섹션 내 그린 1곳 */
+.v2-node-line{
+  position:absolute; left:4px; top:24px; bottom:6px; width:1px; background:#D8D7D0;
+  transform:scaleY(0); transform-origin:top;
+}
+.v2-timeline.is-in .v2-node-line{ transform:scaleY(1); transition:transform .7s var(--ease-out); }
+.v2-timeline.is-in li:nth-child(2) .v2-node-line{ transition-delay:.35s; }
+.v2-timeline h3{ margin:0; font-size:var(--fs-lg); font-weight:700; line-height:1.45; letter-spacing:-.02em; color:var(--ink-0); }
+.v2-s55-foot{
+  margin:var(--space-64) 0 0; padding-top:var(--space-24); border-top:1px solid var(--hair);
+  font-family:var(--font-mono); font-size:14px; line-height:1.7; color:var(--muted);
+}
+
+/* ── S6 — 3열 구분선 분할. auto-fit 금지(2열로 접히면 구분선이 고아 셀에 남는다) ── */
+.v2-cols{ display:grid; grid-template-columns:repeat(3, minmax(0,1fr)); margin-top:var(--space-48); }
+.v2-cols > div{ border-top:1px solid var(--ink-0); padding:var(--space-32); }
+.v2-cols > div:first-child{ padding-left:0; }
+.v2-cols > div + div{ border-left:1px solid var(--hair); }
+.v2-cols h3{ margin:0 0 var(--space-16); font-size:var(--fs-md); font-weight:700; letter-spacing:-.03em; color:var(--ink-0); }
+.v2-cols p{ margin:0; font-size:17px; line-height:1.8; color:var(--body); }
+
+@media (max-width: 1080px){
+  .v2-s55-grid{ grid-template-columns:1fr; gap:var(--space-48); }
+}
+@media (max-width: 760px){
+  .v2-s5{ padding:var(--space-section-sm) 0; }
+  .v2-steps li{ grid-template-columns:1fr; gap:var(--space-12); padding:var(--space-32) 0; }
+  .v2-cols{ grid-template-columns:1fr; }
+  .v2-cols > div{ padding:var(--space-24) 0; }
+  .v2-cols > div + div{ border-left:0; }   /* 1열에서 좌측 구분선 제거 */
+}
+@media (prefers-reduced-motion: reduce){
+  .v2-node-line{ transform:scaleY(1); }
 }
 
 @media (max-width: 900px){
@@ -1043,6 +1125,126 @@ h2.sec-title{
   </div>
 </section>
 
+<!-- ── v2 S5 4중 검증 (다크) — 번호 타이포 목록, 카드 금지 ──
+     h2 69px는 페이지 유일(제목 3단 위계 최상단).
+     ⚠ 경쟁사 언어(허위 경보 감소를 차별점처럼)를 쓰지 않는다. `교차검증합니다`로 쓴다.
+        전력을 현재형으로 넣는 것도 금지 — 계측점 0개다.
+     ⚠ 전력은 계측점 0개다. 설계 사실로만 쓰고 시점(2026년 9월)을 반드시 붙인다. -->
+<section class="section v2-s5" id="verify">
+  <div class="wrap">
+    <p class="eyebrow reveal">4중 검증</p>
+    <h2 class="v2-h2-69 reveal">진단보다<br>검증이 먼저입니다</h2>
+
+    <ol class="v2-steps">
+      <li class="reveal">
+        <span class="v2-step-n">01</span>
+        <div>
+          <h3>데이터 품질 선검증</h3>
+          <p>진단 전에 이 데이터를 믿을 수 있는지부터 확인합니다. 정상값을 반복하는 죽은 센서를 잡습니다.</p>
+        </div>
+      </li>
+      <li class="reveal">
+        <span class="v2-step-n">02</span>
+        <div>
+          <h3>독립 증거 교차확인</h3>
+          <p>하나의 신호로 판단하지 않습니다. 명령 · 상태 · 물리결과를 함께 보고, 값이 진짜인지 교차검증합니다.</p>
+          <p class="v2-step-note">전력은 검증 신호로 쓰도록 설계돼 있습니다 (2026년 9월 연동 예정).</p>
+        </div>
+      </li>
+      <li class="reveal">
+        <span class="v2-step-n">03</span>
+        <div>
+          <h3>계측수준 상한</h3>
+          <p>계측이 빈약하면 확신도를 제한합니다. 모르는 건 모른다고 합니다.</p>
+        </div>
+      </li>
+      <li class="reveal">
+        <span class="v2-step-n">04</span>
+        <div>
+          <h3>판정불가도 정식 결과</h3>
+          <p>근거가 부족하면 억지로 확정하지 않습니다. 틀린 경보를 내지 않습니다.</p>
+        </div>
+      </li>
+    </ol>
+
+    <p class="v2-s5-close reveal">확률로 추측하지 않고, 규칙으로 판정합니다 — 왜 그렇게 판단했는지 설명할 수 있습니다.</p>
+  </div>
+</section>
+
+<!-- ── v2 S5.5 연결 (틴트) — 좌우 비대칭 2열 ★ 신설 ──
+     앞(S5 번호목록)·뒤(S6 구분선분할)와 유형이 달라야 한다.
+     ⚠ 계장업체 모집·수주 알선 프레임 금지.
+     ⚠ 시공 책임 지목 금지 — "누가 잘못했나"가 아니라 "무엇이 일어났나". -->
+<section class="section section-tint v2-s55" id="fix">
+  <div class="wrap">
+    <p class="eyebrow reveal">연결</p>
+    <h2 class="v2-h2-44 reveal">진단서로 끝나지 않습니다</h2>
+    <p class="v2-s55-lede reveal">진단만 하는 시스템은 관리자에게 숙제를 남깁니다. T-ARCH는 그 진단서를 그대로 시공업체에 넘기고, 조치가 끝난 기록을 건물에 남깁니다.</p>
+
+    <div class="v2-s55-grid">
+      <!-- 좌: 진단서 카드 — S3 다크 진단 블록의 라이트 반전 -->
+      <figure class="v2-doc reveal">
+        <div class="v2-doc-head">
+          <span>점검 진단서</span>
+          <span class="v2-doc-tag">전달본</span>
+        </div>
+        <dl class="v2-doc-fields">
+          <div><dt>대상</dt><dd>CH-2 냉수 출구온도 센서</dd></div>
+          <div><dt>근거</dt><dd>동일값 16시간 지속 · 상관 신호 불일치</dd></div>
+          <div><dt>위치</dt><dd>지하 1층 기계실 · 냉동기 2호기</dd></div>
+          <div><dt>조치</dt><dd>결선 점검 후 필요 시 센서 교정 또는 교체</dd></div>
+        </dl>
+        <figcaption>관리자와 시공업체가 같은 문서를 봅니다</figcaption>
+      </figure>
+
+      <!-- 우: 노드 타임라인 3단 — 진입 시 수직선이 위→아래로 그려진다 -->
+      <ol class="v2-timeline" id="fix-timeline">
+        <li>
+          <span class="v2-node" aria-hidden="true"></span>
+          <span class="v2-node-line" aria-hidden="true"></span>
+          <h3>근거가 붙은 문서로 정리됩니다</h3>
+        </li>
+        <li>
+          <span class="v2-node" aria-hidden="true"></span>
+          <span class="v2-node-line" aria-hidden="true"></span>
+          <h3>검증된 시공업체가 그 문서를 들고 옵니다</h3>
+        </li>
+        <li class="is-done">
+          <span class="v2-node" aria-hidden="true"></span>
+          <h3>조치 기록이 건물에 남습니다</h3>
+        </li>
+      </ol>
+    </div>
+
+    <p class="v2-s55-foot reveal">설비가 설계대로 작동하는지 데이터로 확인하고, 필요한 조치까지 잇습니다. 진단에서 멈추지 않습니다.</p>
+  </div>
+</section>
+
+<!-- ── v2 S6 왜 지금인가 (페이퍼) — 3열 구분선 분할 ──
+     grid-template-columns: repeat(3, minmax(0,1fr)) 고정. auto-fit 금지 —
+     2열로 접히면 구분선이 고아 셀에 남는다.
+     ⚠ 전부 시장 동향 서술이다. 우리 역량 현재형 주장을 넣지 마라.
+     ⚠ 전기요금은 `상승 국면`까지만. 상승률 수치 금지(출처 미검증). -->
+<section class="section v2-s6" id="why-now">
+  <div class="wrap">
+    <p class="eyebrow reveal">왜 지금인가</p>
+    <div class="v2-cols reveal">
+      <div>
+        <h3>ESG 공시 의무화</h3>
+        <p>건물 에너지 데이터가 자산평가 · 규제 대응 요소가 됩니다.</p>
+      </div>
+      <div>
+        <h3>제로에너지건축물 확대</h3>
+        <p>설비 성능을 데이터로 증빙해야 합니다.</p>
+      </div>
+      <div>
+        <h3>전기요금 상승 국면</h3>
+        <p>설비 낭비의 비용 부담이 커집니다.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- ── 5c. 누구를 위한 (#who · 문서 §4) — 2×2 대상 모듈 매핑 + 책임시공 띠
      카피는 대표 확정본. 임의 수정·창작 금지.
      ⚠ 자산운용사 카드의 "(수치는 가정 기준 예시이며 보장이 아닙니다)" 법무 라벨은 제거 금지. ── -->
@@ -1091,18 +1293,6 @@ h2.sec-title{
       <span class="who-band-ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M12 3l7 3v6c0 4.5-3 7.6-7 9-4-1.4-7-4.5-7-9V6l7-3z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M9 12l2 2 4-4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
       <p>진단으로 끝내지 않습니다. 수리가 필요하면 검증된 시공까지 책임집니다.</p>
     </div>
-  </div>
-</section>
-
-<!-- ── 5d. 진단 엔진 (#rules) — 룰 11종. 2B: 구 딥탭 dp-engine 패널을 일반 섹션으로 펼침.
-     카드 그리드는 JS(#rules-grid)가 생성하고, 개별 카드 클릭 전개는 유지(길이 통제). ── -->
-<section class="section section-tint" id="rules">
-  <div class="wrap">
-    <p class="eyebrow reveal">진단 엔진</p>
-    <h2 class="sec-title reveal">11가지 시선으로 설비를 봅니다</h2>
-    <p class="sec-lede reveal">카드를 누르면 각 룰이 잡아내는 고장을 볼 수 있습니다. 데이터가 없으면 무리하게 단정하지 않고 건너뜁니다.</p>
-
-    <div class="rules-grid" id="rules-grid"></div>
   </div>
 </section>
 
@@ -1474,36 +1664,8 @@ h2.sec-title{
   } else if(demoEl){ demoFrame(); }
 
   /* ── [필수4] 11개 룰 그리드 생성 ── */
-  var rules = [
-    ['01','단속 운전','펌프·팬이 짧게 켜졌다 꺼졌다를 반복. 장비 수명을 갉아먹는 신호를 잡습니다.'],
-    ['02','명령-응답 불일치','"켜라"는 명령에 장비가 실제로 반응했는지 대조. 말 안 듣는 설비를 적발합니다.'],
-    ['03','누적 가동 초과','특정 장비만 과도하게 돌아가는 편중을 감지. 고장과 낭비를 예고합니다.'],
-    ['04','온도 표류','설정값에서 서서히 벗어나는 미세한 드리프트. 사람 눈엔 안 보이는 변화를 추적합니다.'],
-    ['05','동시 냉난방','한쪽은 냉방, 한쪽은 난방으로 에너지가 상쇄되는 낭비를 잡습니다.'],
-    ['06','밸브 응답 지연','밸브 명령과 실제 동작 사이의 지연을 측정. 노후·고착 징후를 봅니다.'],
-    ['07','인터록 위반','안전 연동 조건을 어긴 운전을 감지. 사고로 이어질 조합을 막습니다.'],
-    ['08','CO농도-환기 매칭','주차장 CO 농도 대비 환기가 부족한지 검증. 안전과 낭비를 동시에 봅니다.'],
-    ['09','흡수식 효율 추세','냉동기 효율을 주별 회귀로 추적. 서서히 나빠지는 성능 저하를 조기 포착합니다.'],
-    ['10','저수조 누수·펌프 비효율','저수조 수위와 부스터펌프 거동을 교차 분석. 누수와 헛도는 펌프를 찾습니다.'],
-    ['11','압력 이상','계통 압력의 비정상을 감지. 데이터가 없으면 무리하게 단정하지 않고 건너뜁니다.']
-  ];
-  var ruleIcon = '<svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.6"/><path d="M12 7v5l3.2 2" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>';
-  var grid = document.getElementById('rules-grid');
-  if(grid){
-    rules.forEach(function(r){
-      var card = document.createElement('div');
-      card.className = 'rule-card';
-      card.setAttribute('tabindex','0');
-      card.innerHTML =
-        '<div class="rule-icon">'+ruleIcon+'</div>'+
-        '<div class="rule-num">RULE '+r[0]+'</div>'+
-        '<div class="rule-name">'+r[1]+'</div>'+
-        '<div class="rule-detail">'+r[2]+'</div>';
-      // 모바일 탭 토글
-      card.addEventListener('click', function(){ card.classList.toggle('open'); });
-      grid.appendChild(card);
-    });
-  }
+  /* 룰 11종 그리드 — v2 단계 4에서 폐기(FINAL §3 C-1). S5 4중 검증이 상위 개념.
+     신뢰 바의 `AI 진단 룰 11종` 문구는 유지한다. */
 
   /* ── 탭 + 폼 ── */
   var tabs = {
@@ -1567,19 +1729,19 @@ h2.sec-title{
     else { requestAnimationFrame(function(){ requestAnimationFrame(function(){ hero.classList.add('is-in'); }); }); }
   }
 
-  /* S2 값 고착 차트 — 진입 시 1회. 바 stagger·커서 타이밍은 CSS가 갖는다 */
-  var stuck = document.getElementById('stuck-chart');
-  if (stuck) {
-    if (reduced || !('IntersectionObserver' in window)) { stuck.classList.add('is-in'); }
-    else {
-      var sio = new IntersectionObserver(function(es){
-        es.forEach(function(e){
-          if (e.isIntersecting) { e.target.classList.add('is-in'); sio.unobserve(e.target); }
-        });
-      }, { threshold: 0.35 });
-      sio.observe(stuck);
-    }
-  }
+  /* 진입 시 1회 — 타이밍은 전부 CSS가 갖고, 여기서는 클래스만 붙인다.
+     [차트] 바 stagger + 커서  [타임라인] 노드 사이 수직선 위→아래 */
+  [['stuck-chart', 0.35], ['fix-timeline', 0.25]].forEach(function(pair){
+    var el = document.getElementById(pair[0]);
+    if (!el) return;
+    if (reduced || !('IntersectionObserver' in window)) { el.classList.add('is-in'); return; }
+    var io = new IntersectionObserver(function(es){
+      es.forEach(function(e){
+        if (e.isIntersecting) { e.target.classList.add('is-in'); io.unobserve(e.target); }
+      });
+    }, { threshold: pair[1] });
+    io.observe(el);
+  });
 })();
 </script>
 </body>
