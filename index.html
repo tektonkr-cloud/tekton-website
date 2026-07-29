@@ -20,44 +20,63 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
-<!-- Pretendard 정적 서브셋 CSS — @font-face 내장 font-display:swap, 사용 weight(400·500·700·800)만 다운로드됨 -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css">
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<!-- v2 웹폰트 2종만 (FINAL §7) — 국문 Noto Sans KR / 숫자·영문 라벨 IBM Plex Mono -->
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
 /* ============================================================
-   TEKTON T-ARCH — 디자인 토큰
-   Sage Green + Warm Neutrals · 의료 검진실 × 관제실
+   TEKTON T-ARCH — 디자인 토큰 v2
+   출처: design_handoff/README.md §Design Tokens (확정값)
+   ⚠️ 그린 규칙 — 이상·경보 신호에 그린 금지.
+      그린은 정상의 색이 아니라 검증·행동(CTA)의 색이다. 섹션당 최대 1곳.
    ============================================================ */
 :root{
-  /* ── 색: 라이트(본문) 컨텍스트 ── */
-  --paper:      #F7F4EC;   /* DIRECTION §1 스냅 (구 #F6F4EE) */
-  --paper-2:    #EFECE2;
-  --ink:        #1C211A;   /* TOKENS v2 — 소폭 진하게 (구 #21261F) */
-  --ink-soft:   #454B41;   /* TOKENS v2 — paper 위 8.2:1 (구 #5C6256) */
-  --ink-mute:   #6B7062;   /* TOKENS v2 신설 — 캡션/힌트 전용, paper 위 4.6:1 */
-  --sage:       #5E7B62;
-  --sage-deep:  #2F4337;
-  --sage-tint:  #E2E9DF;
-  --line:       #E4DFD1;   /* DIRECTION §1 스냅 (구 #DCD8CB) */
+  /* ── v2 정본 색 ── */
+  --ink-0:      #0A0A0A;   /* 잉크 블랙 — 다크 섹션 배경 · 최고 명도 텍스트 */
+  --ink-darker: #080808;   /* 히어로 로그 스트립 배경 */
+  --paper:      #FAFAF8;   /* 페이퍼 — 라이트 섹션 배경 · 다크 위 텍스트 */
+  --tint:       #F1F0EA;   /* 교대 배경 (S3 · S7) */
+  --hair:       #E2E1DA;   /* 라이트 구분선 */
+  --body:       #3A3A38;   /* 라이트 배경 본문 */
+  --muted:      #6A6A66;   /* 캡션 · 모노 라벨 */
+  --green:      #2FA84F;   /* 브랜드 그린 — CTA · 강조어 · 진행 라인 */
+  --green-deep: #1A3A1A;   /* eyebrow 마커 · 추천 배지 배경 */
 
-  /* ── 색: 다크(히어로/관제) 컨텍스트 ── */
-  --monitor:        #141F19;   /* DIRECTION §1 스냅 (구 #121714) */
-  --monitor-edge:   #233029;
-  --monitor-line:   #1D2620;
-  --monitor-text:   #C8D5C6;
-  --monitor-dim:    #76836F;
-  --sage-bright:    #9DBFA4;   /* 신설 · 다크 위 강조텍스트/액센트(§1) · --ok와 별개 · 소비는 다크 히어로 단계 */
-  --ok:             #7DB98A;
-  --warn:           #CB9A4E;
-  --fault:          #C95A4C;
+  /* 다크 위 */
+  --on-dark-hair: rgba(250,250,248,.2);
+  --on-dark-body: rgba(250,250,248,.78);
+  --on-dark-soft: rgba(250,250,248,.72);
+  --on-dark-dim:  rgba(250,250,248,.6);
 
-  --radius: 14px;
-  --radius-sm: 8px;
-  --maxw: 1140px;
+  /* 트윈 전용 (README) — 이상 앰버 · 판정불가 그레이. 그린 사용 금지 */
+  --twin-warn:   #E8A33D;
+  --twin-unknown:#6B6F6D;
 
-  --font-body:    "Pretendard","Pretendard Variable",-apple-system,"Apple SD Gothic Neo",sans-serif;
-  --font-display: "Pretendard","Pretendard Variable",-apple-system,sans-serif;
+  /* ── 구 토큰 → v2 매핑 (미개편 섹션 임시 호환. 단계 7에서 제거) ── */
+  --paper-2:    var(--tint);
+  --ink:        var(--ink-0);
+  --ink-soft:   var(--body);
+  --ink-mute:   var(--muted);
+  --sage:       var(--green);
+  --sage-deep:  var(--green-deep);
+  --sage-tint:  var(--tint);
+  --line:       var(--hair);
+  --monitor:        var(--ink-0);
+  --monitor-edge:   var(--on-dark-hair);
+  --monitor-line:   rgba(250,250,248,.14);
+  --monitor-text:   var(--on-dark-body);
+  --monitor-dim:    var(--on-dark-dim);
+  --sage-bright:    var(--green);
+  --ok:             var(--green);
+  --warn:           var(--twin-warn);
+  --fault:          #C9503F;
+
+  /* ── 형태: 모든 요소 radius 0 (로고 심볼만 예외) · 그림자 금지 ── */
+  --radius: 0;
+  --radius-sm: 0;
+  --maxw: 1280px;
+
+  --font-body:    "Noto Sans KR",-apple-system,"Apple SD Gothic Neo",sans-serif;
+  --font-display: "Noto Sans KR",-apple-system,sans-serif;
   --font-mono:    "IBM Plex Mono","SF Mono",Consolas,monospace;
 
   /* ── 간격 스케일 (4px 그리드) ── */
@@ -68,16 +87,18 @@
   --space-section: 120px;     /* 데스크톱 섹션 세로 리듬 (TOKENS v2: 96→120) */
   --space-section-sm: 80px;   /* 모바일 섹션 세로 리듬 (TOKENS v2: 68→80) */
 
-  /* ── 타이포 스케일 (TOKENS v2 · 1.25 모듈러 · base 18px) ── */
+  /* ── 타이포 스케일 (v1에서 승계 — v2 제목 3단 위계와 일치) ──
+     제목 3단: --fs-4xl 69px = S5 1곳 / --fs-3xl 55px = S2·S9 / --fs-2xl 44px = 그 외 */
   --fs-2xs: 12px;  --fs-xs: 13px;   --fs-sm: 15px;   --fs-base: 18px;
   --fs-md:  22px;  --fs-lg: 28px;   --fs-xl: 35px;   --fs-2xl: 44px;
   --fs-3xl: 55px;  --fs-4xl: 69px;
+  --fs-hero: clamp(40px, 5.6vw, 76px);   /* 신설 — h1 전용. 3단 위계 밖 */
 
-  /* ── 그림자 (elevation 3단 + focus) ── */
-  --shadow-sm: 0 1px 4px rgba(33,38,31,.12);
-  --shadow-md: 0 8px 22px -12px rgba(47,67,55,.25);
-  --shadow-lg: 0 24px 60px -20px rgba(33,38,31,.35);
-  --focus-ring: 0 0 0 3px rgba(94,123,98,.15);
+  /* ── 그림자: v2는 그림자 금지. 포커스 링만 유지(접근성) ── */
+  --shadow-sm: none;
+  --shadow-md: none;
+  --shadow-lg: none;
+  --focus-ring: 0 0 0 3px rgba(47,168,79,.35);
 
   /* ── 모션 (duration/easing) · reduced-motion은 @media에서 무력화 ── */
   --dur-fast: 150ms;   --dur-base: 300ms;   --dur-slow: 500ms;   --dur-reveal: 700ms;
@@ -291,7 +312,7 @@ h2.sec-title{
 .sensor-readout{ font-family:var(--font-mono); font-size:var(--fs-xl); font-weight:600; color:#E8F0E6; letter-spacing:.02em; }
 .sensor-readout .unit{ font-size:var(--fs-sm); color:var(--monitor-dim); margin-left:3px; }
 .sparkline{ margin-top:var(--space-16); height:44px; width:100%; }
-.sparkline polyline{ fill:none; stroke:var(--ok); stroke-width:2; transition:stroke var(--dur-base) var(--ease-standard); }
+.sparkline polyline{ fill:none; stroke:var(--muted); stroke-width:2; transition:stroke var(--dur-base) var(--ease-standard); }
 .demo-verdict{ display:flex; flex-direction:column; gap:var(--space-8); }
 .verdict-badge{ font-family:var(--font-mono); font-size:var(--fs-2xs); font-weight:600; padding:var(--space-8) var(--space-12); border-radius:6px; border:1px solid; display:inline-flex; align-items:center; gap:var(--space-8); align-self:flex-start; }
 .verdict-ok{ color:var(--ok); border-color:rgba(125,185,138,.4); background:rgba(125,185,138,.08); }
@@ -549,6 +570,169 @@ h2.sec-title{
   .closing-ctas{ flex-direction:column; }
   .closing-ctas .btn{ width:100%; max-width:340px; }
 }
+
+/* ═══════════════════════════════════════════════════════════════════
+   v2 · 단계 2 — 헤더 + S1 히어로
+   레퍼런스: design_handoff/TEKTON 랜딩 v2.dc.html (인라인 스타일 → 클래스)
+   ⚠️ 구 .nav / .hero / .trust 규칙은 아직 스타일시트에 남아 있다(미사용).
+      단계 7 청소 대상. 새 규칙은 전부 .v2- 접두.
+   ═══════════════════════════════════════════════════════════════════ */
+
+/* ── 헤더 (sticky 68px) ── */
+.v2-head{
+  position:sticky; top:0; z-index:60;
+  background:rgba(10,10,10,.94);
+  -webkit-backdrop-filter:blur(8px); backdrop-filter:blur(8px);
+  border-bottom:1px solid rgba(250,250,248,.14);
+}
+.v2-progress{ position:absolute; left:0; bottom:-1px; height:2px; width:0; background:var(--green); }
+.v2-head-inner{
+  max-width:var(--maxw); margin:0 auto; padding:0 40px;
+  height:68px; display:flex; align-items:center; justify-content:space-between; gap:24px;
+}
+/* 로고 — border-radius: 0 규칙의 유일한 예외(원본 형태 유지). 자산은 순백 #FFFFFF SVG */
+.v2-logo{ display:flex; align-items:center; flex:none; }
+.v2-logo img{ display:block; height:28px; width:auto; }
+.v2-footer-logo{ display:block; height:44px; width:auto; }
+.v2-nav{ display:flex; align-items:center; gap:24px; }
+.v2-nav a{ font-size:var(--fs-sm); color:var(--on-dark-soft); text-decoration:none; white-space:nowrap; flex:none; transition:color var(--dur-fast) var(--ease-standard); }
+.v2-nav a:hover, .v2-nav a:focus-visible{ color:var(--paper); }
+.v2-nav .v2-nav-cta{
+  border:1px solid rgba(250,250,248,.4); color:var(--paper);
+  font-size:var(--fs-sm); font-weight:700; padding:11px 20px;
+  transition:border-color var(--dur-fast) var(--ease-standard);
+}
+.v2-nav .v2-nav-cta:hover, .v2-nav .v2-nav-cta:focus-visible{ border-color:var(--paper); }
+
+/* ── S1 히어로 ── */
+.v2-hero{ position:relative; background:var(--ink-0); overflow:hidden; }
+.v2-hero-inner{
+  position:relative; max-width:var(--maxw); margin:0 auto;
+  padding:132px 40px 0; display:flex; flex-direction:column; gap:36px;
+}
+.v2-eyebrow{ display:flex; align-items:center; gap:10px; margin:0; }
+.v2-eyebrow i{ width:8px; height:8px; background:var(--green); flex:none; }
+.v2-eyebrow span{
+  font-family:var(--font-mono); font-size:var(--fs-xs); font-weight:500;
+  letter-spacing:.12em; color:rgba(250,250,248,.66);
+}
+.v2-h1{
+  margin:0; max-width:1000px; font-size:var(--fs-hero); font-weight:900;
+  line-height:1.16; letter-spacing:-.03em; color:var(--paper);
+}
+.v2-h1 span{ display:block; }
+.v2-lede{
+  margin:0; max-width:720px; font-size:19px; line-height:1.85;
+  color:var(--on-dark-body); text-wrap:pretty;
+}
+.v2-cta-row{ display:flex; align-items:center; gap:16px; flex-wrap:wrap; }
+.v2-btn-solid{
+  background:var(--green); color:var(--ink-0); text-decoration:none;
+  font-size:var(--fs-base); font-weight:700; padding:19px 34px;
+}
+.v2-btn-out{
+  border:1px solid rgba(250,250,248,.34); color:var(--paper); text-decoration:none;
+  font-size:var(--fs-base); font-weight:500; padding:18px 30px;
+}
+.v2-btn-solid:hover{ background:#38BE5B; }
+.v2-btn-out:hover{ border-color:var(--paper); }
+
+/* 규모 한 줄 — ⚠️ 누적 실데이터 건수 표기는 DB 카운트 미검증으로 제거됨. 실측 확인 전 재추가 금지 */
+.v2-scale{
+  position:relative; display:flex; flex-wrap:wrap; gap:10px 34px;
+  border-top:1px solid rgba(250,250,248,.16); padding:24px 0 0;
+  font-family:var(--font-mono); font-size:14px; letter-spacing:.08em;
+  color:var(--on-dark-soft);
+}
+.v2-scale-line{ position:absolute; left:0; top:-1px; width:100%; height:1px; background:var(--green); transform:scaleX(0); transform-origin:left; }
+.v2-scale b{ color:var(--paper); font-weight:400; }
+
+/* ── 로그 스트립 ──
+   ⚠️ 설비명 기반만 사용. BMS 원본 포인트 태그코드를 텍스트로 노출 금지.
+   ⚠️ 확정 오탐(CO농도 고착 · 오피스텔 냉수 ΔT=0 · 냉각수 27.94℃ 계열)을
+      발견·적발 사례로 재장착 금지 — 정상으로 판명된 건이다. */
+.v2-log{ margin-top:44px; border-top:1px solid rgba(250,250,248,.14); background:var(--ink-darker); }
+.v2-log-view{
+  position:relative; height:118px; overflow:hidden;
+  -webkit-mask-image:linear-gradient(180deg,transparent 0,#000 22%,#000 78%,transparent 100%);
+          mask-image:linear-gradient(180deg,transparent 0,#000 22%,#000 78%,transparent 100%);
+}
+.v2-log-track{ animation:v2LogScroll 24s linear infinite; }
+.v2-log-row{ display:flex; gap:16px; padding:8px 0; font-family:var(--font-mono); font-size:var(--fs-xs); color:var(--on-dark-dim); }
+.v2-log-row time{ color:rgba(250,250,248,.34); flex:none; }
+@keyframes v2LogScroll{ from{ transform:translateY(0); } to{ transform:translateY(-50%); } }
+
+/* ── S1 마운트 애니메이션 (1회) ── */
+.v2-rise{ opacity:0; transform:translateY(18px); }
+.v2-hero.is-in .v2-rise{
+  opacity:1; transform:none;
+  transition:opacity .7s cubic-bezier(.2,.7,.3,1), transform .7s cubic-bezier(.2,.7,.3,1);
+}
+.v2-hero.is-in .v2-rise:nth-child(2){ transition-delay:.14s; }
+.v2-hero.is-in .v2-scale-line{ transform:scaleX(1); transition:transform 1s cubic-bezier(.2,.7,.3,1) .5s; }
+.v2-scale > div{ opacity:0; }
+.v2-hero.is-in .v2-scale > div{ opacity:1; transition:opacity .5s var(--ease-standard); }
+.v2-hero.is-in .v2-scale > div:nth-of-type(1){ transition-delay:.70s; }
+.v2-hero.is-in .v2-scale > div:nth-of-type(2){ transition-delay:.82s; }
+.v2-hero.is-in .v2-scale > div:nth-of-type(3){ transition-delay:.94s; }
+.v2-hero.is-in .v2-scale > div:nth-of-type(4){ transition-delay:1.06s; }
+
+/* ── 데모 3단 판정 (v2 상태색) ──
+   ⚠️ 그린 금지 — 정상은 중립(--body 계열), 관찰은 앰버, 적발은 경보색.
+      그린은 정상의 색이 아니라 검증·행동(CTA)의 색이다. */
+#fake-demo .verdict-badge{ border-radius:0; }
+#fake-demo .verdict-ok{
+  color:rgba(250,250,248,.72); border-color:rgba(250,250,248,.28); background:rgba(250,250,248,.06);
+}
+#fake-demo .verdict-watch{
+  color:var(--twin-warn); border-color:rgba(232,163,61,.5); background:rgba(232,163,61,.12);
+}
+#fake-demo .verdict-fault{
+  color:#E8A099; border-color:rgba(201,80,63,.55); background:rgba(201,80,63,.15);
+}
+#fake-demo .demo-btn{ border-radius:0; }
+#fake-demo.is-holding .tarch-cell{ background:rgba(232,163,61,.07); }
+
+/* 판정 근거 4줄 */
+.demo-evidence{
+  margin:var(--space-20) 0 0; padding:var(--space-16) 0 0;
+  border-top:1px solid rgba(250,250,248,.14);
+  display:grid; gap:var(--space-8);
+}
+.demo-evidence > div{
+  display:grid; grid-template-columns:96px 1fr; gap:var(--space-16); align-items:baseline;
+}
+.demo-evidence dt{
+  font-family:var(--font-mono); font-size:var(--fs-2xs); letter-spacing:.08em;
+  color:rgba(250,250,248,.44);
+}
+.demo-evidence dd{
+  margin:0; font-family:var(--font-mono); font-size:var(--fs-xs);
+  color:rgba(250,250,248,.78);
+}
+#fake-demo.is-holding #ev-cross, #fake-demo.is-holding #ev-drift{ color:var(--twin-warn); }
+#fake-demo.is-broken  #ev-cross, #fake-demo.is-broken  #ev-repeat{ color:#E8A099; }
+
+@media (max-width: 640px){
+  .demo-evidence > div{ grid-template-columns:1fr; gap:var(--space-2); }
+}
+
+@media (max-width: 900px){
+  .v2-nav a:not(.v2-nav-cta){ display:none; }   /* 단계 7에서 햄버거로 대체 */
+}
+@media (max-width: 640px){
+  .v2-head-inner{ padding:0 20px; }
+  .v2-hero-inner{ padding:96px 20px 0; gap:28px; }
+  .v2-log .wrap, .v2-log-pad{ padding:0 20px; }
+}
+
+/* reduced-motion — 전역 * 규칙이 transition을 끄므로 최종 상태를 직접 지정 */
+@media (prefers-reduced-motion: reduce){
+  .v2-rise{ opacity:1; transform:none; }
+  .v2-scale > div{ opacity:1; }
+  .v2-scale-line{ transform:scaleX(1); }
+  .v2-log-track{ animation:none; }
+}
 </style>
 </head>
 <body>
@@ -559,66 +743,77 @@ h2.sec-title{
      교체 시 이 <symbol> 한 블록만 바꾸면 네비·푸터 동시 반영.
      형광 그린(#4DF000)은 공식 브랜드색이므로 로고에 한해 허용.
      ════════════════════════════════════════════════════════ -->
-<!-- ── 1. 네비게이션 ── -->
-<header class="nav">
-  <div class="nav-inner">
-    <a href="#top" class="logo-link" aria-label="TEKTON 홈">
-      <img class="logo-img" src="tekton_logo_nav.svg" alt="TEKTON" height="26">
+<!-- ── v2 헤더 (sticky 68px · 네비 5개 + 아웃라인 CTA) ──
+     ⚠️ `현장`을 빼고 `연결`을 넣는다(FINAL §B-2). 도입 사례는 스크롤로 닿는다.
+     ⚠️ #screens · #connect · #verify · #fix 는 단계 3~4에서 생성된다. -->
+<header class="v2-head">
+  <div class="v2-progress" id="v2Progress" aria-hidden="true"></div>
+  <div class="v2-head-inner">
+    <a href="#top" class="v2-logo" aria-label="TEKTON 홈">
+      <img src="static/img/tekton_logo_white.svg" alt="TEKTON" width="164" height="28" decoding="async">
     </a>
-    <nav class="nav-ctas" aria-label="주요 행동">
-      <a class="btn btn-ghost" href="#apply" data-open-tab="partner">협력업체 등록</a>
-      <a class="btn btn-primary" href="#apply" data-open-tab="diag">무료 진단 받기</a>
+    <nav class="v2-nav" aria-label="주요 메뉴">
+      <a href="#screens">실제 화면</a>
+      <a href="#connect">어떻게 붙는가</a>
+      <a href="#verify">4중 검증</a>
+      <a href="#fix">연결</a>
+      <a href="#pricing">요금</a>
+      <a class="v2-nav-cta" href="#apply" data-open-tab="diag">무료 진단 신청</a>
     </nav>
   </div>
 </header>
 
 <main id="top">
 
-<!-- ── 2. 히어로 ── -->
-<section class="hero" id="hero">
-  <!-- ⚠️ 정직성(트랙 A): 아래 검증 장면·AHU-3 수치는 개념 예시(데모)다. 특정 건물 라이브 진단 주장 금지.
-       실측 레퍼런스는 진단 확정 후 '실측' 라벨과 함께만 게시. 예시 라벨 상시 유지. -->
-  <div class="hero-media">
-    <picture class="hero-photo">
-      <source type="image/webp" media="(max-width:768px)" srcset="static/img/hero-mobile.webp">
-      <source type="image/webp" srcset="static/img/hero-desktop.webp">
-      <source media="(max-width:768px)" srcset="static/img/hero-mobile.jpg">
-      <img src="static/img/hero-desktop.jpg" alt="유리 파사드 오피스 빌딩 — T-ARCH가 설비 데이터를 검증하는 장면(예시)" fetchpriority="high" decoding="async" width="1440" height="1828">
-    </picture>
-    <div class="hero-veil"></div>
-    <canvas class="hero-canvas" id="heroCanvas" aria-hidden="true"></canvas>
-    <span class="hero-demo-badge">예시 · Demonstration</span>
-    <div class="diag-card" id="heroDiag" role="img" aria-label="예시 진단 결과: AHU-3 가짜 정상 — BMS 정상표시, 교차검증 불일치">
-      <div class="dc-title"><span class="dc-dot"></span>AHU-3 가짜 정상</div>
-      <div class="dc-detail">BMS 정상표시 · 교차검증 불일치</div>
+<!-- ── v2 S1 히어로 (다크) ──
+     구성: eyebrow → h1 2행 → 본문 4문장 → CTA 2 → 규모 4항목 → 로그 스트립
+     ⚠️ 규모 한 줄에 누적 실데이터 건수 재추가 금지 (DB 카운트 미검증).
+     ⚠️ 로그는 설비명 기반만. BMS 원본 포인트 태그코드 사용 금지.
+     ⚠️ 확정 오탐(CO농도 고착 · 오피스텔 냉수 ΔT=0 · 냉각수 27.94℃ 계열)을
+        발견·적발 사례로 재장착 금지 — 정상으로 판명된 건이다. -->
+<section class="v2-hero" id="hero">
+  <div class="v2-hero-inner">
+    <p class="v2-eyebrow"><i aria-hidden="true"></i><span>AI 시설관리 시스템 · 건물 데이터를 의심하는 기후테크</span></p>
+
+    <h1 class="v2-h1"><span class="v2-rise">정상이라고 보고된 데이터를,</span><span class="v2-rise">먼저 의심합니다.</span></h1>
+
+    <p class="v2-lede">기존 시스템은 값이 정상범위면 넘어갑니다. 센서가 죽어도 모릅니다. T-ARCH는 진단하기 전에 &ldquo;이 데이터가 진짜인가&rdquo;부터 검증합니다. 그리고 고쳐야 할 것이 나오면, 검증된 시공업체로 연결합니다.</p>
+
+    <div class="v2-cta-row">
+      <a class="v2-btn-solid" href="#apply" data-open-tab="diag">무료 진단 신청</a>
+      <a class="v2-btn-out" href="#connect">어떻게 붙는가 →</a>
+    </div>
+
+    <div class="v2-scale">
+      <i class="v2-scale-line" aria-hidden="true"></i>
+      <div>312 관제점</div>
+      <div>5분 주기</div>
+      <div><b>실가동 중</b></div>
+      <div>진단 → 시공 연결</div>
     </div>
   </div>
 
-  <div class="hero-inner">
-    <div class="hero-copy">
-      <p class="hero-ident">AI 시설관리 · 건물 데이터를 의심하는 기후테크</p>
-      <h1>놓친 설비 고장을,<br><span class="accent">고칠 사람까지.</span></h1>
-      <p class="hero-sub">BMS가 정상이라 말해도 설비를 포렌식해 찾아내고, 검증된 시공업체로 연결합니다.</p>
-      <div class="hero-ctas">
-        <a class="btn btn-hero-primary btn-lg" href="#apply" data-open-tab="diag">무료 진단 신청</a>
-        <a class="btn btn-hero-ghost btn-lg" href="#how">작동 방식 →</a>
-      </div>
-    </div>
-  </div>
-
-  <div class="hero-steps-wrap">
-    <div class="hero-steps">
-      <div class="hstep">
-        <span class="hstep-ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><circle cx="11" cy="11" r="6" stroke="currentColor" stroke-width="1.7"/><path d="M20 20l-4.2-4.2" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg></span>
-        <span><span class="hstep-t">찾아냅니다</span><span class="hstep-s">포렌식으로 가짜 정상 적발</span></span>
-      </div>
-      <div class="hstep">
-        <span class="hstep-ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M2 12s3.6-6.5 10-6.5S22 12 22 12s-3.6 6.5-10 6.5S2 12 2 12z" stroke="currentColor" stroke-width="1.7"/><circle cx="12" cy="12" r="2.6" stroke="currentColor" stroke-width="1.7"/></svg></span>
-        <span><span class="hstep-t">지켜봅니다</span><span class="hstep-s">매일 아침 고칠 것 정리</span></span>
-      </div>
-      <div class="hstep">
-        <span class="hstep-ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M9 15l6-6M8 12l-2 2a3 3 0 1 0 4 4l2-2M16 12l2-2a3 3 0 1 0-4-4l-2 2" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
-        <span><span class="hstep-t">연결합니다</span><span class="hstep-s">검증된 시공업체로</span></span>
+  <div class="v2-log" aria-hidden="true">
+    <div class="wrap v2-log-pad">
+      <div class="v2-log-view">
+        <div class="v2-log-track">
+          <div>
+            <div class="v2-log-row"><time>15:34:25</time><span>CH-2 냉수 출구온도 — 값 변동 없음, 판정 보류</span></div>
+            <div class="v2-log-row"><time>15:23:45</time><span>CT-1 냉각수 공급온도 — 값 변동 없음, 교차검증 요청</span></div>
+            <div class="v2-log-row"><time>15:13:05</time><span>P-2 냉수 순환펌프 토출압력 — 값 변동 없음</span></div>
+            <div class="v2-log-row"><time>15:07:44</time><span>AHU-3 급기온도 — 값 변동 없음</span></div>
+            <div class="v2-log-row"><time>14:57:04</time><span>CH-1 냉수 입구온도 — 값 변동 없음</span></div>
+            <div class="v2-log-row"><time>14:51:44</time><span>EF-1 배기팬 운전상태 — 응답 불일치</span></div>
+          </div>
+          <div>
+            <div class="v2-log-row"><time>15:34:25</time><span>CH-2 냉수 출구온도 — 값 변동 없음, 판정 보류</span></div>
+            <div class="v2-log-row"><time>15:23:45</time><span>CT-1 냉각수 공급온도 — 값 변동 없음, 교차검증 요청</span></div>
+            <div class="v2-log-row"><time>15:13:05</time><span>P-2 냉수 순환펌프 토출압력 — 값 변동 없음</span></div>
+            <div class="v2-log-row"><time>15:07:44</time><span>AHU-3 급기온도 — 값 변동 없음</span></div>
+            <div class="v2-log-row"><time>14:57:04</time><span>CH-1 냉수 입구온도 — 값 변동 없음</span></div>
+            <div class="v2-log-row"><time>14:51:44</time><span>EF-1 배기팬 운전상태 — 응답 불일치</span></div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -687,13 +882,13 @@ h2.sec-title{
     <!-- 가짜 정상 체험 위젯 -->
     <div class="demo reveal" id="fake-demo">
       <div class="demo-head">
-        <h3>직접 해보기 — 센서를 고장 내보세요</h3>
+        <h3>직접 해보기 — 값이 멈추면 어떻게 판정하나</h3>
         <span class="demo-tag">예시 · Demonstration</span>
-        <span class="hint">버튼을 누르면 센서값이 한 곳에 고정됩니다</span>
+        <span class="hint">값 고정만으로는 확정하지 않습니다. 주변 신호가 모순될 때 적발합니다</span>
       </div>
       <div class="demo-body">
         <div class="demo-cell sensor-cell">
-          <div class="cell-label">CH-2 냉수 출구온도</div>
+          <div class="cell-label">CH-2 냉수 환수온도</div>
           <div class="sensor-readout"><span id="demo-reading">7.2</span><span class="unit">&#8451;</span></div>
           <svg class="sparkline" id="demo-spark" viewBox="0 0 200 34" preserveAspectRatio="none">
             <polyline id="demo-line" points=""></polyline>
@@ -703,19 +898,30 @@ h2.sec-title{
           <div class="cell-label">기존 BMS 판정</div>
           <div class="demo-verdict">
             <span class="verdict-badge verdict-ok" id="bms-badge">정상</span>
-            <span class="verdict-note">값을 그대로 신뢰함</span>
+            <span class="verdict-note">값이 정상범위 안에 있음</span>
           </div>
         </div>
         <div class="demo-cell tarch-cell">
           <div class="cell-label">T-ARCH 판정</div>
           <div class="demo-verdict">
             <span class="verdict-badge verdict-ok" id="tarch-badge">정상</span>
-            <span class="verdict-note" id="tarch-note">데이터 무결성 검증 중</span>
+            <span class="verdict-note" id="tarch-note">데이터 무결성 검증 통과</span>
           </div>
         </div>
       </div>
+
+      <!-- 판정 근거 4줄 — 상태에 따라 갱신. 우리 논리는 임계값이 아니라
+           교차검증 · 지속시간 · 반복횟수이고, 근거가 부족하면 판정을 보류한다. -->
+      <dl class="demo-evidence" id="demo-evidence">
+        <div><dt>값 변동</dt><dd id="ev-drift">0.18℃ 진폭 / 최근 24회</dd></div>
+        <div><dt>주변 신호</dt><dd id="ev-neighbor">냉수 공급 3.2℃ 변동 · 환수 0.21℃ 변동</dd></div>
+        <div><dt>교차검증</dt><dd id="ev-cross">밸브 열림 명령 ↔ 온도 반응 = 일치</dd></div>
+        <div><dt>반복 횟수</dt><dd id="ev-repeat">0회 / 30일</dd></div>
+      </dl>
+
       <div class="demo-controls">
-        <button class="demo-btn danger" id="break-btn" type="button">센서 고장내기 (값 고정)</button>
+        <button class="demo-btn" id="hold-btn" type="button">값만 고정</button>
+        <button class="demo-btn danger" id="break-btn" type="button">값 고정 + 주변 신호 모순</button>
         <button class="demo-btn" id="reset-btn" type="button">정상으로 되돌리기</button>
       </div>
     </div>
@@ -1144,7 +1350,7 @@ h2.sec-title{
 <footer class="footer on-dark">
   <div class="wrap">
     <a href="#top" class="logo-link" aria-label="TEKTON">
-      <img class="logo-img" src="tekton_logo_footer.svg" alt="TEKTON" height="24">
+      <img class="v2-footer-logo" src="static/img/tekton_logo_white.svg" alt="TEKTON" width="257" height="44" decoding="async">
     </a>
     <div class="footer-grid">
       <div class="info">
@@ -1344,9 +1550,11 @@ h2.sec-title{
   var bmsBadge = document.getElementById('bms-badge');
   var tarchBadge = document.getElementById('tarch-badge');
   var tarchNote = document.getElementById('tarch-note');
+  var holdBtn  = document.getElementById('hold-btn');
   var breakBtn = document.getElementById('break-btn');
   var resetBtn = document.getElementById('reset-btn');
-  var broken = false, demoRAF = null, demoT = 0;
+  /* state: 'ok' 정상 | 'hold' 값만 고정 | 'fault' 값 고정 + 주변 신호 모순 */
+  var demoState = 'ok', demoRAF = null, demoT = 0;
   var history = [];
   for(var i=0;i<40;i++) history.push(7.2);
 
@@ -1362,41 +1570,79 @@ h2.sec-title{
   }
   function demoFrame(){
     demoT += 0.08;
-    var v;
-    if(broken){ v = 7.2; } // 고정
-    else { v = 7.2 + Math.sin(demoT)*0.18 + (Math.random()-0.5)*0.06; }
+    /* 'hold'·'fault' 모두 값은 고정된다. 둘을 가르는 건 값이 아니라 주변 신호다. */
+    var v = (demoState === 'ok')
+      ? 7.2 + Math.sin(demoT)*0.18 + (Math.random()-0.5)*0.06
+      : 7.2;
     demoReading.textContent = v.toFixed(1);
     pushVal(v);
-    demoLine.setAttribute('stroke', broken ? '#C95A4C' : '#7DB98A');
     demoRAF = requestAnimationFrame(demoFrame);
   }
-  function setBroken(state){
-    broken = state;
-    var fd = document.getElementById('fake-demo');
-    if(fd) fd.classList.toggle('is-broken', state);
-    if(state){
-      breakBtn.classList.add('active');
-      // BMS는 여전히 정상
-      bmsBadge.className = 'verdict-badge verdict-ok'; bmsBadge.textContent = '정상';
-      // T-ARCH만 적발
-      tarchBadge.className = 'verdict-badge verdict-fault'; tarchBadge.textContent = '가짜 정상 적발';
-      tarchNote.textContent = '값이 움직이지 않음 — 센서 고착 의심';
-    } else {
-      breakBtn.classList.remove('active');
-      bmsBadge.className = 'verdict-badge verdict-ok'; bmsBadge.textContent = '정상';
-      tarchBadge.className = 'verdict-badge verdict-ok'; tarchBadge.textContent = '정상';
-      tarchNote.textContent = '데이터 무결성 검증 통과';
+  /* CSS 규칙이 presentation attribute를 이기므로 인라인 style로 지정한다.
+     rAF와 분리해 둬야 reduced-motion(프레임 루프 없음)에서도 색이 따라온다. */
+  function paintDemoLine(){
+    demoLine.style.stroke =
+      demoState === 'fault' ? '#C9503F' : demoState === 'hold' ? '#E8A33D' : 'rgba(250,250,248,.5)';
+  }
+
+  /* 3단 판정 — 값 고정만으로는 확정하지 않는다(근거 부족 = 판정 보류).
+     교차검증이 불일치할 때 비로소 적발한다. ⚠️ 이상·경보 신호에 그린 사용 금지. */
+  var DEMO_STATES = {
+    ok: {
+      badge:'verdict-ok', label:'정상', note:'데이터 무결성 검증 통과',
+      drift:'0.18℃ 진폭 / 최근 24회',
+      neighbor:'냉수 공급 3.2℃ 변동 · 환수 0.21℃ 변동',
+      cross:'밸브 열림 명령 ↔ 온도 반응 = 일치',
+      repeat:'0회 / 30일'
+    },
+    hold: {
+      badge:'verdict-watch', label:'관찰', note:'주변 신호 정상 · 근거 부족 · 판정 보류',
+      drift:'0.00℃ / 16시간',
+      neighbor:'냉수 공급 3.2℃ 변동 · 환수 0.00℃',
+      cross:'밸브 열림 명령 ↔ 온도 반응 = 판단 보류',
+      repeat:'1회 / 30일'
+    },
+    fault: {
+      badge:'verdict-fault', label:'가짜 정상 적발', note:'교차검증 불일치 — 센서 고착 의심',
+      drift:'0.00℃ / 16시간',
+      neighbor:'냉수 공급 3.2℃ 변동 · 환수 0.00℃',
+      cross:'밸브 열림 명령 ↔ 온도 무변화 = 불일치',
+      repeat:'22회 / 30일'
     }
+  };
+  var evDrift    = document.getElementById('ev-drift');
+  var evNeighbor = document.getElementById('ev-neighbor');
+  var evCross    = document.getElementById('ev-cross');
+  var evRepeat   = document.getElementById('ev-repeat');
+
+  function setDemoState(state){
+    demoState = state;
+    var s = DEMO_STATES[state];
+    var fd = document.getElementById('fake-demo');
+    if(fd){
+      fd.classList.toggle('is-holding', state === 'hold');
+      fd.classList.toggle('is-broken',  state === 'fault');
+    }
+    if(holdBtn)  holdBtn.classList.toggle('active',  state === 'hold');
+    if(breakBtn) breakBtn.classList.toggle('active', state === 'fault');
+    /* 기존 BMS는 세 경우 모두 '정상' — 그게 이 데모의 요점이다 */
+    bmsBadge.className = 'verdict-badge verdict-ok'; bmsBadge.textContent = '정상';
+    tarchBadge.className = 'verdict-badge ' + s.badge; tarchBadge.textContent = s.label;
+    tarchNote.textContent = s.note;
+    if(evDrift){ evDrift.textContent = s.drift; evNeighbor.textContent = s.neighbor;
+                 evCross.textContent = s.cross; evRepeat.textContent = s.repeat; }
+    paintDemoLine();
   }
   if(breakBtn){
-    breakBtn.addEventListener('click', function(){ setBroken(true); });
-    resetBtn.addEventListener('click', function(){ setBroken(false); });
+    if(holdBtn) holdBtn.addEventListener('click', function(){ setDemoState('hold'); });
+    breakBtn.addEventListener('click', function(){ setDemoState('fault'); });
+    resetBtn.addEventListener('click', function(){ setDemoState('ok'); });
   }
   // 위젯 애니메이션도 화면에 보일 때만
   var demoEl = document.getElementById('fake-demo');
   if (reduced){
     // 정지 상태: 한 프레임만 그림
-    pushVal(7.2); demoReading.textContent='7.2'; setBroken(false);
+    pushVal(7.2); demoReading.textContent='7.2'; setDemoState('ok');
   } else if (demoEl && 'IntersectionObserver' in window){
     var dio = new IntersectionObserver(function(es){
       es.forEach(function(e){
@@ -1468,6 +1714,38 @@ h2.sec-title{
   }
   bindForm('form-diag','success-diag');
   bindForm('form-partner','success-partner');
+})();
+
+/* ═══════════════════════════════════════════════════════════════════
+   v2 · 단계 2 — 스크롤 진행 라인 + S1 마운트 애니메이션
+   reduced-motion 최종 상태는 CSS가 담당하므로 여기서는 가드만 둔다.
+   ═══════════════════════════════════════════════════════════════════ */
+(function(){
+  var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* 헤더 스크롤 진행 라인 — width = scrollY / (scrollHeight - innerHeight) */
+  var bar = document.getElementById('v2Progress');
+  if (bar) {
+    var ticking = false;
+    function paint(){
+      var h = document.documentElement.scrollHeight - window.innerHeight;
+      var p = h > 0 ? (window.pageYOffset / h) * 100 : 0;
+      bar.style.width = Math.max(0, Math.min(100, p)) + '%';
+      ticking = false;
+    }
+    window.addEventListener('scroll', function(){
+      if (!ticking) { ticking = true; requestAnimationFrame(paint); }
+    }, { passive:true });
+    window.addEventListener('resize', paint, { passive:true });
+    paint();
+  }
+
+  /* S1 진입 — 마운트 시 1회. 클래스만 붙이고 타이밍은 CSS가 갖는다 */
+  var hero = document.querySelector('.v2-hero');
+  if (hero) {
+    if (reduced) { hero.classList.add('is-in'); }
+    else { requestAnimationFrame(function(){ requestAnimationFrame(function(){ hero.classList.add('is-in'); }); }); }
+  }
 })();
 </script>
 </body>
