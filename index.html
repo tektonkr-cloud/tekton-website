@@ -156,7 +156,7 @@ h2.sec-title{
 
 .btn{
   display:inline-flex; align-items:center; justify-content:center; gap:8px;
-  font-size:var(--fs-sm); font-weight:600;
+  font-size:var(--fs-sm); font-weight:700;   /* Noto 600 미로드 → 행동 요소는 700로 스냅 */
   padding:11px 22px; border-radius:0;
   border:1.5px solid transparent;
   transition:transform var(--dur-fast) var(--ease-standard), background var(--dur-fast) var(--ease-standard), color var(--dur-fast) var(--ease-standard), border-color var(--dur-fast) var(--ease-standard);
@@ -344,13 +344,13 @@ h2.sec-title{
    ============================================================ */
 .apply-box{ max-width:680px; margin:48px auto 0; border:1px solid var(--hair); border-radius:var(--radius); background:#FBFAF6; overflow:hidden; }
 .tabs{ display:flex; border-bottom:1px solid var(--hair); }
-.tab-btn{ flex:1; padding:17px 10px; background:var(--tint); border:none; font-size:var(--fs-sm); font-weight:600; color:var(--body); border-bottom:3px solid transparent; }
+.tab-btn{ flex:1; padding:17px 10px; background:var(--tint); border:none; font-size:var(--fs-sm); font-weight:700; color:var(--body); border-bottom:3px solid transparent; }
 .tab-btn[aria-selected="true"]{ background:#FBFAF6; color:var(--ink-0); border-bottom-color:var(--green-deep); }
 .tab-panel{ padding:36px 36px 40px; }
 .tab-panel[hidden]{ display:none; }
 .f-row{ display:grid; grid-template-columns:1fr 1fr; gap:16px; }
 .f-group{ display:flex; flex-direction:column; gap:7px; margin-bottom:18px; }
-.f-group label{ font-size:var(--fs-2xs); font-weight:600; }
+.f-group label{ font-size:var(--fs-2xs); font-weight:500; }   /* 12px 라벨은 절제 — 500로 스냅 */
 .f-group label .req{ color:var(--alert); }
 .f-group input, .f-group select{ font-family:var(--font-body); font-size:var(--fs-sm); padding:12px 14px; border:1px solid var(--hair); border-radius:var(--radius-sm); background:#fff; color:var(--ink-0); width:100%; }
 .f-group input:focus, .f-group select:focus{ outline:none; border-color:var(--green); box-shadow:var(--focus-ring); }
@@ -564,7 +564,10 @@ h2.sec-title{
 .v2-h2-55{ font-size:var(--fs-3xl); font-weight:900; line-height:1.26; letter-spacing:-.03em; color:var(--ink-0); margin:0; }
 .v2-h2-44{ font-size:var(--fs-2xl); font-weight:900; line-height:1.26; letter-spacing:-.03em; color:var(--ink-0); margin:0; }
 .v2-h2-55 .v2-line2{ color:var(--body); }
-.v2-h2-55 em{ font-style:normal; color:var(--green); }   /* 섹션 내 그린 1곳 */
+/* 라이트 배경 위 그린 텍스트는 딥 그린을 쓴다.
+   브랜드 그린 #2FA84F는 페이퍼(#FAFAF8) 위 2.94:1로 WCAG AA large(3:1)에 미달한다.
+   딥 그린은 약 13:1. 그린 배경 블록(마커·진행선·도트)과 CTA 버튼은 해당 없음. */
+.v2-h2-55 em{ font-style:normal; color:var(--green-deep); }   /* 섹션 내 그린 1곳 */
 
 /* ── S2 ── */
 .v2-s2-lede{ margin:var(--space-32) 0 0; max-width:720px; font-size:19px; line-height:1.8; color:var(--body); }
